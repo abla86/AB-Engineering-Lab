@@ -1,4 +1,4 @@
-﻿from fastapi import FastAPI
+﻿from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI(
@@ -8,12 +8,17 @@ app = FastAPI(
 )
 
 
-class Task(BaseModel):
+class TaskCreate(BaseModel):
     title: str
     completed: bool = False
 
 
+class Task(TaskCreate):
+    id: int
+
+
 tasks: list[Task] = []
+next_id = 1
 
 
 @app.get("/")
@@ -31,8 +36,21 @@ def get_tasks():
     return tasks
 
 
-@app.post("/tasks", status_code=201)
-def create_task(task: Task):
-    tasks.append(task)
-    return task
-    
+@app.post("/tasks", response_model=Task, status_code=201)
+def create_task(task: TaskCreate):
+    global next_id
+
+    new_task = Task(id=next_id, **task.model_dump())
+    tasks.append(new_task)
+    next_id += 1
+    return new_task
+
+
+@app.delete("/tasks/{task_id}", status_code=204)
+def delete_task(task_id: int):
+    for index, task in enumerate(tasks):
+        if task.id == task_id:
+            tasks.pop(index)
+            return
+
+    raise HTTPException(status_code=404, detail="Oppgaven finnes ikke")
