@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A modern modular JavaScript To-Do application with localStorage persistence and accessibility support.">
+  <title>To-Do App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <h1>To-Do App</h1>
+    <p class="subtitle">A simple task manager built with modern JavaScript.</p>
+
+    <form id="todo-form" aria-label="Add new task">
+      <label for="todo-input" class="sr-only">Task name</label>
+      <input
+        id="todo-input"
+        type="text"
+        placeholder="Add a task..."
+        autocomplete="off"
+        maxlength="120"
+        required
+      >
+      <button type="submit">Add</button>
+    </form>
+
+    <p id="task-status" class="task-status" aria-live="polite"></p>
+    <ul id="todo-list" aria-label="Task list"></ul>
+  </main>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
