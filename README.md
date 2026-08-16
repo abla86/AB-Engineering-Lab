@@ -1,27 +1,43 @@
 # React Task Dashboard
 
-A responsive task dashboard built with React and Vite.
+Responsive task dashboard built with React and Vite.
 
 ## Features
-- React components, props and state
+
+- Component-based React architecture
+- Props and state management
 - `useState`, `useEffect` and `useMemo`
-- Add, delete and move tasks
 - To Do / In Progress / Done workflow
+- Add, delete and move tasks
 - Status filtering
 - localStorage persistence
 - Responsive layout
 - Accessible native controls
-- ESLint
+- ESLint verification
 - Vite production build
 
-## Run
+## Live demo
+
+https://abla86.github.io/react-task-dashboard/
+
+## Run locally
+
 ```bash
 npm install
 npm run dev
 ```
 
 ## Verify
+
 ```bash
 npm run lint
 npm run build
 ```
+
+## Purpose
+
+Demonstrates progression from vanilla JavaScript to component-based frontend development with React, including state, derived state, persistence and production build tooling.
+
+## Author
+
+Anne Beth Andersen
