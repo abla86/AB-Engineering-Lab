@@ -3,9 +3,10 @@
 ## 2026-08-26 — GitHub Pages workflow repair
 
 - Verified the frontend build completed successfully on the previous Pages run.
-- Diagnosed the actual failure to `actions/configure-pages@v5`: the repository Pages site was not enabled/configured for GitHub Actions.
-- Updated `.github/workflows/pages.yml` to request Pages enablement automatically with `enablement: true`.
-- No application code or unrelated project functionality was changed.
+- Diagnosed the actual failure to GitHub Pages API permissions: the workflow token cannot enable Pages for this repository.
+- Changed the Pages workflow so the build remains verifiable without falsely claiming that Pages deployment is enabled.
+- Pages deployment now activates only when repository variable `GITHUB_PAGES_ENABLED=true` is explicitly configured.
+- No application functionality was changed.
 
 ## 2026-08-26 — Documentation navigation
 
@@ -17,8 +18,10 @@
 
 - Added a dedicated `security-lab/` module for controlled local application-security training.
 - Added intentionally vulnerable and hardened examples for SQL injection, XSS and broken access control/IDOR.
-- Added security-header and input-validation concepts to the lab documentation and implementation.
-- Added regression tests that demonstrate the vulnerable behaviour and verify the hardened behaviour.
-- Added a dedicated GitHub Actions workflow for the security-lab test suite.
+- Added security-header and input-validation demonstrations.
+- Added regression tests that demonstrate vulnerable behaviour and verify hardened behaviour.
+- Added controlled attack demonstrations and a threat model.
 - Added a security-use policy that restricts the lab to systems the user controls and prevents accidental production use of vulnerable examples.
-- Updated the main README so the security work is visible as an explicit Application Security / DevSecOps layer.
+- Added security-lab verification to the main Engineering Lab CI workflow.
+- Added a dedicated Security Lab workflow for focused regression testing.
+- Updated the main README and portfolio verification status so the security work is visible and accurately labelled.
