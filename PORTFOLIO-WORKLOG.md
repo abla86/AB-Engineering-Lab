@@ -1,5 +1,12 @@
 # Portfolio Worklog
 
+## 2026-08-26 — GitHub Pages workflow repair
+
+- Verified the frontend build completed successfully on the previous Pages run.
+- Diagnosed the actual failure to `actions/configure-pages@v5`: the repository Pages site was not enabled/configured for GitHub Actions.
+- Updated `.github/workflows/pages.yml` to request Pages enablement automatically with `enablement: true`.
+- No application code or unrelated project functionality was changed.
+
 ## 2026-08-26 — Documentation navigation
 
 - Added a clear Start Here section with links to the visual portfolio, small-project demo hub, source repositories and engineering documentation.
