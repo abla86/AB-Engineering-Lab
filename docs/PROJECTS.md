@@ -2,7 +2,7 @@
 
 ## AB Engineering Lab
 
-The repository contains nine development modules organised into six engineering stages.
+The repository contains nine development modules organised across six engineering stages.
 
 | Stage | Project | Area | Main technologies | Engineering role |
 |---|---|---|---|---|
@@ -19,44 +19,35 @@ The repository contains nine development modules organised into six engineering 
 ## Project roles
 
 ### Hello HTML
-
 The starting point for browser-based development and web structure.
 
 ### Calculator
-
 Introduces user interaction, JavaScript functions and application logic.
 
 ### Digital Clock
-
 Introduces dynamic rendering and browser time APIs.
 
 ### JavaScript Counter
-
 Introduces state changes, events and DOM updates.
 
 ### Advanced JavaScript Counter
-
 Extends the basic JavaScript work with more structured behaviour.
 
 ### Todo App
-
 Moves toward a structured application with persistence and automated tests.
 
 ### Task Manager
-
 Continues application-oriented frontend development and interaction.
 
 ### React Task Dashboard
-
 Introduces component-based frontend architecture using React and Vite.
 
 ### FastAPI Learning
-
 Introduces backend services, API endpoints, data models, persistence and tests.
 
 ## Integration status
 
-The projects have been consolidated into one repository and are presented through the Engineering Lab frontend.
+The projects have been consolidated into one repository and presented through the Engineering Lab frontend.
 
 They are **not all one runtime application**.
 
@@ -72,7 +63,7 @@ They are **not all one runtime application**.
 
 ## Portfolio value
 
-The value of the project is the progression from individual technical exercises toward increasingly structured engineering work:
+The engineering progression is:
 
 ```text
 Web fundamentals
@@ -94,4 +85,4 @@ CI/CD
 Full-stack integration
 ```
 
-The project catalogue therefore describes both completed work and the next engineering layer without presenting planned integration as completed functionality.
+The catalogue intentionally distinguishes completed work from planned integration.
