@@ -2,16 +2,14 @@
 
 ## AB Engineering Lab
 
-AB Engineering Lab is organised as one repository containing several development stages and technical modules.
+AB Engineering Lab is one repository containing multiple technical modules that demonstrate a progression from web fundamentals to frontend, backend and full-stack engineering.
 
-The repository provides a unified presentation layer, while the individual projects retain their own implementation boundaries.
+The repository distinguishes between what exists today and the intended integration architecture.
 
-This distinction is important: the repository is unified, but the modules are not automatically one production runtime.
-
-## Current architecture
+## Current repository architecture
 
 ```text
-AB Engineering Lab
+AB-Engineering-Lab/
 │
 ├── apps/
 │   ├── 01-html/
@@ -21,6 +19,9 @@ AB Engineering Lab
 │   └── 05-backend/
 │
 ├── frontend/
+│   ├── public/labs/
+│   └── src/
+│
 ├── docs/
 ├── tests/
 └── .github/workflows/
@@ -28,23 +29,17 @@ AB Engineering Lab
 
 ### Frontend laboratory
 
-The unified frontend is built with React and Vite and provides the common project presentation and exploration layer.
+The unified presentation layer uses React and Vite. It provides project exploration, technology documentation, architecture views and live previews for compatible browser-based modules.
 
-It is responsible for:
+### Browser applications
 
-- project navigation
-- project descriptions
-- technology overview
-- architecture presentation
-- development progression
-- selected live browser previews
-- source-code navigation
+The repository contains HTML and JavaScript applications demonstrating DOM manipulation, events, state, browser APIs and application behaviour.
 
 ### Backend laboratory
 
-The FastAPI project demonstrates a separate backend service using Python, FastAPI, Pydantic, SQLAlchemy, database persistence and tests.
+The FastAPI module demonstrates Python, FastAPI, Pydantic, SQLAlchemy, database persistence, CRUD endpoints and backend testing.
 
-It is currently a backend module within the repository. It should not be described as directly connected to the React frontend until such an integration has been implemented and tested.
+The backend is currently a separate module. It is not presented as already connected to the React laboratory unless that integration has been implemented and tested.
 
 ## Current system boundary
 
@@ -62,64 +57,56 @@ It is currently a backend module within the repository. It should not be describ
  Project exploration                └── FastAPI
 ```
 
-## Target architecture
+## Target integration architecture
 
-The intended next architectural step is an explicit frontend-to-backend integration:
+The intended next system boundary is:
 
 ```text
-React / Vite
-     │
-     │ HTTP / JSON
-     ▼
+React UI
+   │
+   │ HTTP / JSON
+   ▼
 API client
-     │
-     ▼
+   │
+   ▼
 FastAPI
-     │
-     ├── Request validation
-     ├── Application logic
-     └── Data access
-             │
-             ▼
-          Database
+   ├── request validation
+   ├── application logic
+   └── data access
+            │
+            ▼
+         Database
 ```
 
-This is the **target architecture**, not a claim that all existing modules are already connected.
+This is the target architecture, not the current runtime architecture of every module in the repository.
 
 ## Engineering principles
 
-1. Keep modules understandable.
-2. Separate presentation from backend services.
-3. Use explicit API boundaries.
-4. Test behaviour where practical.
-5. Keep documentation aligned with implementation.
-6. Refactor incrementally.
-7. Do not claim capabilities that have not been implemented.
-8. Prefer reproducible builds and automated checks.
+- Keep technical boundaries explicit.
+- Keep documentation aligned with implementation.
+- Separate frontend presentation from backend services.
+- Prefer testable modules and reproducible builds.
+- Integrate incrementally.
+- Do not claim capabilities that have not been implemented.
 
-## Delivery pipeline
+## Delivery flow
 
 ```text
-Source code
-    ↓
+Source
+  ↓
 Git
-    ↓
+  ↓
 GitHub
-    ↓
+  ↓
 Build
-    ↓
-Tests / validation
-    ↓
+  ↓
+Validation / Tests
+  ↓
+CI/CD
+  ↓
 Deployment
 ```
 
-## Next architecture work
+## Next architectural milestone
 
-- connect the React frontend to FastAPI
-- introduce a shared API client
-- define and test API contracts
-- expand backend tests
-- connect persistent data to the frontend
-- evaluate Docker-based development
-- strengthen CI validation
-- improve error handling and observability
+The next major milestone is a tested React-to-FastAPI integration with an explicit API client and defined request/response contract.
