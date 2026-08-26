@@ -16,8 +16,12 @@ This file records what is directly verifiable from GitHub Actions and repository
 | `workforce-competence-management` | Latest CodeQL for latest documentation/policy commit completed successfully; broader full-stack workflow is not established from this latest run | VERIFIED SECURITY CHECK; full build status not established by that run |
 | `azure-kubernetes-showcase` | Main-branch verification signal is OK; separate Dependabot PR failure was not on `main` | MAIN BRANCH SIGNAL OK; PR FAILURE NOT MAIN |
 | `HA-Desktop-Widget` | Repository contains a comprehensive CI workflow, but no workflow runs are currently available from GitHub for this fork/repository | CI CONFIGURED; RUN NOT OBSERVED |
-| `AB-Engineering-Lab` | Latest Engineering Lab CI completed successfully after the Pages workflow configuration repair | VERIFIED |
+| `AB-Engineering-Lab` | Engineering Lab CI had been verified after the Pages repair; a new security-lab workflow is now configured and will verify the controlled security regression suite | VERIFIED BASELINE; SECURITY LAB CI NEW |
 | `kana-dojo` | Established active open-source project with its own CI/documentation model; no portfolio standardisation changes made | LEFT INTACT |
+
+## Security laboratory
+
+`AB-Engineering-Lab/security-lab/` is a controlled, local-only application-security training module. It contains intentionally vulnerable and hardened examples plus regression tests. Its dedicated GitHub Actions workflow validates the security controls automatically.
 
 ## Baseline rule
 
