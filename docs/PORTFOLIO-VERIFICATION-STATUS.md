@@ -11,17 +11,17 @@ This file records what is directly verifiable from GitHub Actions and repository
 | `HealthTechDeviceApi` | Latest Docker Build for latest worklog commit completed successfully | VERIFIED |
 | `healthcare-data-analyzer` | Latest CI for latest quality-pipeline commit completed successfully | VERIFIED |
 | `healthcare-workforce-sql` | Latest SQL Validation run parses `setup.sql` and all `sql/*.sql` files with SQLFluff T-SQL parser | VERIFIED PARSER CHECK; SQL Server execution remains environment-level |
-| `healthtech-dashboard` | Latest CI for frontend/API hardening commit completed successfully; backend baseline tests and frontend build passed | VERIFIED |
+| `healthtech-dashboard` | Latest CI for frontend/API resilience hardening completed successfully | VERIFIED |
 | `shift-competence-planner` | Latest CI for latest documentation/navigation commit completed successfully | VERIFIED |
 | `workforce-competence-management` | Latest CodeQL for latest documentation/policy commit completed successfully; broader full-stack workflow is not established from this latest run | VERIFIED SECURITY CHECK; full build status not established by that run |
 | `azure-kubernetes-showcase` | Main-branch verification signal is OK; separate Dependabot PR failure was not on `main` | MAIN BRANCH SIGNAL OK; PR FAILURE NOT MAIN |
 | `HA-Desktop-Widget` | Repository contains a comprehensive CI workflow, but no workflow runs are currently available from GitHub for this fork/repository | CI CONFIGURED; RUN NOT OBSERVED |
-| `AB-Engineering-Lab` | Engineering Lab CI had been verified after the Pages repair; a new security-lab workflow is now configured and will verify the controlled security regression suite | VERIFIED BASELINE; SECURITY LAB CI NEW |
+| `AB-Engineering-Lab` | Engineering Lab CI verifies frontend build plus security-lab regression tests. Pages build is independently verifiable; Pages deployment is intentionally gated until the repository variable `GITHUB_PAGES_ENABLED=true` is configured with suitable GitHub Pages permissions. | VERIFIED CI; PAGES DEPLOYMENT CONFIGURATION REQUIRED |
 | `kana-dojo` | Established active open-source project with its own CI/documentation model; no portfolio standardisation changes made | LEFT INTACT |
 
 ## Security laboratory
 
-`AB-Engineering-Lab/security-lab/` is a controlled, local-only application-security training module. It contains intentionally vulnerable and hardened examples plus regression tests. Its dedicated GitHub Actions workflow validates the security controls automatically.
+`AB-Engineering-Lab/security-lab/` is a controlled, local-only application-security training module. It contains intentionally vulnerable and hardened examples plus regression tests for SQL injection, XSS, broken access control/IDOR, security headers and input validation. Its tests are also included in the main Engineering Lab CI workflow.
 
 ## Baseline rule
 
