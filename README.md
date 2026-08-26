@@ -13,6 +13,7 @@ AB Engineering Lab combines selected software-development projects into one cohe
 | Source code | [GitHub repositories](https://github.com/abla86?tab=repositories) |
 | Engineering documentation | [`docs/`](docs/) |
 | Portfolio verification | [`docs/PORTFOLIO-VERIFICATION-STATUS.md`](docs/PORTFOLIO-VERIFICATION-STATUS.md) |
+| Application security work | [`security-lab/`](security-lab/) |
 
 ## Engineering progression
 
@@ -35,6 +36,8 @@ Git / GitHub
 CI/CD
     ↓
 Deployment
+    ↓
+Application Security / DevSecOps
 
 ## Purpose
 
@@ -47,12 +50,23 @@ The smaller projects demonstrate development progression and are presented toget
 - GitHub Pages deployment workflow
 - Browser-based project previews where compatible
 - Separate backend and application modules retained in the repository
+- A controlled, local-only application security laboratory with vulnerable and hardened examples
 
 The backend modules are not described as connected to the React frontend unless that integration has actually been implemented and tested.
+
+## Application security lab
+
+[`security-lab/`](security-lab/) demonstrates an end-to-end security workflow:
+
+`Vulnerable -> Attack/Proof -> Detect -> Fix -> Regression test`
+
+Current training modules cover SQL injection, cross-site scripting, broken access control/IDOR, security headers and input validation. The lab is deliberately local-only and is not production code.
 
 ## Verification
 
 Use [Portfolio Verification Status](docs/PORTFOLIO-VERIFICATION-STATUS.md) for the current repository-by-repository evidence level. It distinguishes successful checks from repositories that do not currently expose a suitable full CI workflow.
+
+Security-lab verification is handled by the dedicated `Security Lab` GitHub Actions workflow.
 
 ## Accuracy
 
