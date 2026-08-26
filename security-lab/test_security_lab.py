@@ -1,5 +1,6 @@
 from app import (
     fixed_idor,
+    fixed_input_validation,
     fixed_sql_query,
     fixed_xss_render,
     vulnerable_idor,
@@ -40,3 +41,14 @@ def test_idor_vulnerable_example_exposes_other_users_record():
 def test_idor_fixed_example_denies_other_users_record():
     assert fixed_idor("2", "alice") is None
     assert fixed_idor("1", "alice")["owner"] == "alice"
+
+
+def test_input_validation_accepts_expected_value():
+    assert fixed_input_validation("Research record 1") == "Research record 1"
+
+
+def test_input_validation_rejects_script_markup():
+    import pytest
+
+    with pytest.raises(ValueError):
+        fixed_input_validation("<script>alert(1)</script>")
