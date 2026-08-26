@@ -10,15 +10,19 @@ This file records what is directly verifiable from GitHub Actions and repository
 | `evidence-appraisal-tool` | Latest CodeQL run for the latest repair commit completed successfully | VERIFIED SECURITY CHECK; full build status not established by that run |
 | `HealthTechDeviceApi` | Latest Docker Build for latest worklog commit completed successfully | VERIFIED |
 | `healthcare-data-analyzer` | Latest CI for latest quality-pipeline commit completed successfully | VERIFIED |
-| `healthcare-workforce-sql` | No GitHub Actions workflow runs found | NOT VERIFIED BY CI |
-| `healthtech-dashboard` | Only Dependabot graph-update workflow run is present; no full application CI run identified | NOT VERIFIED BY FULL CI |
+| `healthcare-workforce-sql` | Latest SQL Validation run parses `setup.sql` and all `sql/*.sql` files with SQLFluff T-SQL parser | VERIFIED PARSER CHECK; SQL Server execution remains environment-level |
+| `healthtech-dashboard` | Latest CI compiles the backend and runs focused FastAPI API smoke/integration tests successfully | VERIFIED BACKEND BASELINE |
 | `shift-competence-planner` | Latest CI for latest documentation/navigation commit completed successfully | VERIFIED |
 | `workforce-competence-management` | Latest CodeQL for latest documentation/policy commit completed successfully; broader full-stack workflow is not established from this latest run | VERIFIED SECURITY CHECK; full build status not established by that run |
-| `azure-kubernetes-showcase` | Main-branch Dependabot workflow completed successfully; a separate Dependabot PR CI failure was observed and is not the main branch | MAIN BRANCH SIGNAL OK; PR FAILURE NOT MAIN |
-| `HA-Desktop-Widget` | No GitHub Actions workflow runs found | NOT VERIFIED BY CI |
-| `AB-Engineering-Lab` | Latest Pages workflow had a configuration failure; Pages enablement was corrected and a new workflow run is queued | IN VERIFICATION |
+| `azure-kubernetes-showcase` | Main-branch verification signal is OK; separate Dependabot PR failure was not on `main` | MAIN BRANCH SIGNAL OK; PR FAILURE NOT MAIN |
+| `HA-Desktop-Widget` | Repository contains a comprehensive CI workflow, but no workflow runs are currently available from GitHub for this fork/repository | CI CONFIGURED; RUN NOT OBSERVED |
+| `AB-Engineering-Lab` | Latest Engineering Lab CI completed successfully after the Pages workflow configuration repair | VERIFIED |
 | `kana-dojo` | Established active open-source project with its own CI/documentation model; no portfolio standardisation changes made | LEFT INTACT |
 
-## Rule
+## Baseline rule
+
+The baseline is considered complete when every active repository has either an observed automated verification signal or an explicit documented reason why such verification is unavailable. Missing verification is not silently treated as a passing build.
+
+## Scope rule
 
 No repository is described as production-ready merely because a workflow exists or passes. Verification statements are limited to the checks actually observed.
