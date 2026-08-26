@@ -2,7 +2,7 @@
 
 ## AB Engineering Lab
 
-The projects are organised as a progressive engineering path. The objective is to show how individual technical skills develop toward larger software systems.
+The projects form a progressive engineering path. The sequence shows how individual technical skills can develop toward larger software systems.
 
 ## 01 — Web fundamentals
 
@@ -14,9 +14,6 @@ Focus:
 - semantic elements
 - basic CSS
 - browser rendering
-- file organisation
-
-This establishes the web foundation used by the later projects.
 
 ## 02 — JavaScript and browser logic
 
@@ -66,7 +63,7 @@ Focus:
 - modular JavaScript
 - application state
 - persistence
-- UI separation
+- UI handling
 - automated tests
 
 ### Task Manager
@@ -89,9 +86,9 @@ Focus:
 - props
 - state
 - Vite
-- modern frontend development
+- frontend architecture
 
-This stage represents the transition from direct DOM manipulation to component-based UI architecture.
+This stage represents the transition from direct DOM manipulation to component-based UI development.
 
 ## 05 — Backend
 
@@ -108,11 +105,11 @@ Focus:
 - CRUD
 - backend testing
 
-This introduces server-side development and persistent data.
+This introduces server-side services and persistent data.
 
 ## 06 — Full-stack integration
 
-The next stage is to combine the previous frontend and backend work through an explicit API boundary.
+The next stage is to connect the frontend and backend through an explicit API boundary.
 
 Target:
 
@@ -128,7 +125,7 @@ Application logic
 Database
 ```
 
-Stage 06 should only be considered implemented when the integration is actually built and tested.
+Stage 06 is only complete when the integration is implemented and tested.
 
 ## Overall progression
 
@@ -150,4 +147,4 @@ FULL-STACK INTEGRATION
 AUTOMATED DELIVERY
 ```
 
-The progression documents development work and engineering direction without treating planned capabilities as completed features.
+The progression documents completed work and engineering direction without presenting planned capabilities as completed features.
