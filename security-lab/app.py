@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from html import escape
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -44,6 +45,15 @@ def fixed_idor(record_id: str, current_user: str) -> dict[str, str] | None:
     return record
 
 
+def fixed_input_validation(value: str) -> str:
+    """Allow only a small, predictable character set for this demo field."""
+    if not 1 <= len(value) <= 50:
+        raise ValueError("Input length must be between 1 and 50 characters")
+    if not re.fullmatch(r"[A-Za-z0-9 _.-]+", value):
+        raise ValueError("Input contains unsupported characters")
+    return value
+
+
 class LabHandler(BaseHTTPRequestHandler):
     def _send(self, status: int, body: str, content_type: str = "text/plain; charset=utf-8") -> None:
         self.send_response(status)
@@ -66,7 +76,7 @@ class LabHandler(BaseHTTPRequestHandler):
             self._send(
                 200,
                 "Local-only lab. Endpoints: /sqli/vulnerable, /sqli/fixed, /xss/vulnerable, "
-                "/xss/fixed, /idor/vulnerable/<id>, /idor/fixed/<id>.\n",
+                "/xss/fixed, /idor/vulnerable/<id>, /idor/fixed/<id>, /input/fixed.\n",
             )
             return
 
@@ -89,6 +99,16 @@ class LabHandler(BaseHTTPRequestHandler):
         if parsed.path == "/xss/fixed":
             value = query.get("value", [""])[0]
             self._send(200, fixed_xss_render(value), "text/html; charset=utf-8")
+            return
+
+        if parsed.path == "/input/fixed":
+            value = query.get("value", [""])[0]
+            try:
+                accepted = fixed_input_validation(value)
+            except ValueError as exc:
+                self._send(400, str(exc))
+            else:
+                self._send(200, f"accepted={accepted}\n")
             return
 
         if parsed.path.startswith("/idor/"):
