@@ -1,4 +1,4 @@
-﻿name: Engineering Lab CI
+name: Engineering Lab CI
 
 on:
   push:
