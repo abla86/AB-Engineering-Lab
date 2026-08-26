@@ -7,23 +7,23 @@ AB Engineering Lab combines selected software-development projects into one cohe
 ## Engineering progression
 
 HTML / CSS
-    ↓
+    â†“
 JavaScript
-    ↓
+    â†“
 Applications
-    ↓
+    â†“
 React
-    ↓
+    â†“
 Python / FastAPI
-    ↓
+    â†“
 APIs
-    ↓
+    â†“
 Testing
-    ↓
+    â†“
 Git / GitHub
-    ↓
+    â†“
 CI/CD
-    ↓
+    â†“
 Deployment
 
 ## Purpose
