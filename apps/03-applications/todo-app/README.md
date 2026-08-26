@@ -1,71 +1,71 @@
-# To-Do App
+# Todo Application
 
-A modern modular To-Do application built with vanilla JavaScript.
+## Purpose
+
+A modular vanilla JavaScript task application demonstrating structured frontend development, browser persistence and unit testing.
 
 ## Features
 
 - Add tasks
 - Complete and reactivate tasks
 - Delete tasks
-- Automatic localStorage persistence
+- LocalStorage persistence
 - ES6 modules
 - Modular application structure
 - Responsive interface
-- Keyboard accessible controls
+- Keyboard-accessible controls
 - ARIA labels and live status updates
-- Safe DOM rendering using `textContent`
-- Lightweight UI animations
+- Safe DOM rendering with `textContent`
+- Lightweight UI animation
 - Jest unit tests
 
-## Project Structure
+## Architecture
 
 ```text
-todo-app/
-│
-├── index.html
-├── styles.css
-├── package.json
-├── README.md
-├── LICENSE
-│
-├── src/
-│   ├── main.js
-│   ├── todo.js
-│   ├── storage.js
-│   └── ui.js
-│
-└── tests/
-    └── todo.test.js
+index.html
+    │
+    ├── main.js
+    ├── todo.js
+    ├── storage.js
+    └── ui.js
+             │
+             ▼
+        Browser UI
+             │
+             ▼
+         LocalStorage
 ```
 
 ## Technologies
 
 - HTML5
 - CSS3
-- JavaScript
-- ES6 Modules
-- Web Storage API
+- JavaScript ES6 Modules
 - DOM API
+- Web Storage API
 - Jest
 
 ## Run locally
 
-Open `index.html` using a local development server such as VS Code Live Server.
-
-## Testing
-
-Install dependencies:
-
 ```bash
 npm install
-```
-
-Run tests:
-
-```bash
 npm test
 ```
 
+For the browser application, open `index.html` through a local development server such as VS Code Live Server.
+
+## Role in AB Engineering Lab
+
+This module represents the transition from small JavaScript exercises to a structured application with separate modules, persistence and automated tests.
+
+## Stage
+
+**03 — Application development**
+
+## Scope
+
+This is a local browser application. It is not presented as a backend service or as part of the React/FastAPI integration until that integration is implemented and tested.
+
 ## License
 
-MIT License.
+MIT
