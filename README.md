@@ -4,26 +4,35 @@
 
 AB Engineering Lab combines selected software-development projects into one coherent engineering laboratory.
 
+## Start here
+
+| Need | Go to |
+|---|---|
+| Visual showcase | [Developer portfolio](https://abla86.github.io/developer-portfolio/) |
+| Small projects together | [Small Projects Demo Hub](https://abla86.github.io/developer-portfolio/small-projects-hub.html) |
+| Source code | [GitHub repositories](https://github.com/abla86?tab=repositories) |
+| Engineering documentation | [`docs/`](docs/) |
+
 ## Engineering progression
 
 HTML / CSS
-    â†“
+    ↓
 JavaScript
-    â†“
+    ↓
 Applications
-    â†“
+    ↓
 React
-    â†“
+    ↓
 Python / FastAPI
-    â†“
+    ↓
 APIs
-    â†“
+    ↓
 Testing
-    â†“
+    ↓
 Git / GitHub
-    â†“
+    ↓
 CI/CD
-    â†“
+    ↓
 Deployment
 
 ## Purpose
