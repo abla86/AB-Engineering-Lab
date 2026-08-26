@@ -1,0 +1,2 @@
+import TaskCard from "./TaskCard.jsx";
+export default function TaskColumn({column,tasks,onMove,onDelete}){return <section className="column"><div className="heading"><h2>{column.title}</h2><span>{tasks.length}</span></div>{tasks.length?tasks.map(t=><TaskCard key={t.id} task={t} onMove={onMove} onDelete={onDelete}/>):<p>No tasks here.</p>}</section>}

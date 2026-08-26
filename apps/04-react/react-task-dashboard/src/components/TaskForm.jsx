@@ -1,0 +1,3 @@
+import { useState } from "react";
+export default function TaskForm({onAdd}){const[title,setTitle]=useState("");function submit(e){e.preventDefault();const t=title.trim();if(!t)return;onAdd(t);setTitle("")}
+return <form className="task-form" onSubmit={submit}><label className="sr-only" htmlFor="task">New task</label><input id="task" value={title} onChange={e=>setTitle(e.target.value)} placeholder="Add a new task..." maxLength="100" required/><button>Add task</button></form>}

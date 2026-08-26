@@ -1,0 +1,2 @@
+const options=[["todo","To Do"],["progress","In Progress"],["done","Done"]];
+export default function TaskCard({task,onMove,onDelete}){return <article className="card"><h3>{task.title}</h3><select value={task.status} onChange={e=>onMove(task.id,e.target.value)} aria-label={`Status for ${task.title}`}>{options.map(([v,l])=><option key={v} value={v}>{l}</option>)}</select><button className="delete" onClick={()=>onDelete(task.id)} aria-label={`Delete ${task.title}`}>Delete</button></article>}

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="Advanced JavaScript Counter with reusable components, persistent state, keyboard controls, statistics, data export, animations and accessibility features."
+  >
+
+  <title>Advanced JavaScript Counter</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      color-scheme: light dark;
+
+      --bg: #f3f4f6;
+      --surface: #ffffff;
+      --surface-secondary: #f9fafb;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #d1d5db;
+
+      --positive: #15803d;
+      --negative: #dc2626;
+      --neutral: #111827;
+      --primary: #2563eb;
+
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111827;
+        --surface: #1f2937;
+        --surface-secondary: #111827;
+        --text: #f9fafb;
+        --muted: #d1d5db;
+        --border: #4b5563;
+
+        --positive: #4ade80;
+        --negative: #f87171;
+        --neutral: #f9fafb;
+
+        --shadow: 0 12px 32px rgba(0, 0, 0, 0.30);
+      }
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 40px 20px;
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      max-width: 800px;
+      margin: 0 auto 35px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .counter-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .counter-card,
+    .dashboard,
+    .help {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .counter-card {
+      padding: 28px;
+      text-align: center;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .counter-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .counter-card.active {
+      border-color: var(--primary);
+      outline: 3px solid rgba(37, 99, 235, 0.15);
+    }
+
+    .counter-card h2 {
+      margin: 0 0 7px;
+      font-size: 1.25rem;
+    }
+
+    .description {
+      min-height: 40px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .count {
+      margin: 28px 0;
+      font-size: clamp(4rem, 10vw, 6rem);
+      font-weight: 800;
+      line-height: 1;
+
+      transition:
+        transform 0.2s ease,
+        color 0.3s ease;
+    }
+
+    .count.bump {
+      transform: scale(1.18);
+    }
+
+    .buttons,
+    .global-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    .file-label {
+      min-width: 72px;
+      padding: 11px 17px;
+
+      border: 0;
+      border-radius: 10px;
+
+      font: inherit;
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+    }
+
+    button:hover,
+    .file-label:hover {
+      transform: translateY(-2px);
+      filter: brightness(0.94);
+    }
+
+    button:active,
+    .file-label:active {
+      transform: scale(0.96);
+    }
+
+    button:focus-visible,
+    .file-label:focus-visible,
+    .counter-card:focus-visible {
+      outline: 3px solid rgba(37, 99, 235, 0.55);
+      outline-offset: 3px;
+    }
+
+    .increase {
+      color: white;
+      background: #15803d;
+    }
+
+    .decrease {
+      color: white;
+      background: #dc2626;
+    }
+
+    .reset {
+      color: white;
+      background: #4b5563;
+    }
+
+    .primary {
+      color: white;
+      background: #2563eb;
+    }
+
+    .danger {
+      color: white;
+      background: #b91c1c;
+    }
+
+    .dashboard {
+      margin-top: 25px;
+      padding: 26px;
+    }
+
+    .dashboard h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      padding: 18px;
+      text-align: center;
+      background: var(--surface-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 1.7rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .help {
+      margin-top: 25px;
+      padding: 25px;
+    }
+
+    .help h2 {
+      margin-top: 0;
+    }
+
+    .help ul {
+      margin-bottom: 0;
+      padding-left: 22px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    kbd {
+      padding: 2px 7px;
+      color: var(--text);
+      background: var(--surface-secondary);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 5px;
+      font-family: inherit;
+    }
+
+    #importFile {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .status {
+      margin-top: 15px;
+      text-align: center;
+      color: var(--muted);
+      min-height: 24px;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 25px 14px;
+      }
+
+      .counter-card,
+      .dashboard,
+      .help {
+        border-radius: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <header class="hero">
+      <h1>Advanced JavaScript Counter</h1>
+
+      <p>
+        A dependency-free frontend application demonstrating reusable
+        JavaScript components, persistent state, keyboard interaction,
+        responsive design, accessibility, animations, statistics and
+        browser-based data management.
+      </p>
+    </header>
+
+    <section
+      id="counterGrid"
+      class="counter-grid"
+      aria-label="Counters"
+    ></section>
+
+    <section
+      class="dashboard"
+      aria-labelledby="dashboardTitle"
+    >
+      <h2 id="dashboardTitle">
+        Counter Dashboard
+      </h2>
+
+      <div class="stats">
+        <div class="stat">
+          <strong id="totalValue">0</strong>
+          <span>Total value</span>
+        </div>
+
+        <div class="stat">
+          <strong id="highestValue">0</strong>
+          <span>Highest value</span>
+        </div>
+
+        <div class="stat">
+          <strong id="lowestValue">0</strong>
+          <span>Lowest value</span>
+        </div>
+
+        <div class="stat">
+          <strong id="totalChanges">0</strong>
+          <span>Changes this session</span>
+        </div>
+      </div>
+
+      <div class="global-actions">
+
+        <button
+          id="resetAll"
+          class="danger"
+          type="button"
+        >
+          Reset All
+        </button>
+
+        <button
+          id="exportData"
+          class="primary"
+          type="button"
+        >
+          Export JSON
+        </button>
+
+        <label
+          for="importFile"
+          class="file-label primary"
+          tabindex="0"
+        >
+          Import JSON
+        </label>
+
+        <input
+          id="importFile"
+          type="file"
+          accept="application/json,.json"
+        >
+
+      </div>
+
+      <p
+        id="status"
+        class="status"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+    </section>
+
+    <section class="help">
+
+      <h2>Keyboard Controls</h2>
+
+      <ul>
+        <li>
+          Select a counter by clicking it or tabbing into it.
+        </li>
+
+        <li>
+          <kbd>+</kbd> or <kbd>↑</kbd>
+          increases the active counter.
+        </li>
+
+        <li>
+          <kbd>-</kbd> or <kbd>↓</kbd>
+          decreases the active counter.
+        </li>
+
+        <li>
+          <kbd>R</kbd> or <kbd>Esc</kbd>
+          resets the active counter.
+        </li>
+      </ul>
+
+    </section>
+
+    <footer>
+      Built with HTML5, CSS3 and modern vanilla JavaScript.
+    </footer>
+
+  </main>
+
+  <script>
+    "use strict";
+
+    const COUNTER_CONFIG = [
+      {
+        id: "primary",
+        title: "Primary Counter",
+        description: "Main persistent counter.",
+        start: 0
+      },
+      {
+        id: "secondary",
+        title: "Secondary Counter",
+        description: "Independent persistent state.",
+        start: 0
+      },
+      {
+        id: "third",
+        title: "Third Counter",
+        description: "Reusable component demonstration.",
+        start: 0
+      }
+    ];
+
+    const counters = new Map();
+
+    const grid =
+      document.getElementById("counterGrid");
+
+    const totalValueElement =
+      document.getElementById("totalValue");
+
+    const highestValueElement =
+      document.getElementById("highestValue");
+
+    const lowestValueElement =
+      document.getElementById("lowestValue");
+
+    const totalChangesElement =
+      document.getElementById("totalChanges");
+
+    const statusElement =
+      document.getElementById("status");
+
+    const resetAllButton =
+      document.getElementById("resetAll");
+
+    const exportButton =
+      document.getElementById("exportData");
+
+    const importInput =
+      document.getElementById("importFile");
+
+    let activeCounterId =
+      COUNTER_CONFIG[0].id;
+
+    let totalChanges = 0;
+
+    class Counter {
+      constructor({
+        id,
+        title,
+        description,
+        start = 0
+      }) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+
+        this.storageKey =
+          `advanced-counter:${id}`;
+
+        const saved =
+          Number.parseInt(
+            localStorage.getItem(
+              this.storageKey
+            ),
+            10
+          );
+
+        this.value =
+          Number.isNaN(saved)
+            ? start
+            : saved;
+
+        this.element = null;
+        this.display = null;
+      }
+
+      render() {
+        const card =
+          document.createElement("article");
+
+        card.className =
+          "counter-card";
+
+        card.tabIndex = 0;
+
+        card.dataset.counterId =
+          this.id;
+
+        card.innerHTML = `
+          <h2>${this.title}</h2>
+
+          <p class="description">
+            ${this.description}
+          </p>
+
+          <div
+            class="count"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            ${this.value}
+          </div>
+
+          <div class="buttons">
+
+            <button
+              type="button"
+              class="decrease"
+              data-action="decrease"
+              aria-label="Decrease ${this.title}"
+            >
+              −
+            </button>
+
+            <button
+              type="button"
+              class="reset"
+              data-action="reset"
+              aria-label="Reset ${this.title}"
+            >
+              Reset
+            </button>
+
+            <button
+              type="button"
+              class="increase"
+              data-action="increase"
+              aria-label="Increase ${this.title}"
+            >
+              +
+            </button>
+
+          </div>
+        `;
+
+        grid.appendChild(card);
+
+        this.element = card;
+
+        this.display =
+          card.querySelector(".count");
+
+        this.bindEvents();
+
+        this.updateDisplay(false);
+      }
+
+      bindEvents() {
+        this.element.addEventListener(
+          "click",
+          (event) => {
+            setActiveCounter(this.id);
+
+            const action =
+              event.target.dataset.action;
+
+            if (!action) {
+              return;
+            }
+
+            if (action === "increase") {
+              this.increase();
+            }
+
+            if (action === "decrease") {
+              this.decrease();
+            }
+
+            if (action === "reset") {
+              this.reset();
+            }
+          }
+        );
+
+        this.element.addEventListener(
+          "focusin",
+          () => {
+            setActiveCounter(this.id);
+          }
+        );
+      }
+
+      increase() {
+        this.value += 1;
+        registerChange();
+        this.updateDisplay();
+      }
+
+      decrease() {
+        this.value -= 1;
+        registerChange();
+        this.updateDisplay();
+      }
+
+      reset() {
+        this.value = 0;
+        registerChange();
+        this.updateDisplay();
+      }
+
+      setValue(value) {
+        if (!Number.isFinite(value)) {
+          return;
+        }
+
+        this.value = value;
+
+        this.updateDisplay();
+      }
+
+      save() {
+        localStorage.setItem(
+          this.storageKey,
+          String(this.value)
+        );
+      }
+
+      updateDisplay(
+        animate = true
+      ) {
+        this.display.textContent =
+          this.value;
+
+        if (this.value > 0) {
+          this.display.style.color =
+            "var(--positive)";
+        } else if (
+          this.value < 0
+        ) {
+          this.display.style.color =
+            "var(--negative)";
+        } else {
+          this.display.style.color =
+            "var(--neutral)";
+        }
+
+        this.save();
+
+        updateStatistics();
+
+        if (animate) {
+          this.animate();
+        }
+      }
+
+      animate() {
+        this.display.classList.remove(
+          "bump"
+        );
+
+        void this.display.offsetWidth;
+
+        this.display.classList.add(
+          "bump"
+        );
+
+        window.setTimeout(
+          () => {
+            this.display.classList.remove(
+              "bump"
+            );
+          },
+          200
+        );
+      }
+    }
+
+    function registerChange() {
+      totalChanges += 1;
+
+      totalChangesElement.textContent =
+        totalChanges;
+    }
+
+    function setActiveCounter(id) {
+      activeCounterId = id;
+
+      counters.forEach(
+        (counter) => {
+          counter.element.classList.toggle(
+            "active",
+            counter.id === id
+          );
+        }
+      );
+    }
+
+    function getActiveCounter() {
+      return counters.get(
+        activeCounterId
+      );
+    }
+
+    function updateStatistics() {
+      const values =
+        [...counters.values()]
+          .map(
+            (counter) =>
+              counter.value
+          );
+
+      if (values.length === 0) {
+        return;
+      }
+
+      const total =
+        values.reduce(
+          (sum, value) =>
+            sum + value,
+          0
+        );
+
+      totalValueElement.textContent =
+        total;
+
+      highestValueElement.textContent =
+        Math.max(...values);
+
+      lowestValueElement.textContent =
+        Math.min(...values);
+    }
+
+    function showStatus(message) {
+      statusElement.textContent =
+        message;
+
+      window.setTimeout(
+        () => {
+          if (
+            statusElement.textContent ===
+            message
+          ) {
+            statusElement.textContent =
+              "";
+          }
+        },
+        4000
+      );
+    }
+
+    COUNTER_CONFIG.forEach(
+      (config) => {
+        const counter =
+          new Counter(config);
+
+        counters.set(
+          config.id,
+          counter
+        );
+
+        counter.render();
+      }
+    );
+
+    setActiveCounter(
+      activeCounterId
+    );
+
+    updateStatistics();
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        const target =
+          event.target;
+
+        if (
+          target instanceof
+          HTMLInputElement
+        ) {
+          return;
+        }
+
+        const counter =
+          getActiveCounter();
+
+        if (!counter) {
+          return;
+        }
+
+        if (
+          event.key === "+" ||
+          event.key === "ArrowUp"
+        ) {
+          event.preventDefault();
+          counter.increase();
+        }
+
+        if (
+          event.key === "-" ||
+          event.key === "ArrowDown"
+        ) {
+          event.preventDefault();
+          counter.decrease();
+        }
+
+        if (
+          event.key.toLowerCase() ===
+            "r" ||
+          event.key === "Escape"
+        ) {
+          event.preventDefault();
+          counter.reset();
+        }
+      }
+    );
+
+    resetAllButton.addEventListener(
+      "click",
+      () => {
+        counters.forEach(
+          (counter) => {
+            counter.value = 0;
+            counter.updateDisplay();
+          }
+        );
+
+        registerChange();
+
+        showStatus(
+          "All counters reset."
+        );
+      }
+    );
+
+    exportButton.addEventListener(
+      "click",
+      () => {
+        const data = {
+          application:
+            "Advanced JavaScript Counter",
+
+          version: 1,
+
+          exportedAt:
+            new Date().toISOString(),
+
+          counters:
+            [...counters.values()]
+              .map(
+                (counter) => ({
+                  id: counter.id,
+                  title:
+                    counter.title,
+                  value:
+                    counter.value
+                })
+              )
+        };
+
+        const blob =
+          new Blob(
+            [
+              JSON.stringify(
+                data,
+                null,
+                2
+              )
+            ],
+            {
+              type:
+                "application/json"
+            }
+          );
+
+        const url =
+          URL.createObjectURL(
+            blob
+          );
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+        link.href = url;
+
+        link.download =
+          "advanced-counter-data.json";
+
+        document.body.appendChild(
+          link
+        );
+
+        link.click();
+
+        link.remove();
+
+        URL.revokeObjectURL(
+          url
+        );
+
+        showStatus(
+          "Counter data exported."
+        );
+      }
+    );
+
+    importInput.addEventListener(
+      "change",
+      async (event) => {
+        const file =
+          event.target.files?.[0];
+
+        if (!file) {
+          return;
+        }
+
+        try {
+          const text =
+            await file.text();
+
+          const data =
+            JSON.parse(text);
+
+          if (
+            !Array.isArray(
+              data.counters
+            )
+          ) {
+            throw new Error(
+              "Invalid counter file."
+            );
+          }
+
+          data.counters.forEach(
+            (savedCounter) => {
+              const counter =
+                counters.get(
+                  savedCounter.id
+                );
+
+              if (
+                counter &&
+                Number.isFinite(
+                  savedCounter.value
+                )
+              ) {
+                counter.setValue(
+                  savedCounter.value
+                );
+              }
+            }
+          );
+
+          registerChange();
+
+          showStatus(
+            "Counter data imported successfully."
+          );
+        } catch (error) {
+          console.error(error);
+
+          showStatus(
+            "Could not import this JSON file."
+          );
+        } finally {
+          importInput.value = "";
+        }
+      }
+    );
+
+    document
+      .querySelector(
+        ".file-label"
+      )
+      .addEventListener(
+        "keydown",
+        (event) => {
+          if (
+            event.key === "Enter" ||
+            event.key === " "
+          ) {
+            event.preventDefault();
+            importInput.click();
+          }
+        }
+      );
+  </script>
+
+</body>
+</html>

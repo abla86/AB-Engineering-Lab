@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Task Manager built with vanilla JavaScript">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <p class="eyebrow">JavaScript Portfolio Project</p>
+        <h1>Task Manager</h1>
+        <p class="subtitle">Organize, prioritize and track your tasks.</p>
+      </div>
+
+      <button id="theme-toggle" class="theme-button" aria-label="Toggle theme">
+        ☾
+      </button>
+    </header>
+
+    <section class="stats">
+      <div>
+        <strong id="total-count">0</strong>
+        <span>Total</span>
+      </div>
+
+      <div>
+        <strong id="active-count">0</strong>
+        <span>Active</span>
+      </div>
+
+      <div>
+        <strong id="completed-count">0</strong>
+        <span>Completed</span>
+      </div>
+    </section>
+
+    <section class="task-form-section">
+      <form id="task-form">
+        <input
+          id="task-input"
+          type="text"
+          placeholder="What needs to be done?"
+          maxlength="100"
+          required
+        >
+
+        <select id="priority-input" aria-label="Priority">
+          <option value="low">Low priority</option>
+          <option value="medium" selected>Medium priority</option>
+          <option value="high">High priority</option>
+        </select>
+
+        <input
+          id="date-input"
+          type="date"
+          aria-label="Due date"
+        >
+
+        <button type="submit" class="primary-button">
+          Add Task
+        </button>
+      </form>
+    </section>
+
+    <section class="controls">
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Search tasks..."
+        aria-label="Search tasks"
+      >
+
+      <div class="filters" id="filters">
+        <button class="filter active" data-filter="all">All</button>
+        <button class="filter" data-filter="active">Active</button>
+        <button class="filter" data-filter="completed">Completed</button>
+      </div>
+    </section>
+
+    <section>
+      <ul id="task-list" class="task-list"></ul>
+
+      <div id="empty-state" class="empty-state">
+        <h2>No tasks yet</h2>
+        <p>Add your first task above.</p>
+      </div>
+    </section>
+
+    <footer>
+      <button id="clear-completed" class="secondary-button">
+        Clear completed
+      </button>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
