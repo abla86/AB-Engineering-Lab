@@ -12,6 +12,7 @@ AB Engineering Lab combines selected software-development projects into one cohe
 | Small projects together | [Small Projects Demo Hub](https://abla86.github.io/developer-portfolio/small-projects-hub.html) |
 | Source code | [GitHub repositories](https://github.com/abla86?tab=repositories) |
 | Engineering documentation | [`docs/`](docs/) |
+| Portfolio verification | [`docs/PORTFOLIO-VERIFICATION-STATUS.md`](docs/PORTFOLIO-VERIFICATION-STATUS.md) |
 
 ## Engineering progression
 
@@ -48,6 +49,10 @@ The smaller projects demonstrate development progression and are presented toget
 - Separate backend and application modules retained in the repository
 
 The backend modules are not described as connected to the React frontend unless that integration has actually been implemented and tested.
+
+## Verification
+
+Use [Portfolio Verification Status](docs/PORTFOLIO-VERIFICATION-STATUS.md) for the current repository-by-repository evidence level. It distinguishes successful checks from repositories that do not currently expose a suitable full CI workflow.
 
 ## Accuracy
 
