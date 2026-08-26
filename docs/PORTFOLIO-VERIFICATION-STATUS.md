@@ -11,7 +11,7 @@ This file records what is directly verifiable from GitHub Actions and repository
 | `HealthTechDeviceApi` | Latest Docker Build for latest worklog commit completed successfully | VERIFIED |
 | `healthcare-data-analyzer` | Latest CI for latest quality-pipeline commit completed successfully | VERIFIED |
 | `healthcare-workforce-sql` | Latest SQL Validation run parses `setup.sql` and all `sql/*.sql` files with SQLFluff T-SQL parser | VERIFIED PARSER CHECK; SQL Server execution remains environment-level |
-| `healthtech-dashboard` | Latest CI compiles the backend and runs focused FastAPI API smoke/integration tests successfully | VERIFIED BACKEND BASELINE |
+| `healthtech-dashboard` | Latest CI for frontend/API hardening commit completed successfully; backend baseline tests and frontend build passed | VERIFIED |
 | `shift-competence-planner` | Latest CI for latest documentation/navigation commit completed successfully | VERIFIED |
 | `workforce-competence-management` | Latest CodeQL for latest documentation/policy commit completed successfully; broader full-stack workflow is not established from this latest run | VERIFIED SECURITY CHECK; full build status not established by that run |
 | `azure-kubernetes-showcase` | Main-branch verification signal is OK; separate Dependabot PR failure was not on `main` | MAIN BRANCH SIGNAL OK; PR FAILURE NOT MAIN |
