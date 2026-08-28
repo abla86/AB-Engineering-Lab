@@ -79,3 +79,7 @@ A configured deployment workflow is not the same as claiming that a deployed sys
 The repository owner is a Master's student in Knowledge-Based Practice.
 
 This does not indicate completion of a master's degree.
+
+## Change-control audit
+
+See [docs/REPOSITORY-CHANGE-AUDIT-2026-08-28.md](docs/REPOSITORY-CHANGE-AUDIT-2026-08-28.md) for the repository change-control and traceability record.
