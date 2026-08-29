@@ -11,9 +11,24 @@ AB Engineering Lab combines selected software-development projects into one cohe
 | Visual showcase | [Developer portfolio](https://abla86.github.io/developer-portfolio/) |
 | Small projects together | [Small Projects Demo Hub](https://abla86.github.io/developer-portfolio/small-projects-hub.html) |
 | Source code | [GitHub repositories](https://github.com/abla86?tab=repositories) |
-| Engineering documentation | [`docs/`](docs/) |
-| Portfolio verification | [`docs/PORTFOLIO-VERIFICATION-STATUS.md`](docs/PORTFOLIO-VERIFICATION-STATUS.md) |
-| Application security work | [`security-lab/`](security-lab/) |
+| Engineering documentation | [docs/](docs/) |
+| Portfolio verification | [docs/PORTFOLIO-VERIFICATION-STATUS.md](docs/PORTFOLIO-VERIFICATION-STATUS.md) |
+| Application security work | [security-lab/](security-lab/) |
+
+## Featured engineering project: ChangeStory
+
+[projects/changestory/](projects/changestory/) is an evidence-first operational change intelligence prototype.
+
+It demonstrates a deliberately different capability from the research/evidence appraisal work: reconstructing **what changed, what followed, what is actually evidenced, and what should be investigated next**.
+
+The same event chain can be explained to two audiences:
+
+- **Executive:** outcome, operational impact, confidence and next actions.
+- **Technical:** normalized events, temporal correlation, dependencies and evidence provenance.
+
+The implementation includes a deterministic TypeScript correlation/story engine, tests, a real demo dataset and a connector boundary for future GitHub/Jira/Azure/CSV/webhook adapters.
+
+**Accuracy rule:** ChangeStory does not claim native Azure, AWS, Snowflake, Databricks or Power BI integration until those integrations are actually implemented and tested.
 
 ## Engineering progression
 
@@ -56,7 +71,7 @@ The backend modules are not described as connected to the React frontend unless 
 
 ## Application security lab
 
-[`security-lab/`](security-lab/) demonstrates an end-to-end security workflow:
+[security-lab/](security-lab/) demonstrates an end-to-end security workflow:
 
 `Vulnerable -> Attack/Proof -> Detect -> Fix -> Regression test`
 
