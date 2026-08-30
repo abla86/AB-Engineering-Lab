@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="ChangeStory — evidence-first operational change intelligence">
+  <title>ChangeStory — Operational Change Intelligence</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">CS</span><div><strong>ChangeStory</strong><span>Operational change intelligence</span></div></div>
+      <div class="top-actions"><span class="live-dot"></span><span>Demo dataset</span><button id="resetBtn" class="ghost">Reset</button></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">EVIDENCE-FIRST INVESTIGATION</p>
+          <h1>What changed — and what happened next?</h1>
+          <p class="hero-copy">Reconstruct an operational change from events, dependencies and impact signals. Separate observed facts from correlation instead of pretending correlation is causation.</p>
+        </div>
+        <div class="view-toggle" role="tablist">
+          <button class="view active" data-view="executive">Executive</button>
+          <button class="view" data-view="technical">Technical</button>
+        </div>
+      </section>
+
+      <section class="metrics" id="metrics"></section>
+
+      <section class="grid">
+        <article class="panel story-panel">
+          <div class="panel-head"><div><span class="eyebrow">CHANGE STORY</span><h2 id="storyTitle"></h2></div><span id="outcome" class="badge"></span></div>
+          <div id="executiveView"></div>
+          <div id="technicalView" class="hidden"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><div><span class="eyebrow">EVIDENCE</span><h2>What we actually know</h2></div><span id="evidenceCount" class="count"></span></div>
+          <div class="legend"><span><i class="obs"></i>Observed</span><span><i class="corr"></i>Correlated</span><span><i class="inf"></i>Inferred</span><span><i class="ver"></i>Verified</span></div>
+          <div id="evidence"></div>
+        </article>
+      </section>
+
+      <section class="grid lower">
+        <article class="panel">
+          <div class="panel-head"><div><span class="eyebrow">TIMELINE</span><h2>Change → signal → impact → recovery</h2></div><select id="sourceFilter"><option value="all">All sources</option></select></div>
+          <div id="timeline" class="timeline"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><div><span class="eyebrow">DEPENDENCIES</span><h2>Operational path</h2></div></div>
+          <div id="dependencies" class="dependency-map"></div>
+          <div class="next-actions"><span class="eyebrow">NEXT INVESTIGATION</span><div id="actions"></div></div>
+        </article>
+      </section>
+    </main>
+
+    <footer><span>ChangeStory MVP</span><span>Deterministic demo • no causal claim without evidence</span></footer>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
