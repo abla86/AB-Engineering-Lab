@@ -30,6 +30,14 @@ The implementation includes a deterministic TypeScript correlation/story engine,
 
 **Accuracy rule:** ChangeStory does not claim native Azure, AWS, Snowflake, Databricks or Power BI integration until those integrations are actually implemented and tested.
 
+## Interactive ChangeStory demo
+
+The project now has a real browser UI rather than a documentation-only example. The demo includes Executive/Technical view switching, source filtering, evidence grouping, a change timeline, dependency path and clickable investigation actions.
+
+**GitHub Pages:** https://abla86.github.io/AB-Engineering-Lab/changestory/index.html
+
+The demo uses deterministic local data. It is intentionally independent of external services so the interaction can be reviewed without credentials. The next step is to replace the embedded dataset with the story API and real source adapters.
+
 ## Engineering progression
 
 HTML / CSS
