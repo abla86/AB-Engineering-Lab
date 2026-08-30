@@ -12,7 +12,7 @@ const projects = [
   { id:'tasks', name:'Task Manager', category:'Applications', tech:'JavaScript', type:'lab', path:'/labs/task-manager/index.html', description:'Task-oriented application logic and UI interaction.' },
   { id:'react', name:'React Task Dashboard', category:'React', tech:'React • Vite', type:'source', path:'/apps/04-react/react-task-dashboard', description:'Component architecture, reusable UI and modern frontend development.' },
   { id:'fastapi', name:'FastAPI Backend', category:'Backend', tech:'Python • FastAPI', type:'source', path:'/apps/05-backend/FastAPI-Learning', description:'REST API architecture, models, persistence and backend testing.' },
-  { id:'changestory', name:'ChangeStory', category:'Data & Intelligence', tech:'TypeScript • Data Analysis • Evidence', type:'lab', path:'/changestory/index.html', description:'Interactive change reconstruction: timeline, evidence levels, dependencies, impact and executive/technical views.' }
+  { id:'changestory', name:'ChangeStory', category:'Data & Intelligence', tech:'TypeScript • Data Analysis • Evidence', type:'lab', path:'./changestory/index.html', description:'Interactive change reconstruction: timeline, evidence levels, dependencies, impact and executive/technical views.' }
 ]
 
 const technologies = [
@@ -61,7 +61,7 @@ function App() {
               <span>BACKEND</span><strong>FASTAPI</strong>
             </div>
             <div className='system-line'>
-              <span>PROJECTS</span><strong>09</strong>
+              <span>PROJECTS</span><strong>10</strong>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ function App() {
 
       <main>
         <section className='stats'>
-          <div><strong>09</strong><span>Projects integrated</span></div>
+          <div><strong>10</strong><span>Projects integrated</span></div>
           <div><strong>10+</strong><span>Technology areas</span></div>
           <div><strong>05</strong><span>Development stages</span></div>
           <div><strong>01</strong><span>Engineering Lab</span></div>
