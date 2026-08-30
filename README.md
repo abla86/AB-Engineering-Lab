@@ -34,7 +34,9 @@ The implementation includes a deterministic TypeScript correlation/story engine,
 
 The project now has a real browser UI rather than a documentation-only example. The demo includes Executive/Technical view switching, source filtering, evidence grouping, a change timeline, dependency path and clickable investigation actions.
 
-**GitHub Pages:** https://abla86.github.io/AB-Engineering-Lab/changestory/index.html
+**Deployment target:** `https://abla86.github.io/AB-Engineering-Lab/changestory/index.html`  
+
+This URL is a deployment target, not a verified live URL. It must not be presented as live until the Pages workflow has completed successfully and the page has been opened and checked.
 
 The demo uses deterministic local data. It is intentionally independent of external services so the interaction can be reviewed without credentials. The next step is to replace the embedded dataset with the story API and real source adapters.
 
