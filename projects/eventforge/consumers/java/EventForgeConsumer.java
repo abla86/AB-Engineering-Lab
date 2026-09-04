@@ -1,10 +1,2 @@
-import java.util.Objects;
-record EventPayload(String itemId,String title){}
-record WorkEvent(String id,String type,String occurredAt,String source,EventPayload payload){}
-public class EventForgeConsumer{
-  public static void main(String[] args){
-    var e=new WorkEvent("demo","work.item.created","2026-01-01T00:00:00Z","demo",new EventPayload("1","Example"));
-    if(!Objects.equals(e.type(),"work.item.created")||e.payload().title().isBlank()) throw new IllegalStateException("Invalid event");
-    System.out.println("JAVA VALID "+e.payload().itemId());
-  }
-}
+import java.time.Duration; import java.util.*; import org.apache.kafka.clients.consumer.*;
+public class EventForgeConsumer{public static void main(String[] a){Properties p=new Properties();p.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,System.getenv().getOrDefault("KAFKA_BROKER","localhost:9092"));p.put(ConsumerConfig.GROUP_ID_CONFIG,System.getenv().getOrDefault("KAFKA_GROUP","eventforge-java"));p.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");p.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringDeserializer");p.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG,"earliest");try(var c=new KafkaConsumer<String,String>(p)){c.subscribe(List.of(System.getenv().getOrDefault("KAFKA_TOPIC","work-events")));while(true)for(var r:c.poll(Duration.ofSeconds(1)))System.out.println("JAVA CONSUMED key="+r.key()+" bytes="+r.value().length());}}}

@@ -1,7 +1,4 @@
-data class EventPayload(val itemId:String,val title:String)
-data class WorkEvent(val id:String,val type:String,val occurredAt:String,val source:String,val payload:EventPayload)
-fun main(){
-  val e=WorkEvent("demo","work.item.created","2026-01-01T00:00:00Z","demo",EventPayload("1","Example"))
-  require(e.type=="work.item.created" && e.payload.title.isNotBlank())
-  println("KOTLIN VALID " + e.payload.itemId)
-}
+import java.time.Duration
+import org.apache.kafka.clients.consumer.KafkaConsumer
+import java.util.Properties
+fun main(){val p=Properties().apply{put("bootstrap.servers",System.getenv().getOrDefault("KAFKA_BROKER","localhost:9092"));put("group.id",System.getenv().getOrDefault("KAFKA_GROUP","eventforge-kotlin"));put("key.deserializer","org.apache.kafka.common.serialization.StringDeserializer");put("value.deserializer","org.apache.kafka.common.serialization.StringDeserializer");put("auto.offset.reset","earliest")};KafkaConsumer<String,String>(p).use{c->c.subscribe(listOf(System.getenv().getOrDefault("KAFKA_TOPIC","work-events")));while(true)c.poll(Duration.ofSeconds(1)).forEach{println("KOTLIN CONSUMED key="+it.key()+" bytes="+it.value().length)}}}
