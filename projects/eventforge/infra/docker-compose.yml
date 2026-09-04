@@ -13,5 +13,9 @@ services:
       ALLOW_PLAINTEXT_LISTENER: "yes"
   api:
     build: ../api
-    environment: {PORT: "4100"}
+    environment:
+      PORT: "4100"
+      KAFKA_BROKER: "kafka:9092"
+      KAFKA_TOPIC: "work-events"
     ports: ["4100:4100"]
+    depends_on: [kafka]
