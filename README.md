@@ -1,110 +1,53 @@
 # AB Engineering Lab
 
-**One project. Multiple engineering layers.**
+A public, runnable engineering showcase built around a small number of complete systems and focused demonstrations.
 
-AB Engineering Lab combines selected software-development projects into one coherent engineering laboratory.
+## Flagship systems
 
-## Start here
+### EventForge
+Polyglot event-driven platform demonstrating TypeScript, Python, C#/.NET, Java, Kotlin, Kafka, Docker and Kubernetes through an actual event contract and runnable service boundaries.
 
-| Need | Go to |
-|---|---|
-| Visual showcase | [Developer portfolio](https://abla86.github.io/developer-portfolio/) |
-| Small projects together | [Small Projects Demo Hub](https://abla86.github.io/developer-portfolio/small-projects-hub.html) |
-| Source code | [GitHub repositories](https://github.com/abla86?tab=repositories) |
-| Engineering documentation | [docs/](docs/) |
-| Portfolio verification | [docs/PORTFOLIO-VERIFICATION-STATUS.md](docs/PORTFOLIO-VERIFICATION-STATUS.md) |
-| Application security work | [security-lab/](security-lab/) |
+Path: `projects/eventforge`
 
-## Featured engineering project: ChangeStory
+### ChangeStory
+A TypeScript change-impact and traceability engine with correlation logic, typed models, tests and a browser demo.
 
-[projects/changestory/](projects/changestory/) is an evidence-first operational change intelligence prototype.
+Path: `projects/changestory`
 
-It demonstrates a deliberately different capability from the research/evidence appraisal work: reconstructing **what changed, what followed, what is actually evidenced, and what should be investigated next**.
+### Security Lab
+A contained security-learning environment with threat modelling and defensive demonstrations. It is intentionally separate from the private War Room.
 
-The same event chain can be explained to two audiences:
+Path: `security-lab`
 
-- **Executive:** outcome, operational impact, confidence and next actions.
-- **Technical:** normalized events, temporal correlation, dependencies and evidence provenance.
+## Technology demonstrations
 
-The implementation includes a deterministic TypeScript correlation/story engine, tests, a real demo dataset and a connector boundary for future GitHub/Jira/Azure/CSV/webhook adapters.
+The `apps/` tree contains smaller historical learning exercises covering HTML, JavaScript, React, Python/FastAPI and application development. They are retained as evidence of progression, while new portfolio work should prefer extending the flagship systems rather than creating another small repository.
 
-**Accuracy rule:** ChangeStory does not claim native Azure, AWS, Snowflake, Databricks or Power BI integration until those integrations are actually implemented and tested.
+The public portfolio links to runnable demonstrations where appropriate.
 
-## Interactive ChangeStory demo
+## Engineering principles
 
-The project now has a real browser UI rather than a documentation-only example. The demo includes Executive/Technical view switching, source filtering, evidence grouping, a change timeline, dependency path and clickable investigation actions.
+- Build working software, not technology lists.
+- Prefer one substantial system over many thin repositories.
+- Keep private research and operational security work private.
+- Make claims traceable to code, tests or reproducible configuration.
+- Use contracts and tests at integration boundaries.
+- Separate demonstrations from production claims.
 
-**Deployment target:** `https://abla86.github.io/AB-Engineering-Lab/changestory/index.html`  
+## Repository map
 
-This URL is a deployment target, not a verified live URL. It must not be presented as live until the Pages workflow has completed successfully and the page has been opened and checked.
+```text
+AB-Engineering-Lab/
+├── frontend/                 interactive engineering index
+├── projects/
+│   ├── eventforge/            polyglot event platform
+│   └── changestory/           change-impact engine
+├── security-lab/              contained defensive lab
+├── apps/                      historical learning demonstrations
+├── docs/                      architecture, verification and governance
+└── .github/workflows/         CI, dependency and security automation
+```
 
-The demo uses deterministic local data. It is intentionally independent of external services so the interaction can be reviewed without credentials. The next step is to replace the embedded dataset with the story API and real source adapters.
+## Private boundary
 
-## Engineering progression
-
-HTML / CSS
-    ↓
-JavaScript
-    ↓
-Applications
-    ↓
-React
-    ↓
-Python / FastAPI
-    ↓
-APIs
-    ↓
-Testing
-    ↓
-Git / GitHub
-    ↓
-CI/CD
-    ↓
-Deployment
-    ↓
-Application Security / DevSecOps
-
-## Purpose
-
-The smaller projects demonstrate development progression and are presented together while their individual implementations remain identifiable.
-
-## Current engineering setup
-
-- React + Vite frontend
-- GitHub Actions build validation
-- GitHub Pages deployment workflow
-- Browser-based project previews where compatible
-- Separate backend and application modules retained in the repository
-- A controlled, local-only application security laboratory with vulnerable and hardened examples
-
-The backend modules are not described as connected to the React frontend unless that integration has actually been implemented and tested.
-
-## Application security lab
-
-[security-lab/](security-lab/) demonstrates an end-to-end security workflow:
-
-`Vulnerable -> Attack/Proof -> Detect -> Fix -> Regression test`
-
-Current training modules cover SQL injection, cross-site scripting, broken access control/IDOR, security headers and input validation. The lab is deliberately local-only and is not production code.
-
-## Verification
-
-Use [Portfolio Verification Status](docs/PORTFOLIO-VERIFICATION-STATUS.md) for the current repository-by-repository evidence level. It distinguishes successful checks from repositories that do not currently expose a suitable full CI workflow.
-
-Security-lab verification is handled by the dedicated `Security Lab` GitHub Actions workflow.
-
-## Accuracy
-
-Documentation describes implemented functionality rather than unsupported claims about production readiness, validation or completed functionality.
-
-A configured deployment workflow is not the same as claiming that a deployed system is production-ready.
-
-## Education
-
-The repository owner is a Master's student in Knowledge-Based Practice.
-
-This does not indicate completion of a master's degree.
-
-## Change-control audit
-
-See [docs/REPOSITORY-CHANGE-AUDIT-2026-08-28.md](docs/REPOSITORY-CHANGE-AUDIT-2026-08-28.md) for the repository change-control and traceability record.
+The private Evidence Appraisal flagship and private War Room are not contained in this repository. Only general engineering patterns that can be safely reproduced are used here.
