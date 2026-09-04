@@ -3,10 +3,11 @@ import crypto from "node:crypto";
 
 const app=express();
 app.use(express.json());
+
 type WorkEvent={id:string;type:"work.item.created";occurredAt:string;source:string;payload:{itemId:string;title:string}};
 const events:WorkEvent[]=[];
 
-app.get("/health",(_,res)=>res.json({status:"ok",service:"eventforge-api"}));
+app.get("/health",(_,res)=>res.json({status:"ok",service:"eventforge-api",version:"1.0"}));
 app.get("/api/events",(_,res)=>res.json({count:events.length,events}));
 
 app.post("/api/events",(req,res)=>{
@@ -16,4 +17,6 @@ app.post("/api/events",(req,res)=>{
   events.push(event);
   res.status(201).json(event);
 });
-app.listen(Number(process.env.PORT??4100),()=>console.log("EventForge API listening on 4100"));
+
+const port=Number(process.env.PORT??4100);
+app.listen(port,()=>console.log(`EventForge API listening on ${port}`));

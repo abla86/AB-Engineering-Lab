@@ -1,37 +1,35 @@
-# EventForge — polyglot event-driven engineering showcase
+# EventForge
 
-EventForge is the public engineering flagship for demonstrating a complete event-driven platform without exposing the private Evidence Appraisal or War Room systems.
+A runnable public engineering system demonstrating event-driven and polyglot architecture.
 
-Browser/API → versioned event contract → Kafka → polyglot consumers → persistence/analytics → observability.
+## Run the API
 
-- TypeScript: API and event contract
-- Python: validation/analytics adapter
-- C#/.NET: contract validation adapter
-- Java: event projection adapter
-- Kotlin: notification adapter
-- Kafka: event transport
-- Docker Compose: local platform
-- Kubernetes: deployment model
-- Azure/AWS: architecture mappings
-- tests: deterministic contract/service verification
+```bash
+cd projects/eventforge/api
+npm install
+npm run dev
+```
 
-The adapters are intentionally small and runnable. They demonstrate real responsibilities rather than listing technologies.
+Open `../frontend/index.html` in a browser. The API exposes:
 
-## Local API
+- `GET /health`
+- `GET /api/events`
+- `POST /api/events`
 
-`cd projects/eventforge/api`
-`npm install`
-`npm run dev`
+Example payload:
 
-Health: `GET http://localhost:4100/health`
+```json
+{"title":"Build EventForge"}
+```
 
-Create an event:
-`POST /api/events` with JSON `{"title":"Example"}`
+## Run the infrastructure
 
-## Full platform
+```bash
+docker compose -f projects/eventforge/infra/docker-compose.yml up --build
+```
 
-`docker compose -f projects/eventforge/infra/docker-compose.yml up --build`
+The current API demo keeps events in memory so it is immediately runnable. Kafka, contract and Kubernetes layers are provided as infrastructure boundaries. Persistence and managed-cloud deployment are subsequent production-oriented layers, not claims of an existing production service.
 
-## Architecture
+## Why it exists
 
-The public project is deliberately different from the private Evidence Appraisal and War Room systems. It is an engineering platform for event-driven, cloud-native and polyglot development.
+EventForge provides a public engineering project that is materially different from the private Evidence Appraisal system and War Room while demonstrating real TypeScript, Python, .NET, Java, Kotlin, Kafka, Docker, Kubernetes, testing and cloud architecture patterns.
