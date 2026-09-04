@@ -1,9 +1,14 @@
 # Observability
 
-EventForge exposes a health endpoint suitable for container probes:
+EventForge exposes:
 
-GET /health
+- `GET /health` — dependency health for container probes
+- `GET /metrics` — Prometheus-compatible counters
 
-The response reports API status and Kafka connectivity. Kubernetes readiness/liveness probes use this endpoint.
+Current counters:
 
-Next observability layer: OpenTelemetry traces/metrics and a Prometheus-compatible metrics endpoint. These should be added only with runnable configuration and tests.
+- `eventforge_requests_total`
+- `eventforge_errors_total`
+- `eventforge_events_created_total`
+
+The metrics endpoint is intentionally dependency-light and deterministic for local demonstrations. A production deployment can replace or extend this with OpenTelemetry collectors and managed monitoring without changing the application contract.
