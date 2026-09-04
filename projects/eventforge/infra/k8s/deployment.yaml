@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: eventforge-api}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: eventforge-api}}
+  template:
+    metadata: {labels: {app: eventforge-api}}
+    spec:
+      containers:
+      - name: api
+        image: ghcr.io/abla86/eventforge-api:latest
+        ports: [{containerPort: 4100}]
+        readinessProbe: {httpGet: {path: /health, port: 4100}, initialDelaySeconds: 3}
+        livenessProbe: {httpGet: {path: /health, port: 4100}, initialDelaySeconds: 8}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: eventforge-api}
+spec:
+  selector: {app: eventforge-api}
+  ports: [{port: 80,targetPort: 4100}]

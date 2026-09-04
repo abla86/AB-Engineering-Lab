@@ -1,0 +1,14 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"EventForgeEventV1",
+  "type":"object",
+  "required":["id","type","occurredAt","source","payload"],
+  "properties":{
+    "id":{"type":"string","minLength":1},
+    "type":{"type":"string","const":"work.item.created"},
+    "occurredAt":{"type":"string","format":"date-time"},
+    "source":{"type":"string","minLength":1},
+    "payload":{"type":"object","required":["itemId","title"],"properties":{"itemId":{"type":"string"},"title":{"type":"string"}},"additionalProperties":false}
+  },
+  "additionalProperties":false
+}
