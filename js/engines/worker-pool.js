@@ -51,6 +51,7 @@ class WorkerPoolEngine {
     `;
 
     const url = URL.createObjectURL(new Blob([workerCode], { type: "text/javascript" }));
+    this.workerUrl = url;
     this.workers = [];
     this.completed = 0;
     this.runStartedAt = performance.now();
@@ -84,6 +85,22 @@ class WorkerPoolEngine {
       worker.onerror = event => {
         log.textContent += `→ Worker ${String(i + 1).padStart(2,"0")}: ERROR ${event.message || "unknown"}\n`;
         worker.terminate();
+        this.completed++;
+        if (this.completed === this.poolSize) {
+          state.textContent = "FAILED";
+          log.textContent += "\n[WORKER POOL FAILED]";
+          this.sendTelemetry({
+            workers: this.poolSize,
+            completed: this.completed,
+            latency: `${(performance.now() - this.runStartedAt).toFixed(2)} ms`,
+            execution: "NATIVE WEB WORKERS",
+            status: "FAILED"
+          });
+          this.workers.forEach(w => w.terminate());
+          this.workers = [];
+          URL.revokeObjectURL(url);
+          this.workerUrl = null;
+        }
       };
 
       worker.postMessage({ id: i, iterations: 2_000_000 });
@@ -94,6 +111,10 @@ class WorkerPoolEngine {
     for (const worker of this.workers) worker.terminate();
     this.workers = [];
     this.completed = 0;
+    if (this.workerUrl) {
+      URL.revokeObjectURL(this.workerUrl);
+      this.workerUrl = null;
+    }
 
     if (report) {
       const state = this.mount.querySelector("#worker-state");
