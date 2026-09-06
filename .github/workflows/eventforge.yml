@@ -1,7 +1,9 @@
 name: EventForge CI
 on:
   push:
-    paths: ["projects/eventforge/**"]
+    paths:
+      - "projects/eventforge/**"
+      - ".github/workflows/eventforge.yml"
   pull_request:
     paths: ["projects/eventforge/**"]
 jobs:
