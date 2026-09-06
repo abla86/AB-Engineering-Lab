@@ -4,12 +4,12 @@ AB Engineering-noden for runtime, ytelse og samtidighet.
 
 ## Engines
 
-1. **Runtime Benchmark** — reproducerbar JavaScript-baseline for beregningsarbeid.
-2. **Worker Pool** — interaktiv modell av bakgrunnsoppgaver og task scheduling.
+1. **Native WebAssembly Benchmark** — kompilerer og instansierer et faktisk WebAssembly-modul i nettleseren og sammenligner målt utførelse mot JavaScript.
+2. **Native Web Worker Pool** — oppretter faktiske Web Workers og fordeler CPU-arbeid utenfor hovedtråden.
 
 ## Teknisk integritet
 
-Denne versjonen kaller ikke JavaScript-sløyfen for ekte WebAssembly og kaller ikke timer-modellen for ekte Web Workers. Begge er eksplisitt merket som demonstratorer i UI-et.
+Dette er en browser-basert systems-lab med reell bruk av WebAssembly API og Web Worker API. Benchmarken rapporterer målte nettlesertider og validerer at beregningsresultatene samsvarer. Worker-poolen rapporterer faktisk opprettede arbeidere, fullførte jobber og målt kjøretid.
 
 ## Local
 
@@ -19,3 +19,5 @@ npm run build
 ```
 
 GitHub Actions kjører samme validering med Node.js 22.
+
+All benchmark-data genereres lokalt i nettleseren. Prosjektet bruker ingen eksterne API-er eller backend-tjenester.
