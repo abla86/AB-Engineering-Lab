@@ -1,11 +1,24 @@
 # AB Engineering Lab
 
-A public, runnable engineering showcase built around a small number of complete systems and focused demonstrations.
+A public, runnable engineering showcase for small experiments, reusable demonstrations and technology labs that do not justify a separate flagship repository.
 
-## Flagship systems
+## Canonical portfolio boundary
+
+The portfolio now follows a strict rule: **one canonical implementation per capability**. Product-scale work belongs in the canonical systems; this repository is for smaller, independent demonstrations.
+
+| Capability | Canonical home |
+|---|---|
+| Evidence appraisal, research workflow, traceability, methodology integrity | `complete-evidence-appraisal-tool` |
+| GitHub App, agentic software engineering, CI/security/release analysis | `CodeSentinel` |
+| Healthcare dashboard, device/API, analytics and workforce tooling | `healthtech-dashboard` |
+| Azure, Kubernetes, Docker and CI/CD | `azure-kubernetes-showcase` |
+| Small learning exercises and reusable labs | `AB-Engineering-Lab` |
+| Portfolio presentation | `developer-portfolio` |
+
+## Flagship systems in this lab
 
 ### EventForge
-Polyglot event-driven platform demonstrating TypeScript, Python, C#/.NET, Java, Kotlin, Kafka, Docker and Kubernetes through an actual event contract and runnable service boundaries.
+Polyglot event-driven platform demonstrating TypeScript, Python, C#/.NET, Java, Kotlin, Kafka, Docker and Kubernetes through actual service boundaries and event contracts.
 
 Path: `projects/eventforge`
 
@@ -15,24 +28,24 @@ A TypeScript change-impact and traceability engine with correlation logic, typed
 Path: `projects/changestory`
 
 ### Security Lab
-A contained security-learning environment with threat modelling and defensive demonstrations. It is intentionally separate from the private War Room.
+A contained defensive security-learning environment. It is intentionally separate from private operational/security material.
 
 Path: `security-lab`
 
 ## Technology demonstrations
 
-The `apps/` tree contains smaller historical learning exercises covering HTML, JavaScript, React, Python/FastAPI and application development. They are retained as evidence of progression, while new portfolio work should prefer extending the flagship systems rather than creating another small repository.
+The `apps/` tree contains historical learning exercises covering HTML, JavaScript, React, Python/FastAPI and application development. They remain as compact evidence of progression, but duplicate standalone repositories are not treated as separate portfolio products.
 
-The public portfolio links to runnable demonstrations where appropriate.
+Where two exercises demonstrate the same concept, the more complete implementation is the canonical demonstration and the simpler version is historical.
 
-## Engineering principles
+## Consolidation rules
 
-- Build working software, not technology lists.
-- Prefer one substantial system over many thin repositories.
-- Keep private research and operational security work private.
-- Make claims traceable to code, tests or reproducible configuration.
-- Use contracts and tests at integration boundaries.
-- Separate demonstrations from production claims.
+- Do not create another repository for an existing capability.
+- Move reusable functionality into the appropriate canonical system.
+- Preserve useful historical code until its replacement is verified.
+- Remove generated output, caches, dependency folders and other repository bloat.
+- Keep credentials, private data and operational secrets out of public repositories.
+- Claims in the portfolio must be backed by executable code, tests, CI or clearly labelled prototype boundaries.
 
 ## Repository map
 
@@ -43,11 +56,13 @@ AB-Engineering-Lab/
 │   ├── eventforge/            polyglot event platform
 │   └── changestory/           change-impact engine
 ├── security-lab/              contained defensive lab
-├── apps/                      historical learning demonstrations
+├── apps/                      compact learning demonstrations
 ├── docs/                      architecture, verification and governance
 └── .github/workflows/         CI, dependency and security automation
 ```
 
-## Private boundary
+## Source repositories
 
-The private Evidence Appraisal flagship and private War Room are not contained in this repository. Only general engineering patterns that can be safely reproduced are used here.
+The lab is the consolidation destination for small/learning repositories such as counters, calculator, digital clock, HTML starter work, task-manager and similar exercises. Their standalone repositories should not be treated as additional flagship projects.
+
+Large domain systems remain separate when separation gives a real architectural or portfolio benefit.
