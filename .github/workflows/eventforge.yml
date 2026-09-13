@@ -46,6 +46,18 @@ jobs:
           dotnet-version: "8.0.x"
       - run: dotnet restore
       - run: dotnet build --no-restore
+  wolverine:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/eventforge/consumers/wolverine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - run: dotnet restore
+      - run: dotnet build --configuration Release --no-restore
   java:
     runs-on: ubuntu-latest
     defaults:
@@ -71,3 +83,17 @@ jobs:
           java-version: "21"
       - uses: gradle/actions/setup-gradle@v4
       - run: gradle build
+  go:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/eventforge/consumers/go
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.25.x"
+          cache-dependency-path: projects/eventforge/consumers/go/go.mod
+      - run: go mod download
+      - run: go test ./...
+      - run: go vet ./...

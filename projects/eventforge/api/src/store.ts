@@ -3,7 +3,7 @@ import path from "node:path";
 import { Pool } from "pg";
 import type { WorkEvent } from "./types.js";
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL ?? process.env.ConnectionStrings__postgres;
 const file = process.env.EVENT_STORE_FILE ?? path.join(process.cwd(), "data", "events.json");
 const pool = databaseUrl ? new Pool({ connectionString: databaseUrl }) : null;
 

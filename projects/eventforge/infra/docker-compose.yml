@@ -28,5 +28,13 @@ services:
       DATABASE_URL: "postgresql://eventforge:eventforge_dev_only@postgres:5432/eventforge"
     ports: ["4100:4100"]
     depends_on: [kafka,postgres]
+  go-consumer:
+    build: ../consumers/go
+    profiles: ["consumers"]
+    environment:
+      KAFKA_BROKER: "kafka:9092"
+      KAFKA_TOPIC: "work-events"
+      KAFKA_GROUP: "eventforge-go"
+    depends_on: [kafka]
 volumes:
   eventforge-postgres:
