@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
