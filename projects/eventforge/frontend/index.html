@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EventForge</title><style>body{font-family:system-ui;max-width:900px;margin:40px auto;padding:0 20px}button,input{padding:10px;margin:4px}pre{background:#f4f4f4;padding:16px;overflow:auto}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style></head>
+<body><h1>EventForge</h1><p>Interactive event-driven engineering demo.</p>
+<div class="grid"><section><h2>Create event</h2><input id="title" placeholder="Work item title"><button id="send">Publish</button><pre id="result">Ready.</pre></section><section><h2>Event stream</h2><button id="refresh">Refresh</button><pre id="events">Loading…</pre></section></div>
+<script>
+const api="http://localhost:4100";
+async function refresh(){const r=await fetch(api+"/api/events");document.querySelector("#events").textContent=JSON.stringify(await r.json(),null,2)}
+document.querySelector("#send").onclick=async()=>{const title=document.querySelector("#title").value;const r=await fetch(api+"/api/events",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({title})});document.querySelector("#result").textContent=JSON.stringify(await r.json(),null,2);await refresh()};
+document.querySelector("#refresh").onclick=refresh;refresh();
+</script></body></html>

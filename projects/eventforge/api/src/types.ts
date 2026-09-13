@@ -1,0 +1,1 @@
+export type WorkEvent={id:string;type:"work.item.created";occurredAt:string;source:string;payload:{itemId:string;title:string}};
