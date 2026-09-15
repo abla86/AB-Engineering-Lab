@@ -4,7 +4,7 @@ A public, runnable engineering showcase for small experiments, reusable demonstr
 
 ## Canonical portfolio boundary
 
-The portfolio now follows a strict rule: **one canonical implementation per capability**. Product-scale work belongs in the canonical systems; this repository is for smaller, independent demonstrations.
+The portfolio follows a strict rule: **one canonical implementation per capability**. Product-scale work belongs in the canonical systems; this repository is for smaller, independent demonstrations.
 
 | Capability | Canonical home |
 |---|---|
@@ -32,9 +32,16 @@ A contained defensive security-learning environment. It is intentionally separat
 
 Path: `security-lab`
 
+## Data and process demonstrations
+
+### ProcessGuard
+A small browser-based process-drift monitor. It compares target, previous and current observations, identifies measurable deterioration or a target gap, and explicitly leaves causal interpretation to human review.
+
+Path: `labs/data/processguard`
+
 ## Technology demonstrations
 
-The `apps/` tree contains historical learning exercises covering HTML, JavaScript, React, Python/FastAPI and application development. They remain as compact evidence of progression, but duplicate standalone repositories are not treated as separate portfolio products.
+The `apps/` and `labs/` trees contain compact demonstrations covering HTML, JavaScript, React, Python/FastAPI, security, systems, DevOps and data-oriented engineering. They are evidence of practical progression and reusable implementation patterns, not separate portfolio products.
 
 Where two exercises demonstrate the same concept, the more complete implementation is the canonical demonstration and the simpler version is historical.
 
@@ -55,6 +62,8 @@ AB-Engineering-Lab/
 ├── projects/
 │   ├── eventforge/            polyglot event platform
 │   └── changestory/           change-impact engine
+├── labs/
+│   └── data/processguard/     process-drift demonstration
 ├── security-lab/              contained defensive lab
 ├── apps/                      compact learning demonstrations
 ├── docs/                      architecture, verification and governance
