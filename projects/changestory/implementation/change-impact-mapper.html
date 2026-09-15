@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Change Impact Mapper</title>
+<style>
+*{box-sizing:border-box}body{font-family:system-ui,sans-serif;background:#f5f7fa;color:#172033;max-width:900px;margin:auto;padding:40px}main{max-width:850px;margin:auto}section{background:#fff;border:1px solid #ddd;border-radius:12px;padding:20px;margin:18px 0}.row{display:grid;grid-template-columns:1fr 140px 40px;gap:12px;padding:12px 0;border-bottom:1px solid #eee}select{padding:9px;width:100%}button{padding:11px 16px;border:0;border-radius:8px;font-weight:700;cursor:pointer}.high{border-left:4px solid #d92d20;padding:10px;margin:8px 0}.medium{border-left:4px solid #f79009;padding:10px;margin:8px 0}.low{border-left:4px solid #12b76a;padding:10px;margin:8px 0}@media(max-width:600px){.row{grid-template-columns:1fr 100px 30px}body{padding:20px}}
+</style></head>
+<body><main><h1>Change Impact Mapper</h1><p>Map implementation work before the change starts.</p><section id="factors"></section><button id="go" type="button">Map impact</button><section id="out" aria-live="polite"></section></main>
+<script>
+const factors=[['People','Roles and behaviours affected'],['Workflow','Change to existing work processes'],['Competence','New knowledge or skills required'],['Technology','Systems or tools affected'],['Resources','Additional capacity or equipment'],['Governance','Policy, ownership or approval changes'],['Dependencies','External prerequisites or interfaces']];
+const values=Array(7).fill(3),$=id=>document.getElementById(id),escapeHtml=v=>String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+$('factors').innerHTML='<h2>Impact dimensions</h2>'+factors.map((x,i)=>'<div class="row"><div><b>'+escapeHtml(x[0])+'</b><br><small>'+escapeHtml(x[1])+'</small></div><select data-i="'+i+'">'+[1,2,3,4,5].map(n=>'<option value="'+n+'">'+n+' / 5</option>').join('')+'</select><b id="v'+i+'">3</b></div>').join('');
+document.querySelectorAll('select').forEach(s=>s.onchange=()=>{values[+s.dataset.i]=+s.value;$('v'+s.dataset.i).textContent=s.value});
+$('go').onclick=()=>{const top=factors.map((x,i)=>({x,i,n:values[i]})).sort((a,b)=>b.n-a.n).slice(0,4);$('out').innerHTML='<h2>Impact profile</h2>'+top.map(x=>'<div class="'+(x.n>=4?'high':x.n>=3?'medium':'low')+'"><b>'+escapeHtml(x.x[0])+' — '+x.n+'/5</b><br>'+escapeHtml(x.x[1])+'<br><small>Define owner, mitigation and measurement.</small></div>').join('')};
+</script></body></html>
