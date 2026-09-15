@@ -1,10 +1,14 @@
-# devops-lab — LEGACY
+# LEGACY — DevOps Lab
 
-Historical DevOps laboratory. Reusable demonstration engines have been consolidated into [`abla86/AB-Engineering-Lab`](https://github.com/abla86/AB-Engineering-Lab).
+This repository is retained as historical source material.
 
-Migrated components:
+Reusable DevOps engineering demos have been consolidated into the canonical repositories:
 
-- Kubernetes container health prober
-- CI/CD pipeline DAG demonstrator
+- `abla86/azure-kubernetes-showcase` — Azure, Kubernetes, Docker, CI/CD and DevSecOps
+- `abla86/AB-Engineering-Lab` — small reusable engineering/lab modules
 
-The source repository is retained for provenance. New development belongs in the canonical engineering lab or the dedicated Azure/Kubernetes showcase.
+Do not add new product functionality here.
+
+## Status
+
+**LEGACY / NO ACTIVE DEVELOPMENT**
