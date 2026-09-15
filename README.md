@@ -1,8 +1,11 @@
-# data-lab — LEGACY
+# LEGACY — Consolidated into AB-Engineering-Lab
 
-This repository has been consolidated into the canonical engineering repository:
+This repository is retained only as historical source material.
+
+Reusable data/lab functionality belongs in the canonical `abla86/AB-Engineering-Lab` repository.
+
+Do not add new product functionality here.
+
+## Canonical repository
 
 - `abla86/AB-Engineering-Lab`
-- migrated demo: `labs/data/interactive-data-lab.html`
-
-Do not add new features here. Use the canonical repository for ongoing development.
