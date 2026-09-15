@@ -1,0 +1,18 @@
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; font-family: system-ui, sans-serif; background: #f5f7fa; color: #172033; }
+main { width: min(900px, calc(100% - 32px)); margin: auto; padding: 44px 0; }
+header { margin-bottom: 24px; }
+.eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .08em; opacity: .65; }
+h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); }
+.card { background: #fff; border: 1px solid #dfe3e8; border-radius: 14px; padding: 24px; margin: 18px 0; box-shadow: 0 4px 16px rgba(23,32,51,.05); }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+label { display: block; font-weight: 750; }
+input, select { display: block; width: 100%; margin-top: 6px; padding: 11px 12px; border: 1px solid #c9ced6; border-radius: 9px; font: inherit; }
+button { margin-top: 18px; padding: 11px 16px; border: 0; border-radius: 9px; font: inherit; font-weight: 800; cursor: pointer; }
+.toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.toolbar button { margin-top: 0; }
+.trace { padding: 16px; margin: 12px 0; border: 1px solid #dfe3e8; border-radius: 10px; }
+.meta { margin: 8px 0 12px; }
+.pill { display: inline-block; padding: 3px 9px; border-radius: 999px; background: #eef1f5; font-size: .8rem; font-weight: 800; }
+.trace div:not(.meta) { margin: 7px 0; }
+@media (max-width: 620px) { .grid { grid-template-columns: 1fr; } .toolbar { align-items: flex-start; flex-direction: column; } }
