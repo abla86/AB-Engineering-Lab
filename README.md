@@ -35,9 +35,14 @@ Path: `security-lab`
 ## Data and process demonstrations
 
 ### ProcessGuard
-A small browser-based process-drift monitor. It compares target, previous and current observations, identifies measurable deterioration or a target gap, and explicitly leaves causal interpretation to human review.
+A browser-based process-drift monitor comparing target, previous and current observations.
 
 Path: `labs/data/processguard`
+
+### Implementation Trace
+A browser-based trace register connecting requirements, observations, evidence, status, hypotheses and actions while keeping evidence separate from interpretation.
+
+Path: `labs/implementation/implementation-trace`
 
 ## Technology demonstrations
 
@@ -58,16 +63,17 @@ Where two exercises demonstrate the same concept, the more complete implementati
 
 ```text
 AB-Engineering-Lab/
-├── frontend/                 interactive engineering index
+├── frontend/                         interactive engineering index
 ├── projects/
-│   ├── eventforge/            polyglot event platform
-│   └── changestory/           change-impact engine
+│   ├── eventforge/                    polyglot event platform
+│   └── changestory/                   change-impact engine
 ├── labs/
-│   └── data/processguard/     process-drift demonstration
-├── security-lab/              contained defensive lab
-├── apps/                      compact learning demonstrations
-├── docs/                      architecture, verification and governance
-└── .github/workflows/         CI, dependency and security automation
+│   ├── data/processguard/             process-drift demonstration
+│   └── implementation/implementation-trace/
+├── security-lab/                      contained defensive lab
+├── apps/                              compact learning demonstrations
+├── docs/                              architecture, verification and governance
+└── .github/workflows/                 CI, dependency and security automation
 ```
 
 ## Source repositories
