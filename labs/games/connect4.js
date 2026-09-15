@@ -1,0 +1,1 @@
+class Connect4Engine{constructor(mount,telemetry){this.mount=mount;this.sendTelemetry=telemetry;this.cells=[];this.turn='R'}init(){this.turn='R';this.cells=[];this.sendTelemetry({turn:this.turn,moves:0,state:'READY'})}destroy(){this.mount.innerHTML=''}}window.Connect4Engine=Connect4Engine;
