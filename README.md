@@ -23,11 +23,16 @@ Polyglot event-driven platform demonstrating TypeScript, Python, C#/.NET, Java, 
 Path: `projects/eventforge`
 
 ### ChangeStory
-A TypeScript change-impact and traceability engine with correlation logic, typed models, tests and a browser demo.
+A TypeScript change-impact and traceability engine with correlation logic, typed models, tests and browser demonstrations.
 
 Path: `projects/changestory`
 
-### Security Lab
+#### Change Impact Mapper
+A consolidated browser demonstration that scores impact across People, Workflow, Competence, Technology, Resources, Governance and Dependencies, then surfaces the highest-impact areas for mitigation planning.
+
+Path: `projects/changestory/implementation/change-impact-mapper.html`
+
+## Security Lab
 A contained defensive security-learning environment. It is intentionally separate from private operational/security material.
 
 Path: `security-lab`
@@ -67,6 +72,8 @@ AB-Engineering-Lab/
 ├── projects/
 │   ├── eventforge/                    polyglot event platform
 │   └── changestory/                   change-impact engine
+│       └── implementation/
+│           └── change-impact-mapper.html
 ├── labs/
 │   ├── data/processguard/             process-drift demonstration
 │   └── implementation/implementation-trace/
