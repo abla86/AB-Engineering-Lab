@@ -1,23 +1,14 @@
-# SYSTEMS LAB
+# SYSTEMS LAB — LEGACY
 
-AB Engineering-noden for runtime, ytelse og samtidighet.
+Historical browser-based systems laboratory.
 
-## Engines
+## Canonical destination
 
-1. **Native WebAssembly Benchmark** — kompilerer og instansierer et faktisk WebAssembly-modul i nettleseren og sammenligner målt utførelse mot JavaScript.
-2. **Native Web Worker Pool** — oppretter faktiske Web Workers og fordeler CPU-arbeid utenfor hovedtråden.
+Reusable systems demonstrations have been consolidated into `abla86/AB-Engineering-Lab/labs/systems/`.
 
-## Teknisk integritet
+Migrated implementations:
 
-Dette er en browser-basert systems-lab med reell bruk av WebAssembly API og Web Worker API. Benchmarken rapporterer målte nettlesertider og validerer at beregningsresultatene samsvarer. Worker-poolen rapporterer faktisk opprettede arbeidere, fullførte jobber og målt kjøretid.
+- Native WebAssembly benchmark
+- Native Web Worker pool
 
-## Local
-
-```powershell
-npm test
-npm run build
-```
-
-GitHub Actions kjører samme validering med Node.js 22.
-
-All benchmark-data genereres lokalt i nettleseren. Prosjektet bruker ingen eksterne API-er eller backend-tjenester.
+The source repository is retained for provenance. New development belongs in `AB-Engineering-Lab`.
