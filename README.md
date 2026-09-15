@@ -37,6 +37,11 @@ A contained defensive security-learning environment. It is intentionally separat
 
 Path: `security-lab`
 
+### Git Secrets Sentinel
+A reusable Python pre-commit-style heuristic scanner for staged files. It detects common credential patterns including AWS access keys, private keys, hardcoded passwords, Azure secret assignments and generic API tokens.
+
+Path: `labs/security/git-secrets-sentinel.py`
+
 ## Data and process demonstrations
 
 ### ProcessGuard
@@ -75,6 +80,7 @@ AB-Engineering-Lab/
 │       └── implementation/
 │           └── change-impact-mapper.html
 ├── labs/
+│   ├── security/git-secrets-sentinel.py
 │   ├── data/processguard/             process-drift demonstration
 │   └── implementation/implementation-trace/
 ├── security-lab/                      contained defensive lab
