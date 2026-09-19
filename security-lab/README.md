@@ -40,7 +40,7 @@ Each test documents what the attacker can demonstrate against the vulnerable imp
 ## Security references
 
 - OWASP Top 10: https://owasp.org/www-project-top-ten/
-- OWASP ASVS: https://owasp.org/www-project-application-security-verification-standard/
+- OWASP ASVS: https://owasp.org/www-project-asvs/
 - CWE: https://cwe.mitre.org/
 - NIST SSDF: https://csrc.nist.gov/Projects/ssdf
 
