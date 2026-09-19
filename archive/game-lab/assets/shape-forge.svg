@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" role="img" aria-labelledby="title">
+<title>Shape Forge geometry set</title>
+<g stroke="#d9ecff" stroke-width="3">
+<polygon fill="#ff6673" points="50,10 90,80 10,80"/>
+<rect fill="#4d9cff" x="115" y="20" width="60" height="60" rx="3"/>
+<rect fill="#ffc84a" x="205" y="30" width="90" height="40" rx="3"/>
+<circle fill="#4ed39b" cx="350" cy="50" r="32"/>
+</g></svg>

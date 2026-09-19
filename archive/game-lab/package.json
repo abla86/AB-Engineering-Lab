@@ -1,0 +1,6 @@
+{
+  "name":"game-lab",
+  "version":"1.0.0",
+  "private":true,
+  "scripts":{"test":"node tests/structure-check.mjs","build":"node tests/structure-check.mjs","dev":"python -m http.server 4173"}
+}

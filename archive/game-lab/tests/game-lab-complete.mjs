@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const html=fs.readFileSync('index.html','utf8');
+const expected=['cyber-chess.js','connect4.js','sql-dungeon.js','network-defender.js','packet-rush.js','api-outbreak.js','devops-pipeline.js','memory-matrix.js','regex-vault.js','evidence-quest.js','shape-forge.js','shape-mosaic.js','mini-crossword.js'];
+for(const f of expected) if(!fs.existsSync('js/engines/'+f)) throw new Error('Missing engine: '+f);
+for(const f of expected) if(!html.includes('js/engines/'+f)) throw new Error('Engine not loaded: '+f);
+const ids=[...html.matchAll(/registerEngine\('([^']+)'/g)].map(m=>m[1]);
+if(ids.length!==13 || new Set(ids).size!==13) throw new Error('Expected 13 unique registered engines');
+for(const id of ids) if(!html.includes("mountEngine('"+id+"')")) throw new Error('No mount path for '+id);
+if(!html.includes('random-engine')||!html.includes('cycle-engine')) throw new Error('Navigation controls missing');
+console.log('GAME LAB complete: 13 engines, registry, loading and navigation verified');

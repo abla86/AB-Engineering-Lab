@@ -1,0 +1,19 @@
+/* Shape Forge: self-contained mini-game styling. */
+.shape-game{font-family:system-ui,sans-serif;color:#eaf2ff;padding:22px;max-width:1100px;margin:auto}
+.shape-head{display:flex;justify-content:space-between;gap:20px;align-items:start;margin-bottom:18px}
+.game-kicker,.shape-card-title{font-size:.72rem;letter-spacing:.12em;font-weight:700;opacity:.72}
+.shape-head h2{margin:5px 0;font-size:2rem}.shape-head p{margin:0;opacity:.7}
+.shape-score{min-width:100px;padding:12px 16px;border:1px solid #33465c;border-radius:12px;text-align:center;background:#101c29}
+.shape-score strong{display:block;font-size:1.6rem}.shape-score span{font-size:.65rem;letter-spacing:.1em}
+.shape-layout{display:grid;grid-template-columns:1fr 1.25fr;gap:16px}
+.shape-card{border:1px solid #2a3d51;border-radius:14px;background:#0e1925;padding:16px}
+.shape-target,.shape-board{min-height:250px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;padding:18px;background:linear-gradient(#0b1621,#0e1b28);border-radius:10px;margin-top:10px}
+.shape-target{align-content:center}.target-piece,.board-piece{width:92px;height:92px;display:grid;place-items:center;border-radius:10px;background:#142638;border:1px solid #2d455d}
+.shape-svg{width:78px;height:78px;fill:#55a7ff;stroke:#d9ecff;stroke-width:2}.small{width:62px;height:62px}
+.piece-triangle .shape-svg{fill:#ff6673}.piece-square .shape-svg{fill:#4d9cff}.piece-rectangle .shape-svg{fill:#ffc84a}.piece-circle .shape-svg{fill:#4ed39b}
+.shape-fact{margin:12px 0 0;padding:10px;border-left:3px solid #55a7ff;background:#122131;line-height:1.45}
+.shape-actions{display:flex;gap:10px;margin-top:12px}.shape-actions button{border:0;border-radius:9px;padding:10px 16px;font-weight:700;cursor:pointer;background:#2d8cff;color:white}.shape-actions .secondary{background:#25384a}
+.shape-palette{margin-top:16px;border:1px solid #2a3d51;border-radius:14px;background:#0e1925;padding:16px}
+.piece-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}.shape-piece{border:1px solid #2d455d;border-radius:10px;background:#132334;color:#eaf2ff;padding:12px;cursor:pointer}.shape-piece:hover{border-color:#55a7ff;transform:translateY(-1px)}.shape-piece span{display:block;margin-top:4px}
+.board-piece{cursor:pointer}.board-empty{opacity:.55;text-align:center}.shape-message{margin-top:12px;padding:11px 14px;border-radius:9px;background:#122131}.shape-message.success{background:#123b2c}.shape-message.error{background:#40252b}
+@media(max-width:760px){.shape-layout{grid-template-columns:1fr}.piece-grid{grid-template-columns:repeat(2,1fr)}.shape-head{flex-direction:column}.target-piece,.board-piece{width:70px;height:70px}}
