@@ -17,15 +17,12 @@ jobs:
       run:
         working-directory: projects/changestory
     steps:
-dependabot/github_actions/actions/setup-node-7
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v7
-
-      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
-main
         with:
           node-version: 22
-      - run: npm install
+          cache: npm
+          cache-dependency-path: projects/changestory/package-lock.json
+      - run: npm ci
       - run: npm test
       - run: npm run build
