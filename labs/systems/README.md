@@ -1,6 +1,6 @@
 # Systems Lab
 
-Reusable browser-native systems experiments consolidated from `abla86/systems-lab`.
+Reusable browser-native systems experiments consolidated from the former `abla86/systems-lab` repo (now `archive/systems-lab`).
 
 ## Engines
 
