@@ -2,16 +2,21 @@
 
 This repository is the canonical home for small engineering exercises and reusable lab modules that do not justify a standalone product repository.
 
-## Canonical product repositories
+## Canonical product repositories (updated 2026-09-19)
 
 | Area | Canonical repository | Scope |
 |---|---|---|
 | Evidence & research | `complete-evidence-appraisal-tool` | appraisal, research workflow, provenance, privacy, implementation research, evidence traceability |
-| AI software engineering | `CodeSentinel` | GitHub App, multi-agent analysis, CI/test/security/release evidence |
-| HealthTech | `healthtech-dashboard` | dashboard, device/API integration, healthcare analytics, workforce/competence modules |
-| Cloud & DevOps | `azure-kubernetes-showcase` | Azure, Kubernetes, Docker, CI/CD, infrastructure and observability |
+| Security | `CodeSentinel` | GitHub App, repository intelligence, verification, governance, security |
+| Books | `book-forge` | AI-assisted book production, story bible, continuity, versioning |
+| HealthTech | `HealthTechDeviceApi` | device API, DICOM, dashboard, healthcare data (workforce/competence: `workforce-competence-management`, integration under review) |
+| Cloud & DevOps | `azure-kubernetes-showcase` | Azure, Kubernetes, Docker, IaC, CI/CD, observability |
 | Engineering labs | `AB-Engineering-Lab` | small demos, learning exercises and reusable technical experiments |
+| AI agents | `agenttrace` | agent tracing, provenance, policy, audit/integrity |
+| Operations / war room | `wpww-warroom` | operations, resilience, simulation, controlled security experiments |
 | Portfolio | `developer-portfolio` / profile repo | presentation and navigation only |
+
+Merged legacy repositories are kept under `archive/<name>/` in their canonical repository (history preserved). `archive/` is excluded from CI source scans.
 
 ## Consolidated evidence/research projects
 
@@ -77,7 +82,6 @@ Their useful implementation patterns belong in the Engineering Lab. Existing rep
 
 Some repositories are conceptually independent and should not be forced into unrelated products:
 
-- `kana-dojo` — language-learning application
 - `game-lab` — games/prototypes
 - `crypto-strategy-lab` — finance/quant research experiment
 - `local-deep-research` — general local research tooling
