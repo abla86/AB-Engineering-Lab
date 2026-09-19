@@ -10,7 +10,7 @@ The portfolio follows a strict rule: **one canonical implementation per capabili
 |---|---|
 | Evidence appraisal, research workflow, traceability, methodology integrity | `complete-evidence-appraisal-tool` |
 | GitHub App, agentic software engineering, CI/security/release analysis | `CodeSentinel` |
-| Healthcare dashboard, device/API, analytics and workforce tooling | `healthtech-dashboard` |
+| Healthcare dashboard, device/API, analytics and workforce tooling | `HealthTechDeviceApi` |
 | Azure, Kubernetes, Docker and CI/CD | `azure-kubernetes-showcase` |
 | Small learning exercises and reusable labs | `AB-Engineering-Lab` |
 | Portfolio presentation | `developer-portfolio` |
