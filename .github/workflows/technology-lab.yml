@@ -1,0 +1,61 @@
+name: Technology lab
+
+on:
+  push:
+    paths: ["technology-lab/**", ".github/workflows/technology-lab.yml"]
+  pull_request:
+    paths: ["technology-lab/**", ".github/workflows/technology-lab.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  nextjs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: technology-lab/nextjs-showcase
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: technology-lab/nextjs-showcase/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+  java:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: technology-lab/java-showcase
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+      - run: mvn -B -ntp test
+
+  kotlin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: technology-lab/kotlin-showcase
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.10.2"
+      - run: gradle test --no-daemon
