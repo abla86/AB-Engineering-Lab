@@ -1,0 +1,10 @@
+{
+  "name": "devops-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/security-check.mjs",
+    "build": "node tests/build-check.mjs"
+  }
+}
