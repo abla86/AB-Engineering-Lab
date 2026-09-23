@@ -76,7 +76,6 @@
 - `DriftVakt` — operations/drift monitoring candidate
 - `wpww-warroom` — war-room/operations candidate
 - `My-own-war-room` — parallel war-room candidate
-- `Total-control-defence-lab-` — defensive/security lab candidate
 - `cyber-vault` — security/cyber capability
 - `security-lab` — contained defensive learning lab
 - `SafetyKatz` — security tooling; historical/technical review required
