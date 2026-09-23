@@ -94,6 +94,21 @@ Some repositories are conceptually independent and should not be forced into unr
 
 These should only be merged when they share executable functionality, not merely because they use AI.
 
+## 2026-09-23 repository audit
+
+The current GitHub inventory was rechecked against repository content and the existing consolidation records.
+
+### Confirmed legacy duplicate
+
+- `Total-control-defence-lab-` is **legacy**. Its own `LEGACY.md` states that active security engineering has been consolidated into `CodeSentinel` and `agenttrace`.
+- Its remaining UI-heavy security simulation is historical material, not a separate canonical product. The reusable policy/provenance core belongs in `agenttrace`; GitHub/repository verification belongs in `CodeSentinel`; small bounded security demonstrations belong in `AB-Engineering-Lab/security-lab`.
+- Do not create new functionality in `Total-control-defence-lab-`.
+- Repository deletion/archival must occur only after the legacy source is retained or verified in the canonical destination.
+
+### Confirmed non-duplicate
+
+- `Autonomous-Multi-Agent-App-Builder` is retained as a separate application. It is an autonomous software-engineering application builder, whereas `agenttrace` is a reusable tracing/policy/audit layer and `CodeSentinel` is GitHub/repository verification. The overlap is conceptual, not a duplicate implementation.
+
 ## Consolidation rules
 
 1. One canonical implementation per capability.
