@@ -98,12 +98,10 @@ These should only be merged when they share executable functionality, not merely
 
 The current GitHub inventory was rechecked against repository content and the existing consolidation records.
 
-### Confirmed legacy duplicate
+### Confirmed deleted legacy repository
 
-- `Total-control-defence-lab-` is **legacy**. Its own `LEGACY.md` states that active security engineering has been consolidated into `CodeSentinel` and `agenttrace`.
-- Its remaining UI-heavy security simulation is historical material, not a separate canonical product. The reusable policy/provenance core belongs in `agenttrace`; GitHub/repository verification belongs in `CodeSentinel`; small bounded security demonstrations belong in `AB-Engineering-Lab/security-lab`.
-- Do not create new functionality in `Total-control-defence-lab-`.
-- Repository deletion/archival must occur only after the legacy source is retained or verified in the canonical destination.
+- `Total-control-defence-lab-` has been deleted. Its active security engineering was consolidated into `CodeSentinel`, `agenttrace` and bounded `AB-Engineering-Lab/security-lab` material.
+- It must not be presented as an active repository or linked as a current project.
 
 ### Confirmed non-duplicate
 
