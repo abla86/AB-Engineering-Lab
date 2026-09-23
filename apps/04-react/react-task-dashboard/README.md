@@ -16,9 +16,17 @@ Responsive task dashboard built with React and Vite.
 - ESLint verification
 - Vite production build
 
-## Live demo
+## Current location
 
-https://abla86.github.io/react-task-dashboard/
+This implementation is consolidated into the **AB-Engineering-Lab** repository.
+
+Source:
+https://github.com/abla86/AB-Engineering-Lab/tree/main/apps/04-react/react-task-dashboard
+
+Portfolio:
+https://abla86.github.io/developer-portfolio/
+
+The former standalone repository `abla86/react-task-dashboard` has been deleted.
 
 ## Run locally
 
