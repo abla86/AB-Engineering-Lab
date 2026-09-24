@@ -40,7 +40,36 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if git ls-files | grep -E '(^|/)(\.env|.*\.(pem|key|p12|pfx))$' | grep -v '^\.env\.example$'; then
+          if git ls-files | grep -E '(^|/)(\.env|.*\.(pem|key|p12|pfx))
+ | grep -v '^\.env\.example
+; then
             echo "Potential secret-bearing file tracked."
             exit 1
           fi
+
+      - name: Secret-pattern guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          patterns = [
+              re.compile(r'(?i)(api[_-]?key|secret|password|token)\s*[:=]\s*["\x27][^"\x27\n]{16,}["\x27]'),
+              re.compile(r'(?i)-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'),
+          ]
+          allowed = {'.env.example', 'README.md', 'SECURITY.md'}
+          for p in Path('.').rglob('*'):
+              if not p.is_file() or '.git' in p.parts or p.name in allowed:
+                  continue
+              if p.stat().st_size > 2_000_000:
+                  continue
+              try:
+                  text = p.read_text(encoding='utf-8', errors='ignore')
+              except OSError:
+                  continue
+              for pattern in patterns:
+                  if pattern.search(text):
+                      raise SystemExit(f'Potential hard-coded secret pattern: {p}')
+          print('No obvious hard-coded secret patterns found.') 
+          PY
