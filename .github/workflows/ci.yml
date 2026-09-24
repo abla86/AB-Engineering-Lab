@@ -1,5 +1,7 @@
 name: Lab CI
 
+# Baseline validation for the engineering lab collection.
+
 on:
   push:
     branches: [main, master]
