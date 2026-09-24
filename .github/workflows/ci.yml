@@ -1,0 +1,44 @@
+name: Lab CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lab-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Discover project manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f .gitignore
+          if find . -type f \( -name '*.csproj' -o -name 'package.json' -o -name 'pyproject.toml' \) -not -path './.git/*' | grep -q .; then
+            echo "Project manifests found."
+          else
+            echo "No standalone project manifest; repository is a lab collection."
+          fi
+      - name: Secret filename guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '(^|/)(\.env|.*\.(pem|key|p12|pfx))$' | grep -v '^\.env\.example$'; then
+            echo "Potential secret-bearing file tracked."
+            exit 1
+          fi
