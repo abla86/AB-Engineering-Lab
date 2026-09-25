@@ -18,7 +18,7 @@ pydantic==2.13.4
 pydantic_core==2.49.0
 SQLAlchemy==2.0.51
 starlette==1.6.0
-typing-inspection==0.4.2
+typing-inspection==0.4.4
 typing_extensions==4.16.0
 tzdata==2026.4
 uvicorn==0.52.0
