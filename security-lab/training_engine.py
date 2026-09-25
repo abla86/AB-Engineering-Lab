@@ -3,10 +3,10 @@ from __future__ import annotations
 import json
 from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
-from typing import Any
 import subprocess
 import sys
+from pathlib import Path
+from typing import Any
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
@@ -114,7 +114,6 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
-        path = urlparse(self.path).path
         path = urlparse(self.path).path
         if path == "/api/verify":
             self._verify()
