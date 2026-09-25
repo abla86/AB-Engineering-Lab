@@ -17,18 +17,18 @@ HOST = "127.0.0.1"
 PORT = 8090
 
 VERIFIERS = {
-    "00-foundations": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
-    "02-web-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
-    "07-red-blue": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_labs.py"],
+    "00-foundations": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_foundations_cover_security_boundaries"],
+    "01-reconnaissance": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_reconnaissance_inventory_is_local_and_bounded"],
+    "02-web-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_engine.py"],
     "03-network-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_network_lab_finds_cleartext_database_path"],
     "04-identity-access": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_identity_enforces_least_privilege"],
     "05-endpoint-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_endpoint_lab_classifies_synthetic_indicator"],
     "06-blue-team": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_blue_team_detects_repeated_auth_failures_and_privilege_change"],
-    "08-devsecops": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_engine.py"],
-    "09-cloud-kubernetes": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py"],
+    "07-red-blue": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_labs.py"],
+    "08-devsecops": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_devsecops_has_security_gates"],
+    "09-cloud-kubernetes": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_cloud_lab_models_required_workload_controls"],
     "10-capstone": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_capstone_chain_contains_all_stages"],
 }
-
 
 @dataclass(frozen=True)
 class Module:
