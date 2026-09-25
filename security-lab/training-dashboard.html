@@ -36,7 +36,10 @@ async function load(){
  });
 }
 async function complete(id){
- await fetch('/api/progress/complete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id})});
+ const evidence=window.prompt('Evidence for completing this module (test result, log, finding or verification):','');
+ if(!evidence||evidence.trim().length<10)return;
+ const response=await fetch('/api/progress/complete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id,evidence:evidence.trim()})});
+ if(!response.ok){alert((await response.json()).error||'Could not record evidence');return;}
  load();
 }
 load();
