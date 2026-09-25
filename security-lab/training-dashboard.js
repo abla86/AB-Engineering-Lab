@@ -1,7 +1,9 @@
 const $ = (id) => document.getElementById(id);
 
 async function api(path, options) {
-  const response = await fetch(path, options);
+  const request = options || {};
+  request.headers = Object.assign({"X-AB-Lab-Request": "1"}, request.headers || {});
+  const response = await fetch(path, request);
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || "Request failed");
   return data;
