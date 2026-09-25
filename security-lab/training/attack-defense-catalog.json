@@ -131,6 +131,202 @@
         "process-anomaly",
         "file-change"
       ]
+    },
+    {
+      "id": "sim-recon",
+      "technique": "reconnaissance",
+      "target": "synthetic-asset-inventory",
+      "severity": "medium",
+      "base_pressure": 38,
+      "signals": [
+        "asset-query",
+        "service-enumeration"
+      ],
+      "framework": {
+        "attack_tactic": "reconnaissance"
+      }
+    },
+    {
+      "id": "sim-initial-access",
+      "technique": "initial-access",
+      "target": "synthetic-edge-service",
+      "severity": "high",
+      "base_pressure": 58,
+      "signals": [
+        "boundary-probe",
+        "credential-abuse"
+      ],
+      "framework": {
+        "attack_tactic": "initial-access"
+      }
+    },
+    {
+      "id": "sim-execution",
+      "technique": "execution",
+      "target": "synthetic-endpoint",
+      "severity": "high",
+      "base_pressure": 60,
+      "signals": [
+        "process-anomaly",
+        "script-like-behavior"
+      ],
+      "framework": {
+        "attack_tactic": "execution"
+      }
+    },
+    {
+      "id": "sim-persistence",
+      "technique": "persistence",
+      "target": "synthetic-identity-store",
+      "severity": "high",
+      "base_pressure": 59,
+      "signals": [
+        "startup-change",
+        "account-change"
+      ],
+      "framework": {
+        "attack_tactic": "persistence"
+      }
+    },
+    {
+      "id": "sim-privilege",
+      "technique": "privilege-escalation",
+      "target": "synthetic-control-plane",
+      "severity": "high",
+      "base_pressure": 63,
+      "signals": [
+        "privilege-change",
+        "authorization-mismatch"
+      ],
+      "framework": {
+        "attack_tactic": "privilege-escalation"
+      }
+    },
+    {
+      "id": "sim-stealth",
+      "technique": "stealth",
+      "target": "synthetic-telemetry",
+      "severity": "medium",
+      "base_pressure": 52,
+      "signals": [
+        "sequence-break",
+        "behavior-deviation"
+      ],
+      "framework": {
+        "attack_tactic": "stealth"
+      }
+    },
+    {
+      "id": "sim-defense-impairment",
+      "technique": "defense-impairment",
+      "target": "synthetic-sensor",
+      "severity": "high",
+      "base_pressure": 66,
+      "signals": [
+        "sensor-gap",
+        "control-change"
+      ],
+      "framework": {
+        "attack_tactic": "defense-impairment"
+      }
+    },
+    {
+      "id": "sim-credential-access",
+      "technique": "credential-access",
+      "target": "synthetic-identity-service",
+      "severity": "high",
+      "base_pressure": 64,
+      "signals": [
+        "credential-query",
+        "auth-burst"
+      ],
+      "framework": {
+        "attack_tactic": "credential-access"
+      }
+    },
+    {
+      "id": "sim-discovery",
+      "technique": "discovery",
+      "target": "synthetic-network",
+      "severity": "medium",
+      "base_pressure": 44,
+      "signals": [
+        "service-enumeration",
+        "asset-query"
+      ],
+      "framework": {
+        "attack_tactic": "discovery"
+      }
+    },
+    {
+      "id": "sim-lateral",
+      "technique": "lateral-movement",
+      "target": "synthetic-segment",
+      "severity": "high",
+      "base_pressure": 62,
+      "signals": [
+        "cross-segment",
+        "remote-service-anomaly"
+      ],
+      "framework": {
+        "attack_tactic": "lateral-movement"
+      }
+    },
+    {
+      "id": "sim-collection",
+      "technique": "collection",
+      "target": "synthetic-data-store",
+      "severity": "medium",
+      "base_pressure": 49,
+      "signals": [
+        "bulk-read",
+        "sensitive-access"
+      ],
+      "framework": {
+        "attack_tactic": "collection"
+      }
+    },
+    {
+      "id": "sim-c2",
+      "technique": "command-and-control",
+      "target": "synthetic-egress",
+      "severity": "high",
+      "base_pressure": 61,
+      "signals": [
+        "periodic-egress",
+        "channel-deviation"
+      ],
+      "framework": {
+        "attack_tactic": "command-and-control"
+      }
+    },
+    {
+      "id": "sim-exfil",
+      "technique": "exfiltration",
+      "target": "synthetic-egress",
+      "severity": "high",
+      "base_pressure": 67,
+      "signals": [
+        "bulk-egress",
+        "unusual-destination"
+      ],
+      "framework": {
+        "attack_tactic": "exfiltration"
+      }
+    },
+    {
+      "id": "sim-impact",
+      "technique": "impact",
+      "target": "synthetic-service",
+      "severity": "high",
+      "base_pressure": 70,
+      "signals": [
+        "availability-degradation",
+        "data-change"
+      ],
+      "framework": {
+        "attack_tactic": "impact"
+      }
     }
   ],
   "defenses": [
@@ -280,6 +476,151 @@
       "base_confidence": 76,
       "response_strength": 29,
       "action": "restore-known-good-and-verify"
+    },
+    {
+      "id": "def-boundary",
+      "name": "Boundary Segmentation Guard",
+      "rule_id": "SIG-BOUNDARY-001",
+      "techniques": [
+        "reconnaissance",
+        "initial-access",
+        "discovery",
+        "lateral-movement"
+      ],
+      "signals": [
+        "asset-query",
+        "service-enumeration",
+        "boundary-probe",
+        "cross-segment",
+        "remote-service-anomaly"
+      ],
+      "base_confidence": 82,
+      "response_strength": 26,
+      "action": "segment-and-restrict",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      }
+    },
+    {
+      "id": "def-execution",
+      "name": "Execution Control Guard",
+      "rule_id": "SIG-EXEC-001",
+      "techniques": [
+        "execution",
+        "persistence",
+        "endpoint-execution"
+      ],
+      "signals": [
+        "process-anomaly",
+        "script-like-behavior",
+        "startup-change",
+        "file-change"
+      ],
+      "base_confidence": 87,
+      "response_strength": 29,
+      "action": "deny-and-isolate",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      }
+    },
+    {
+      "id": "def-identity",
+      "name": "Identity Integrity Guard",
+      "rule_id": "SIG-IDENTITY-001",
+      "techniques": [
+        "persistence",
+        "privilege-escalation",
+        "credential-access"
+      ],
+      "signals": [
+        "account-change",
+        "privilege-change",
+        "credential-query",
+        "auth-burst"
+      ],
+      "base_confidence": 89,
+      "response_strength": 31,
+      "action": "step-up-and-revoke",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      }
+    },
+    {
+      "id": "def-network",
+      "name": "Network Behavior Guard",
+      "rule_id": "SIG-NETWORK-001",
+      "techniques": [
+        "discovery",
+        "lateral-movement",
+        "command-and-control",
+        "exfiltration"
+      ],
+      "signals": [
+        "service-enumeration",
+        "periodic-egress",
+        "channel-deviation",
+        "bulk-egress",
+        "unusual-destination"
+      ],
+      "base_confidence": 85,
+      "response_strength": 30,
+      "action": "filter-and-contain",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      }
+    },
+    {
+      "id": "def-data",
+      "name": "Data Access Guard",
+      "rule_id": "SIG-DATA-001",
+      "techniques": [
+        "collection",
+        "exfiltration",
+        "impact"
+      ],
+      "signals": [
+        "bulk-read",
+        "sensitive-access",
+        "bulk-egress",
+        "data-change"
+      ],
+      "base_confidence": 86,
+      "response_strength": 31,
+      "action": "restrict-and-verify",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      }
+    },
+    {
+      "id": "def-availability",
+      "name": "Availability Guard",
+      "rule_id": "SIG-AVAIL-001",
+      "techniques": [
+        "impact",
+        "exceptional-condition"
+      ],
+      "signals": [
+        "availability-degradation",
+        "resource-exhaustion",
+        "timeout-storm"
+      ],
+      "base_confidence": 83,
+      "response_strength": 28,
+      "action": "rate-limit-and-recover",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      }
     }
-  ]
+  ],
+  "framework": {
+    "source_baseline": [
+      "OWASP Top 10:2025",
+      "OWASP ASVS 5.0.0",
+      "NIST SP 800-218 SSDF",
+      "MITRE ATT&CK Enterprise",
+      "MITRE D3FEND",
+      "CISA Secure by Design"
+    ],
+    "design_note": "ATT&CK models adversary goals and techniques; D3FEND provides a standardized vocabulary for defensive countermeasures. The arena uses those concepts as metadata while executing only synthetic simulations."
+  }
 }
