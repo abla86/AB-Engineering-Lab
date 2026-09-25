@@ -1,43 +1,15 @@
-# React Task Dashboard
+# React Task Dashboard — Historical Copy
 
-Responsive task dashboard built with React and Vite.
+This is a historical copy retained inside `AB-Engineering-Lab` for provenance.
 
-## Features
+The active consolidated implementation is:
 
-- Component-based React architecture
-- Props and state management
-- `useState`, `useEffect` and `useMemo`
-- To Do / In Progress / Done workflow
-- Add, delete and move tasks
-- Status filtering
-- localStorage persistence
-- Responsive layout
-- Accessible native controls
-- ESLint verification
-- Vite production build
+https://github.com/abla86/AB-Engineering-Lab/tree/main/apps/04-react/react-task-dashboard
 
-## Live demo
+Portfolio:
 
-https://abla86.github.io/react-task-dashboard/
+https://abla86.github.io/developer-portfolio/
 
-## Run locally
+The former standalone repository `abla86/react-task-dashboard` has been deleted.
 
-```bash
-npm install
-npm run dev
-```
-
-## Verify
-
-```bash
-npm run lint
-npm run build
-```
-
-## Purpose
-
-Demonstrates progression from vanilla JavaScript to component-based frontend development with React, including state, derived state, persistence and production build tooling.
-
-## Author
-
-Anne Beth Andersen
+See the active implementation for current source, build and verification instructions.
