@@ -77,14 +77,18 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _verify(self) -> None:
-        length = int(self.headers.get("Content-Length", "0"))
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            self._json(400, {"error": "invalid content length"})
+            return
         if length > 2048:
             self._json(413, {"error": "payload too large"})
             return
         try:
             payload = json.loads(self.rfile.read(length) or b"{}")
             module_id = str(payload["module_id"])
-        except (ValueError, KeyError, TypeError, json.JSONDecodeError):
+        except (ValueError, KeyError, TypeError, UnicodeDecodeError, json.JSONDecodeError):
             self._json(400, {"error": "module_id is required"})
             return
         command = VERIFIERS.get(module_id)
@@ -124,7 +128,7 @@ class TrainingHandler(BaseHTTPRequestHandler):
             self.send_header("X-Frame-Options", "DENY")
             self.send_header("Referrer-Policy", "no-referrer")
             self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
-            self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri "none"; frame-ancestors 'none'")
+            self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
             self.end_headers()
             self.wfile.write(dashboard)
             return
@@ -157,6 +161,12 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
+        if len(self.path) > 4096:
+            self._json(414, {"error": "request target too long"})
+            return
+        if self.headers.get("Content-Type", "").split(";", 1)[0].lower() != "application/json":
+            self._json(415, {"error": "application/json required"})
+            return
         path = urlparse(self.path).path
         if path == "/api/verify":
             self._verify()
