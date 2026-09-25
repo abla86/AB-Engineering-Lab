@@ -205,3 +205,26 @@ def test_training_api_requires_json_for_post():
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_progress_reset_endpoint_requires_json_and_clears_state():
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    original = training_engine.STATE
+    with TemporaryDirectory() as directory:
+        try:
+            training_engine.STATE = Path(directory) / "progress.json"
+            training_engine.save_state({"completed": ["00-foundations"], "records": {"00-foundations": {"evidence": "verified"}}})
+            thread.start()
+            connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+            connection.request("POST", "/api/progress/reset", body="{}", headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            payload = json.loads(response.read())
+            assert response.status == 200
+            assert payload == {"completed": [], "records": {}}
+            connection.close()
+        finally:
+            training_engine.STATE = original
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
