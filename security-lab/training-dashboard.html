@@ -13,7 +13,7 @@ button{padding:8px 12px;border-radius:7px;border:1px solid #30363d;background:#2
 <h1>Cyber Security Training Lab</h1>
 <p>Learn → investigate → defend → remediate → verify</p>
 <div class="bar"><div id="fill" class="fill"></div></div>
-<p id="progress"></p><p id="verificationCoverage"></p>
+<p id="progress"></p><p id="verificationCoverage"></p><button id="reset">Reset progress</button>
 <section><h2>Training scenarios</h2><div id="scenarios" class="grid"></div></section><main id="modules" class="grid"></main>
 <script>
 async function load(){
@@ -42,6 +42,7 @@ async function load(){
   card.append(level,title,objectives,lab,button); root.append(card);
  });
 }
+document.getElementById("reset").onclick=async function(){if(!window.confirm("Reset all local training progress?"))return;await fetch("/api/progress/reset",{method:"POST"});load();};
 async function verify(id){
  const response=await fetch('/api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id})});
  const data=await response.json();
