@@ -129,6 +129,14 @@ class TrainingHandler(BaseHTTPRequestHandler):
         if path == "/api/progress":
             self._json(200, load_state())
             return
+        if path == "/api/verifiers":
+            self._json(200, {
+                "modules": [
+                    {"id": module.id, "automated": module.id in VERIFIERS}
+                    for module in load_modules()
+                ]
+            })
+            return
         if path == "/api/scenarios":
             base = json.loads(SCENARIOS.read_text(encoding="utf-8"))
             advanced = json.loads((ROOT / "training" / "scenarios-advanced.json").read_text(encoding="utf-8"))
