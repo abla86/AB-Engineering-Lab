@@ -157,3 +157,22 @@ def test_completion_cannot_bypass_failed_automated_verification() -> None:
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_verifiers_api_covers_all_modules():
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+        connection.request("GET", "/api/verifiers")
+        response = connection.getresponse()
+        payload = json.loads(response.read())
+        assert response.status == 200
+        assert len(payload["modules"]) == 11
+        assert all(item["automated"] for item in payload["modules"])
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
