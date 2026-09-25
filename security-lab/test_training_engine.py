@@ -88,7 +88,7 @@ def test_verify_endpoint_rejects_unknown_command_without_execution() -> None:
     thread.start()
     try:
         connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
-        body = json.dumps({"module_id": "01-reconnaissance"}).encode()
+        body = json.dumps({"module_id": "not-a-module"}).encode()
         connection.request("POST", "/api/verify", body=body, headers={"Content-Type": "application/json"})
         response = connection.getresponse()
         payload = json.loads(response.read())
