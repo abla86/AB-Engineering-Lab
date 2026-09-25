@@ -1,0 +1,34 @@
+name: Security Training Lab
+
+on:
+  push:
+    paths:
+      - "security-lab/**"
+      - ".github/workflows/security-training.yml"
+  pull_request:
+    paths:
+      - "security-lab/**"
+      - ".github/workflows/security-training.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check -r security-lab/requirements.txt
+      - name: Run security lab tests
+        run: python -m pytest -q security-lab/test_security_lab.py security-lab/test_training_engine.py
+      - name: Validate curriculum JSON
+        run: python -m json.tool security-lab/training/curriculum.json > /dev/null
+      - name: Compile training engine
+        run: python -m py_compile security-lab/training_engine.py
