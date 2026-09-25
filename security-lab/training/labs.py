@@ -78,3 +78,39 @@ def capstone_chain() -> dict[str, bool]:
         "remediation": authorize("alice", "read_reports") and not authorize("alice", "approve_reports"),
         "verification": len(network_findings(NETWORK_EVENTS)) == 1,
     }
+
+
+ASSET_INVENTORY = [
+    {"asset": "training-engine", "boundary": "127.0.0.1:8090", "control": "local-only binding"},
+    {"asset": "security-lab", "boundary": "127.0.0.1:8081", "control": "synthetic vulnerable target"},
+]
+
+DEVSECOPS_CONTROLS = {
+    "source-tests": True,
+    "dependency-review": True,
+    "codeql": True,
+    "security-training-ci": True,
+}
+
+CLOUD_CONTROLS = {
+    "rbac": True,
+    "workload-identity": True,
+    "network-policy": True,
+    "secret-management": True,
+}
+
+
+def foundation_boundaries() -> list[str]:
+    return ["confidentiality", "integrity", "availability", "authentication", "authorization"]
+
+
+def inventory_assets() -> list[dict[str, str]]:
+    return ASSET_INVENTORY.copy()
+
+
+def devsecops_controls() -> list[str]:
+    return [name for name, enabled in DEVSECOPS_CONTROLS.items() if enabled]
+
+
+def cloud_controls() -> list[str]:
+    return [name for name, enabled in CLOUD_CONTROLS.items() if enabled]
