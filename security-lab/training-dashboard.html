@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyber Security Training Lab</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:1100px;margin:auto;padding:24px;background:#0d1117;color:#e6edf3}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.card{border:1px solid #30363d;border-radius:10px;padding:16px;background:#161b22}.done{border-color:#238636}
+button{padding:8px 12px;border-radius:7px;border:1px solid #30363d;background:#21262d;color:#e6edf3;cursor:pointer}.bar{height:8px;background:#21262d;border-radius:8px;overflow:hidden}.fill{height:100%;background:#238636;width:0}
+</style>
+</head>
+<body>
+<h1>Cyber Security Training Lab</h1>
+<p>Learn → investigate → defend → remediate → verify</p>
+<div class="bar"><div id="fill" class="fill"></div></div>
+<p id="progress"></p>
+<main id="modules" class="grid"></main>
+<script>
+async function load(){
+ const data=await fetch('/api/modules').then(r=>r.json());
+ const root=document.getElementById('modules');
+ const done=data.modules.filter(m=>m.completed).length;
+ document.getElementById('progress').textContent=done+' / '+data.modules.length+' modules completed';
+ document.getElementById('fill').style.width=(done/data.modules.length*100)+'%';
+ root.replaceChildren();
+ data.modules.forEach(function(m){
+  const card=document.createElement('article');
+  card.className='card'+(m.completed?' done':'');
+  const title=document.createElement('h2'); title.textContent=m.id+' — '+m.title;
+  const level=document.createElement('small'); level.textContent=m.level;
+  const objectives=document.createElement('p'); objectives.textContent=m.objectives.join('. ')+'.';
+  const lab=document.createElement('p'); lab.textContent='Lab: '+m.lab;
+  const button=document.createElement('button'); button.textContent=m.completed?'Completed':'Mark verified';
+  button.onclick=function(){complete(m.id)};
+  card.append(level,title,objectives,lab,button); root.append(card);
+ });
+}
+async function complete(id){
+ await fetch('/api/progress/complete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id})});
+ load();
+}
+load();
+</script>
+</body>
+</html>
