@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from training.arena import battle, generate_matrix, load_catalog, load_state as load_arena_state, save_battle, scoreboard
+
 ROOT = Path(__file__).resolve().parent
 CURRICULUM = ROOT / "training" / "curriculum.json"
 SCENARIOS = ROOT / "training" / "scenarios.json"
@@ -76,6 +78,46 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _read_json(self, maximum: int) -> dict[str, Any] | None:
+        try:
+            length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            self._json(400, {"error": "invalid content length"})
+            return None
+        if length > maximum:
+            self._json(413, {"error": "payload too large"})
+            return None
+        try:
+            payload = json.loads(self.rfile.read(length) or b"{}")
+        except (ValueError, TypeError, UnicodeDecodeError, json.JSONDecodeError):
+            self._json(400, {"error": "valid JSON is required"})
+            return None
+        if not isinstance(payload, dict):
+            self._json(400, {"error": "JSON object is required"})
+            return None
+        return payload
+
+    def _arena_battle(self) -> None:
+        payload = self._read_json(8192)
+        if payload is None:
+            return
+        try:
+            result = battle(str(payload["attack"]), [str(item) for item in payload["defenses"]], payload.get("mutations", {}))
+            save_battle(result)
+            self._json(200, asdict(result))
+        except (KeyError, TypeError, ValueError) as exc:
+            self._json(400, {"error": str(exc)})
+
+    def _arena_matrix(self) -> None:
+        payload = self._read_json(8192)
+        if payload is None:
+            return
+        try:
+            result = generate_matrix([str(item) for item in payload["attacks"]], [str(item) for item in payload["defenses"]])
+            self._json(200, {"matrix": result})
+        except (KeyError, TypeError, ValueError) as exc:
+            self._json(400, {"error": str(exc)})
+
     def _verify(self) -> None:
         try:
             length = int(self.headers.get("Content-Length", "0"))
@@ -119,6 +161,24 @@ class TrainingHandler(BaseHTTPRequestHandler):
             self._json(414, {"error": "request target too long"})
             return
         path = urlparse(self.path).path
+        static_files = {
+            "/training-dashboard.css": ("text/css; charset=utf-8", ROOT / "training-dashboard.css"),
+            "/training-dashboard.js": ("text/javascript; charset=utf-8", ROOT / "training-dashboard.js"),
+        }
+        if path in static_files:
+            content_type, file_path = static_files[path]
+            body = file_path.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", content_type)
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("X-Frame-Options", "DENY")
+            self.send_header("Referrer-Policy", "no-referrer")
+            self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
+            self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+            self.end_headers()
+            self.wfile.write(body)
+            return
         if path == "/":
             dashboard = (ROOT / "training-dashboard.html").read_bytes()
             self.send_response(200)
@@ -153,6 +213,15 @@ class TrainingHandler(BaseHTTPRequestHandler):
                 ]
             })
             return
+        if path == "/api/arena/catalog":
+            self._json(200, load_catalog())
+            return
+        if path == "/api/arena/scoreboard":
+            self._json(200, scoreboard())
+            return
+        if path == "/api/arena/state":
+            self._json(200, load_arena_state())
+            return
         if path == "/api/scenarios":
             base = json.loads(SCENARIOS.read_text(encoding="utf-8"))
             advanced = json.loads((ROOT / "training" / "scenarios-advanced.json").read_text(encoding="utf-8"))
@@ -168,6 +237,12 @@ class TrainingHandler(BaseHTTPRequestHandler):
             self._json(415, {"error": "application/json required"})
             return
         path = urlparse(self.path).path
+        if path == "/api/arena/battle":
+            self._arena_battle()
+            return
+        if path == "/api/arena/matrix":
+            self._arena_matrix()
+            return
         if path == "/api/verify":
             self._verify()
             return
@@ -178,15 +253,13 @@ class TrainingHandler(BaseHTTPRequestHandler):
         if path != "/api/progress/complete":
             self._json(404, {"error": "not found"})
             return
-        length = int(self.headers.get("Content-Length", "0"))
-        if length > 4096:
-            self._json(413, {"error": "payload too large"})
+        payload = self._read_json(4096)
+        if payload is None:
             return
         try:
-            payload = json.loads(self.rfile.read(length) or b"{}")
             module_id = str(payload["module_id"])
             evidence = str(payload["evidence"]).strip()
-        except (ValueError, KeyError, TypeError, json.JSONDecodeError):
+        except (KeyError, TypeError):
             self._json(400, {"error": "module_id and evidence are required"})
             return
         if len(evidence) < 10 or len(evidence) > 1000:
