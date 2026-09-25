@@ -1,7 +1,5 @@
 name: Lab CI
 
-# Baseline validation for the engineering lab collection.
-
 on:
   push:
     branches: [main, master]
@@ -13,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: lab-ci-${{ github.ref }}
+  group: lab-ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -22,9 +20,11 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           persist-credentials: false
+          fetch-depth: 1
+
       - name: Discover project manifests
         shell: bash
         run: |
@@ -36,13 +36,12 @@ jobs:
           else
             echo "No standalone project manifest; repository is a lab collection."
           fi
+
       - name: Secret filename guard
         shell: bash
         run: |
           set -euo pipefail
-          if git ls-files | grep -E '(^|/)(\.env|.*\.(pem|key|p12|pfx))
- | grep -v '^\.env\.example
-; then
+          if git ls-files | grep -E '(^|/)(\.env(\..*)?|.*\.(pem|key|p12|pfx))$' | grep -vE '(^|/)\.env\.example$'; then
             echo "Potential secret-bearing file tracked."
             exit 1
           fi
@@ -57,6 +56,7 @@ jobs:
           patterns = [
               re.compile(r'(?i)(api[_-]?key|secret|password|token)\s*[:=]\s*["\x27][^"\x27\n]{16,}["\x27]'),
               re.compile(r'(?i)-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'),
+              re.compile(r'(?i)gh[pousr]_[A-Za-z0-9_]{20,}'),
           ]
           allowed = {'.env.example', 'README.md', 'SECURITY.md'}
           for p in Path('.').rglob('*'):
@@ -71,5 +71,12 @@ jobs:
               for pattern in patterns:
                   if pattern.search(text):
                       raise SystemExit(f'Potential hard-coded secret pattern: {p}')
-          print('No obvious hard-coded secret patterns found.') 
+          print('No obvious hard-coded secret patterns found.')
           PY
+
+      - name: Python security lab validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -r security-lab/requirements.txt
+          python -m pytest -q security-lab/test_security_lab.py security-lab/test_training_engine.py security-lab/test_training_labs.py
