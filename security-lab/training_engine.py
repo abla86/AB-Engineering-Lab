@@ -6,6 +6,9 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import subprocess
 import sys
 from pathlib import Path
+import os
+import tempfile
+import threading
 from typing import Any
 from urllib.parse import urlparse
 
@@ -17,6 +20,7 @@ SCENARIOS = ROOT / "training" / "scenarios.json"
 STATE = ROOT / "training" / ".progress.json"
 HOST = "127.0.0.1"
 PORT = 8090
+STATE_LOCK = threading.Lock()
 
 VERIFIERS = {
     "00-foundations": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_foundations_cover_security_boundaries"],
@@ -61,7 +65,20 @@ def load_state() -> dict[str, Any]:
 
 
 def save_state(state: dict[str, Any]) -> None:
-    STATE.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+    data = json.dumps(state, indent=2) + "\n"
+    STATE.parent.mkdir(parents=True, exist_ok=True)
+    with STATE_LOCK:
+        fd, temporary = tempfile.mkstemp(prefix=".progress-", dir=STATE.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(data)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary, STATE)
+        finally:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
+
 
 
 class TrainingHandler(BaseHTTPRequestHandler):
@@ -230,6 +247,9 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
+        if self.headers.get("X-AB-Lab-Request") != "1":
+            self._json(403, {"error": "training API request marker required"})
+            return
         if len(self.path) > 4096:
             self._json(414, {"error": "request target too long"})
             return
