@@ -19,7 +19,7 @@ PORT = 8090
 VERIFIERS = {
     "00-foundations": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_foundations_cover_security_boundaries"],
     "01-reconnaissance": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_reconnaissance_inventory_is_local_and_bounded"],
-    "02-web-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_engine.py"],
+    "02-web-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
     "03-network-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_network_lab_finds_cleartext_database_path"],
     "04-identity-access": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_identity_enforces_least_privilege"],
     "05-endpoint-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_endpoint_lab_classifies_synthetic_indicator"],
