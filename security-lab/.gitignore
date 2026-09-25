@@ -1,0 +1,7 @@
+.progress.json
+training/.progress.json
+__pycache__/
+*.pyc
+.venv/
+
+training/.arena.json
