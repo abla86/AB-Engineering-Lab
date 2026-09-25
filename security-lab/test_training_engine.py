@@ -176,3 +176,16 @@ def test_verifiers_api_covers_all_modules():
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_progress_reset_clears_local_state():
+    with TemporaryDirectory() as directory:
+        original = training_engine.STATE
+        try:
+            training_engine.STATE = Path(directory) / "progress.json"
+            training_engine.save_state({"completed": ["00-foundations"], "records": {"00-foundations": {"evidence": "x"}}})
+            assert training_engine.load_state()["completed"] == ["00-foundations"]
+            training_engine.save_state({"completed": [], "records": {}})
+            assert training_engine.load_state() == {"completed": [], "records": {}}
+        finally:
+            training_engine.STATE = original
