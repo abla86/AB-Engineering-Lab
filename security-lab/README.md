@@ -47,3 +47,29 @@ Each test documents what the attacker can demonstrate against the vulnerable imp
 ## Portfolio status
 
 This is a security-training laboratory, not a production security product. The vulnerable code is intentionally vulnerable and must not be reused in production.
+
+## Full training engine
+
+Run the complete curriculum locally:
+
+```powershell
+.\start-training.ps1
+```
+
+The training engine serves a browser dashboard on `127.0.0.1:8090` and keeps progress locally. Completion requires automated verification plus learner evidence.
+
+The curriculum contains 11 modules spanning foundations, reconnaissance, web security, network security, identity, endpoint telemetry, blue-team detection, red/blue exercises, DevSecOps, cloud/Kubernetes controls, and a capstone.
+
+All exercise data is synthetic. Automated verifiers are allowlisted in the training engine; user-supplied text is never treated as a command.
+
+## Architecture
+
+- `app.py` — intentionally vulnerable local application
+- `training_engine.py` — curriculum, verification and progress API
+- `training-dashboard.html` — browser UI
+- `training/labs.py` — executable synthetic exercises
+- `training/scenarios.json` — web-security scenarios
+- `training/scenarios-advanced.json` — network, identity, endpoint, blue-team, DevSecOps, cloud and capstone scenarios
+- `test_security_lab.py` — application-security regression tests
+- `test_training_labs.py` — curriculum lab tests
+- `test_training_engine.py` — engine/API tests
