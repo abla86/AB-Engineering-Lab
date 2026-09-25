@@ -1,4 +1,4 @@
-from labs import (
+from training.labs import (
     BLUE_EVENTS,
     ENDPOINT_EVENTS,
     NETWORK_EVENTS,
