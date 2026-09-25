@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AB Cyber Range — Red / Blue Arena</title>
+<link rel="stylesheet" href="/training-dashboard.css">
+</head>
+<body>
+<header>
+<h1>AB Cyber Range</h1>
+<p>Safe synthetic red-team / blue-team arena — simulate, detect, contain, remediate, verify.</p>
+</header>
+
+<section class="panel">
+<h2>Training progress</h2>
+<div class="bar"><div id="fill" class="fill"></div></div>
+<p id="progress"></p>
+<p id="verificationCoverage"></p>
+<button id="reset">Reset local training progress</button>
+</section>
+
+<section class="panel">
+<h2>Red / Blue Arena</h2>
+<p>All scenarios are synthetic. The arena never executes generated payloads, scans external systems, or performs network attacks. Mutations change scenario parameters only.</p>
+<div class="arena-grid">
+<div>
+<label for="attack">Red scenario</label>
+<select id="attack"></select>
+</div>
+<div>
+<label for="defense">Blue control</label>
+<select id="defense" multiple size="6"></select>
+</div>
+</div>
+<div class="mutations">
+<label>Intensity <input id="intensity" type="number" min="1" max="10" value="5"></label>
+<label>Burst <input id="burst" type="number" min="1" max="20" value="5"></label>
+<label>Sources <input id="source_count" type="number" min="1" max="5" value="1"></label>
+<label>Delay <input id="delay" type="number" min="0" max="30" value="0"></label>
+</div>
+<div id="learning" class="learning"></div><button id="battle">Run simulated battle</button>
+<button id="matrix">Run attack × defense matrix</button>
+<pre id="battleResult" aria-live="polite"></pre>
+</section>
+
+<section class="panel">
+<h2>Scoreboard</h2>
+<div id="scoreboard"></div>
+</section>
+
+<section class="panel">
+<h2>Incident timeline</h2>
+<div id="timeline"></div>
+</section>
+
+<section class="panel">
+<h2>Training scenarios</h2>
+<div id="scenarios" class="grid"></div>
+</section>
+
+<main id="modules" class="grid"></main>
+<script src="/training-dashboard.js" defer></script>
+</body>
+</html>

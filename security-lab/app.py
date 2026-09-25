@@ -55,16 +55,27 @@ def fixed_input_validation(value: str) -> str:
 
 
 class LabHandler(BaseHTTPRequestHandler):
+    server_version = "SecurityLab"
+    sys_version = ""
+
+    def version_string(self) -> str:
+        return self.server_version
     def _send(self, status: int, body: str, content_type: str = "text/plain; charset=utf-8") -> None:
         self.send_response(status)
         self.send_header("Content-Type", content_type)
+        self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
+        self.send_header("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'")
         self.end_headers()
         self.wfile.write(body.encode("utf-8"))
 
     def do_GET(self) -> None:  # noqa: N802
+        if len(self.path) > 4096:
+            self._send(414, "Request target too long")
+            return
         parsed = urlparse(self.path)
         query = parse_qs(parsed.query)
 
