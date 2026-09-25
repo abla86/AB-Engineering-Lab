@@ -87,14 +87,24 @@ class TrainingHandler(BaseHTTPRequestHandler):
         if command is None:
             self._json(200, {"module_id": module_id, "status": "manual", "message": "No automated verifier is defined for this module."})
             return
-        result = subprocess.run(command, cwd=ROOT.parent, capture_output=True, text=True, timeout=120)
-        self._json(200, {
+        result = self._run_verifier(module_id)
+        self._json(200, result)
+
+    def _run_verifier(self, module_id: str) -> dict[str, Any]:
+        command = VERIFIERS.get(module_id)
+        if command is None:
+            return {"module_id": module_id, "status": "manual", "message": "No automated verifier is defined for this module."}
+        try:
+            result = subprocess.run(command, cwd=ROOT.parent, capture_output=True, text=True, timeout=120)
+        except subprocess.TimeoutExpired:
+            return {"module_id": module_id, "status": "failed", "message": "Verification timed out.", "command": command}
+        return {
             "module_id": module_id,
             "status": "passed" if result.returncode == 0 else "failed",
             "returncode": result.returncode,
             "command": command,
             "output": (result.stdout + result.stderr)[-6000:],
-        })
+        }
 
     def do_GET(self) -> None:
         path = urlparse(self.path).path
@@ -152,9 +162,13 @@ class TrainingHandler(BaseHTTPRequestHandler):
         if module_id not in valid_ids:
             self._json(400, {"error": "unknown module"})
             return
+        verification = self._run_verifier(module_id)
+        if verification["status"] == "failed":
+            self._json(409, {"error": "automated verification failed", "verification": verification})
+            return
         state = load_state()
         records = state.setdefault("records", {})
-        records[module_id] = {"evidence": evidence}
+        records[module_id] = {"evidence": evidence, "verification": verification["status"]}
         state["completed"] = sorted(records)
         save_state(state)
         self._json(200, state)
