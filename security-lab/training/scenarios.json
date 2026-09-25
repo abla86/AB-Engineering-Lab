@@ -1,0 +1,37 @@
+{
+  "scenarios": [
+    {
+      "id": "web-sqli-01",
+      "module_id": "02-web-security",
+      "title": "Unsafe query construction",
+      "objective": "Identify why concatenating untrusted input into SQL is unsafe.",
+      "safe_input": "' OR '1'='1",
+      "target": "/sqli/vulnerable",
+      "hardened_target": "/sqli/fixed",
+      "expected_observation": "The vulnerable example places the input inside the SQL statement; the fixed example keeps it in a parameter tuple.",
+      "verification": "Compare statement text and parameters; do not connect to an external database."
+    },
+    {
+      "id": "web-xss-01",
+      "module_id": "02-web-security",
+      "title": "Output encoding",
+      "objective": "Identify the difference between raw HTML output and encoded output.",
+      "safe_input": "<script>alert(1)</script>",
+      "target": "/xss/vulnerable",
+      "hardened_target": "/xss/fixed",
+      "expected_observation": "The vulnerable example preserves markup; the fixed example HTML-encodes it.",
+      "verification": "Compare the returned strings locally."
+    },
+    {
+      "id": "web-idor-01",
+      "module_id": "02-web-security",
+      "title": "Object-level authorization",
+      "objective": "Verify that record ownership is enforced.",
+      "safe_input": "record=2&user=alice",
+      "target": "/idor/vulnerable/2",
+      "hardened_target": "/idor/fixed/2",
+      "expected_observation": "The vulnerable example returns Bob's synthetic record to Alice; the fixed example denies access.",
+      "verification": "Use only the synthetic records embedded in app.py."
+    }
+  ]
+}

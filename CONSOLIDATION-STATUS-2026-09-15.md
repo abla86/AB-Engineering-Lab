@@ -1,3 +1,5 @@
+> **Status 2026-09-19:** the repositories listed here have been merged, with full git history, into `archive/<name>/` of the canonical repository and the standalone repositories were removed after every file was verified.
+
 # Repository consolidation status — 2026-09-15
 
 This file records code that has actually been migrated into the canonical engineering laboratory and separates verified code migration from repository administration.
