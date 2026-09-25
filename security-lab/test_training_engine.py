@@ -128,8 +128,8 @@ def test_scenarios_api_exposes_contained_web_security_cases() -> None:
         response = connection.getresponse()
         payload = json.loads(response.read())
         assert response.status == 200
-        assert len(payload["scenarios"]) == 3
-        assert all(item["module_id"] == "02-web-security" for item in payload["scenarios"])
+        assert len(payload["scenarios"]) == 11
+        assert sum(item["module_id"] == "02-web-security" for item in payload["scenarios"]) == 3
         connection.close()
     finally:
         server.shutdown()
