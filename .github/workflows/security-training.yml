@@ -31,7 +31,7 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install --disable-pip-version-check -r security-lab/requirements.txt
       - name: Run security lab tests
-        run: python -m pytest -q security-lab/test_security_lab.py security-lab/test_training_engine.py security-lab/test_training_labs.py security-lab/test_security_audit.py
+        run: python -m pytest -q security-lab/test_security_lab.py security-lab/test_training_engine.py security-lab/test_training_labs.py security-lab/test_security_audit.py security-lab/test_arena.py
       - name: Validate curriculum JSON
         run: python -m json.tool security-lab/training/curriculum.json > /dev/null
       - name: Validate scenario catalogs
