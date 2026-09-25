@@ -5,6 +5,8 @@ from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
+import subprocess
+import sys
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
@@ -12,6 +14,12 @@ CURRICULUM = ROOT / "training" / "curriculum.json"
 STATE = ROOT / "training" / ".progress.json"
 HOST = "127.0.0.1"
 PORT = 8090
+
+VERIFIERS = {
+    "00-foundations": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
+    "02-web-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
+    "07-red-blue": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
+}
 
 
 @dataclass(frozen=True)
@@ -56,6 +64,30 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def _verify(self) -> None:
+        length = int(self.headers.get("Content-Length", "0"))
+        if length > 2048:
+            self._json(413, {"error": "payload too large"})
+            return
+        try:
+            payload = json.loads(self.rfile.read(length) or b"{}")
+            module_id = str(payload["module_id"])
+        except (ValueError, KeyError, TypeError, json.JSONDecodeError):
+            self._json(400, {"error": "module_id is required"})
+            return
+        command = VERIFIERS.get(module_id)
+        if command is None:
+            self._json(200, {"module_id": module_id, "status": "manual", "message": "No automated verifier is defined for this module."})
+            return
+        result = subprocess.run(command, cwd=ROOT.parent, capture_output=True, text=True, timeout=120)
+        self._json(200, {
+            "module_id": module_id,
+            "status": "passed" if result.returncode == 0 else "failed",
+            "returncode": result.returncode,
+            "command": command,
+            "output": (result.stdout + result.stderr)[-6000:],
+        })
+
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/":
@@ -83,6 +115,10 @@ class TrainingHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        path = urlparse(self.path).path
+        if path == "/api/verify":
+            self._verify()
+            return
         if path != "/api/progress/complete":
             self._json(404, {"error": "not found"})
             return
