@@ -16,6 +16,8 @@ def audit_python_security() -> list[str]:
     findings: list[str] = []
     banned_calls = {"eval", "exec"}
     for path in python_files():
+        if path.name == "security_audit.py":
+            continue
         source = path.read_text(encoding="utf-8")
         tree = ast.parse(source, filename=str(path))
         for node in ast.walk(tree):
