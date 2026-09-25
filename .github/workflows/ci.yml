@@ -1,0 +1,82 @@
+name: Lab CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lab-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Discover project manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f .gitignore
+          if find . -type f \( -name '*.csproj' -o -name 'package.json' -o -name 'pyproject.toml' \) -not -path './.git/*' | grep -q .; then
+            echo "Project manifests found."
+          else
+            echo "No standalone project manifest; repository is a lab collection."
+          fi
+
+      - name: Secret filename guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-files | grep -E '(^|/)(\.env(\..*)?|.*\.(pem|key|p12|pfx))$' | grep -vE '(^|/)\.env\.example$'; then
+            echo "Potential secret-bearing file tracked."
+            exit 1
+          fi
+
+      - name: Secret-pattern guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          patterns = [
+              re.compile(r'(?i)(api[_-]?key|secret|password|token)\s*[:=]\s*["\x27][^"\x27\n]{16,}["\x27]'),
+              re.compile(r'(?i)-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----'),
+              re.compile(r'(?i)gh[pousr]_[A-Za-z0-9_]{20,}'),
+          ]
+          allowed = {'.env.example', 'README.md', 'SECURITY.md'}
+          for p in Path('.').rglob('*'):
+              if not p.is_file() or '.git' in p.parts or p.name in allowed:
+                  continue
+              if p.stat().st_size > 2_000_000:
+                  continue
+              try:
+                  text = p.read_text(encoding='utf-8', errors='ignore')
+              except OSError:
+                  continue
+              for pattern in patterns:
+                  if pattern.search(text):
+                      raise SystemExit(f'Potential hard-coded secret pattern: {p}')
+          print('No obvious hard-coded secret patterns found.')
+          PY
+
+      - name: Python security lab validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -r security-lab/requirements.txt
+          python -m pytest -q security-lab/test_security_lab.py security-lab/test_training_engine.py security-lab/test_training_labs.py
