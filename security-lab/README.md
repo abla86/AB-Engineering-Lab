@@ -73,3 +73,17 @@ All exercise data is synthetic. Automated verifiers are allowlisted in the train
 - `test_security_lab.py` — application-security regression tests
 - `test_training_labs.py` — curriculum lab tests
 - `test_training_engine.py` — engine/API tests
+
+
+## AB Sentinel Mesh red/blue arena
+
+The training engine now includes a complete local red/blue simulation range.
+
+- Dashboard: http://127.0.0.1:8090
+- Synthetic attack catalog: training/attack-defense-catalog.json
+- Simulation engine: training/arena.py
+- Security signature: AB-SENTINEL-MESH.md
+- Research baseline: SECURITY-RESEARCH-BASELINE.md
+- Arena state is local-only and ignored by Git.
+
+The red side emits synthetic events only. It cannot execute generated payloads or contact external targets. The blue side combines detection, containment, integrity, identity, network and recovery controls. Battles are recorded with deterministic signatures and lessons so the same scenario can be replayed after a defensive change.
