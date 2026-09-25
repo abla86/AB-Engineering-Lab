@@ -19,7 +19,14 @@ PORT = 8090
 VERIFIERS = {
     "00-foundations": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
     "02-web-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
-    "07-red-blue": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py"],
+    "07-red-blue": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_labs.py"],
+    "03-network-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_network_lab_finds_cleartext_database_path"],
+    "04-identity-access": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_identity_enforces_least_privilege"],
+    "05-endpoint-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_endpoint_lab_classifies_synthetic_indicator"],
+    "06-blue-team": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_blue_team_detects_repeated_auth_failures_and_privilege_change"],
+    "08-devsecops": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_engine.py"],
+    "09-cloud-kubernetes": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py"],
+    "10-capstone": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_capstone_chain_contains_all_stages"],
 }
 
 
@@ -113,7 +120,9 @@ class TrainingHandler(BaseHTTPRequestHandler):
             self._json(200, load_state())
             return
         if path == "/api/scenarios":
-            self._json(200, json.loads(SCENARIOS.read_text(encoding="utf-8")))
+            base = json.loads(SCENARIOS.read_text(encoding="utf-8"))
+            advanced = json.loads((ROOT / "training" / "scenarios-advanced.json").read_text(encoding="utf-8"))
+            self._json(200, {"scenarios": base["scenarios"] + advanced["scenarios"]})
             return
         self._json(404, {"error": "not found"})
 
