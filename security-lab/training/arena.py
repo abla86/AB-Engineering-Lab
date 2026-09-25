@@ -15,10 +15,14 @@ import itertools
 import json
 from pathlib import Path
 from typing import Any
+import os
+import tempfile
+import threading
 
 ROOT = Path(__file__).resolve().parent
 CATALOG = ROOT / "training" / "attack-defense-catalog.json"
 ARENA_STATE = ROOT / "training" / ".arena.json"
+ARENA_LOCK = threading.Lock()
 
 ALLOWED_MUTATIONS = {
     "intensity": (1, 10),
@@ -214,7 +218,19 @@ def save_battle(result: BattleResult) -> None:
         "lessons": list(result.lessons),
     })
     state["battles"] = battles[-500:]
-    ARENA_STATE.write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
+    data = json.dumps(state, indent=2) + "\n"
+    ARENA_STATE.parent.mkdir(parents=True, exist_ok=True)
+    with ARENA_LOCK:
+        fd, temporary = tempfile.mkstemp(prefix=".arena-", dir=ARENA_STATE.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(data)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary, ARENA_STATE)
+        finally:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
 
 
 def load_state() -> dict[str, Any]:
