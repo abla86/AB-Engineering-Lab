@@ -189,3 +189,19 @@ def test_progress_reset_clears_local_state():
             assert training_engine.load_state() == {"completed": [], "records": {}}
         finally:
             training_engine.STATE = original
+
+
+def test_training_api_requires_json_for_post():
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+        connection.request("POST", "/api/verify", body="{}", headers={"Content-Type": "text/plain"})
+        response = connection.getresponse()
+        assert response.status == 415
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
