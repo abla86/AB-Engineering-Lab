@@ -71,12 +71,14 @@ def endpoint_findings(events: list[dict[str, Any]]) -> list[str]:
 
 def capstone_chain() -> dict[str, bool]:
     detections = detect_blue_team(BLUE_EVENTS)
+    cleartext = network_findings(NETWORK_EVENTS)
+    endpoint = endpoint_findings(ENDPOINT_EVENTS)
     return {
-        "vulnerability": True,
+        "vulnerability": bool(cleartext),
         "detection": any(d.rule_id == "PRIV-ESC-001" for d in detections),
-        "containment": True,
+        "containment": bool(endpoint) and any(d.rule_id == "AUTH-BRUTE-001" for d in detections),
         "remediation": authorize("alice", "read_reports") and not authorize("alice", "approve_reports"),
-        "verification": len(network_findings(NETWORK_EVENTS)) == 1,
+        "verification": not authorize("alice", "approve_reports") and len(cleartext) == 1,
     }
 
 
