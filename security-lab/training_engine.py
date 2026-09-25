@@ -149,6 +149,10 @@ class TrainingHandler(BaseHTTPRequestHandler):
         if path == "/api/verify":
             self._verify()
             return
+        if path == "/api/progress/reset":
+            save_state({"completed": [], "records": {}})
+            self._json(200, load_state())
+            return
         if path != "/api/progress/complete":
             self._json(404, {"error": "not found"})
             return
