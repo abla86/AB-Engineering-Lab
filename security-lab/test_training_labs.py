@@ -7,6 +7,10 @@ from labs import (
     detect_blue_team,
     endpoint_findings,
     network_findings,
+    foundation_boundaries,
+    inventory_assets,
+    devsecops_controls,
+    cloud_controls,
 )
 
 
@@ -32,3 +36,21 @@ def test_endpoint_lab_classifies_synthetic_indicator():
 
 def test_capstone_chain_contains_all_stages():
     assert all(capstone_chain().values())
+
+
+def test_foundations_cover_security_boundaries():
+    assert foundation_boundaries() == ["confidentiality", "integrity", "availability", "authentication", "authorization"]
+
+
+def test_reconnaissance_inventory_is_local_and_bounded():
+    assets = inventory_assets()
+    assert len(assets) == 2
+    assert all(item["boundary"].startswith("127.0.0.1:") for item in assets)
+
+
+def test_devsecops_has_security_gates():
+    assert set(devsecops_controls()) == {"source-tests", "dependency-review", "codeql", "security-training-ci"}
+
+
+def test_cloud_lab_models_required_workload_controls():
+    assert set(cloud_controls()) == {"rbac", "workload-identity", "network-policy", "secret-management"}
