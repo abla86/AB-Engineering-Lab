@@ -1,7 +1,7 @@
-alembic==1.18.5
+alembic==1.20.0
 annotated-doc==0.0.5
 annotated-types==0.8.0
-anyio==4.14.2
+anyio==4.15.1
 click==8.5.0
 colorama==0.4.6
 fastapi==0.141.1
@@ -16,9 +16,9 @@ psycopg==3.3.6
 psycopg-binary==3.3.4
 pydantic==2.13.4
 pydantic_core==2.49.0
-SQLAlchemy==2.0.51
+SQLAlchemy==2.0.54
 starlette==1.6.0
-typing-inspection==0.4.2
+typing-inspection==0.4.4
 typing_extensions==4.16.0
 tzdata==2026.4
 uvicorn==0.52.0
