@@ -23,7 +23,10 @@ The implementation is aligned to the current OWASP Top 10:2025 categories and OW
 - Verification uses subprocesses without a shell and only predefined commands.
 - Repository CI includes secret-pattern guards, source-integrity checks, dependency review and CodeQL.
 - Dependabot updates GitHub Actions and supported package ecosystems.
-- Security regression tests are required for the vulnerable/hardened examples and training engine.
+- Security regression tests are required for the vulnerable/hardened examples, training engine and red/blue arena.
+- The red/blue arena is simulation-only: generated scenarios cannot execute code, access external networks or target external systems.
+- Arena state uses bounded mutations, atomic writes, deterministic battle signatures and a capped history.
+- State-changing training API requests require a custom same-origin request marker as a CSRF defense-in-depth control.
 
 ## Security boundary
 
