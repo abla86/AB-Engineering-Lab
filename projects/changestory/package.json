@@ -9,6 +9,8 @@
     "dev": "vite"
   },
   "devDependencies": {
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.11"
     "typescript": "^7.0.2",
     "vitest": "^2.1.8"
   }
