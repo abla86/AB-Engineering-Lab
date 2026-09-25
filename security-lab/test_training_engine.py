@@ -65,7 +65,7 @@ def test_progress_completion_requires_valid_evidence() -> None:
             thread.start()
             connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
             body = json.dumps({"module_id": "00-foundations", "evidence": "too short"}).encode()
-            connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json"})
+            connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json", "X-AB-Lab-Request": "1"})
             response = connection.getresponse()
             assert response.status == 400
             body = json.dumps({"module_id": "00-foundations", "evidence": "Completed the foundation lab and documented the verification result."}).encode()
@@ -197,7 +197,7 @@ def test_training_api_requires_json_for_post():
     thread.start()
     try:
         connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
-        connection.request("POST", "/api/verify", body="{}", headers={"Content-Type": "text/plain"})
+        connection.request("POST", "/api/verify", body="{}", headers={"Content-Type": "text/plain", "X-AB-Lab-Request": "1"})
         response = connection.getresponse()
         assert response.status == 415
         connection.close()
@@ -228,3 +228,19 @@ def test_progress_reset_endpoint_requires_json_and_clears_state():
             server.shutdown()
             server.server_close()
             thread.join(timeout=2)
+
+
+def test_training_api_rejects_missing_request_marker():
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+        connection.request("POST", "/api/verify", body="{}", headers={"Content-Type": "application/json"})
+        response = connection.getresponse()
+        assert response.status == 403
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
