@@ -30,12 +30,23 @@ async function load(){
   const level=document.createElement('small'); level.textContent=m.level;
   const objectives=document.createElement('p'); objectives.textContent=m.objectives.join('. ')+'.';
   const lab=document.createElement('p'); lab.textContent='Lab: '+m.lab;
-  const button=document.createElement('button'); button.textContent=m.completed?'Completed':'Mark verified';
+  const button=document.createElement('button'); button.textContent=m.completed?'Completed':'Verify & complete';
+  button.disabled=m.completed;
   button.onclick=function(){complete(m.id)};
   card.append(level,title,objectives,lab,button); root.append(card);
  });
 }
+async function verify(id){
+ const response=await fetch('/api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id})});
+ const data=await response.json();
+ if(data.status==='passed'){alert('Verification passed.');return true;}
+ if(data.status==='manual'){alert('No automated verifier is defined. Provide manual evidence.');return true;}
+ alert('Verification failed.\\n\\n'+(data.output||'No test output'));
+ return false;
+}
 async function complete(id){
+ const verified=await verify(id);
+ if(!verified)return;
  const evidence=window.prompt('Evidence for completing this module (test result, log, finding or verification):','');
  if(!evidence||evidence.trim().length<10)return;
  const response=await fetch('/api/progress/complete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id,evidence:evidence.trim()})});
