@@ -29,7 +29,7 @@ def test_progress_round_trip() -> None:
             training_engine.STATE = Path(directory) / "progress.json"
             assert training_engine.load_state() == {"completed": []}
             training_engine.save_state({"completed": ["00-foundations"]})
-            assert training_engine.load_state()["completed"] == {"completed": ["00-foundations"]}
+            assert training_engine.load_state()["completed"] == ["00-foundations"]
         finally:
             training_engine.STATE = original
 
