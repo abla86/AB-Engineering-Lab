@@ -35,7 +35,22 @@ async function loadArena() {
     return option;
   }));
   Array.from($("defense").options).slice(0, 2).forEach(option => { option.selected = true; });
+  $("attack").onchange = renderLearning;
+  $("defense").onchange = renderLearning;
+  renderLearning();
   await loadScoreboard();
+}
+
+async function renderLearning() {
+  const catalog = await api("/api/arena/catalog");
+  const attack = catalog.attacks.find(item => item.id === $("attack").value);
+  const defenses = Array.from($("defense").selectedOptions)
+    .map(option => catalog.defenses.find(item => item.id === option.value))
+    .filter(Boolean);
+  $("learning").textContent = [
+    attack ? "RED: " + attack.learning.models + " Defense: " + attack.learning.defense : "",
+    ...defenses.map(item => "BLUE: " + item.name + " — " + item.learning.mechanism + " " + item.learning.limitation)
+  ].join("\n");
 }
 
 async function loadScoreboard() {
