@@ -82,6 +82,7 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
+        path = urlparse(self.path).path
         if path != "/api/progress/complete":
             self._json(404, {"error": "not found"})
             return
@@ -98,7 +99,6 @@ class TrainingHandler(BaseHTTPRequestHandler):
             return
         if len(evidence) < 10 or len(evidence) > 1000:
             self._json(400, {"error": "evidence must contain 10-1000 characters"})
-            return
             return
         valid_ids = {module.id for module in load_modules()}
         if module_id not in valid_ids:
