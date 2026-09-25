@@ -1,23 +1,39 @@
 # Portfolio Verification Status
 
-Updated: 2026-08-26
+Updated: 2026-09-23
 
 This file records what is directly verifiable from GitHub Actions and repository state. `Not verified` means no suitable latest full-stack/build workflow was available from GitHub; it does not mean the repository is broken.
 
 | Repository | Current verification signal | Status |
 |---|---|---|
 | `developer-portfolio` | GitHub Pages deployment for the latest portfolio navigation commit completed successfully | VERIFIED |
-| `evidence-appraisal-tool` | Latest CodeQL run for the latest repair commit completed successfully | VERIFIED SECURITY CHECK; full build status not established by that run |
+| `complete-evidence-appraisal-tool` | Active repository; verification claims are limited to the current repository evidence | ACTIVE / EVIDENCE BOUNDED |
 | `HealthTechDeviceApi` | Latest Docker Build for latest worklog commit completed successfully | VERIFIED |
-| `healthcare-data-analyzer` | Latest CI for latest quality-pipeline commit completed successfully | VERIFIED |
-| `healthcare-workforce-sql` | Latest SQL Validation run parses `setup.sql` and all `sql/*.sql` files with SQLFluff T-SQL parser | VERIFIED PARSER CHECK; SQL Server execution remains environment-level |
-| `healthtech-dashboard` | Latest CI for frontend/API resilience hardening completed successfully | VERIFIED |
-| `shift-competence-planner` | Latest CI for latest documentation/navigation commit completed successfully | VERIFIED |
-| `workforce-competence-management` | Latest CodeQL for latest documentation/policy commit completed successfully; broader full-stack workflow is not established from this latest run | VERIFIED SECURITY CHECK; full build status not established by that run |
+| `workforce-competence-management` | Latest CodeQL for latest documentation/policy commit completed successfully; broader full-stack workflow is not established from this latest run | VERIFIED SECURITY CHECK; FULL BUILD NOT ESTABLISHED BY THAT RUN |
 | `azure-kubernetes-showcase` | Main-branch verification signal is OK; separate Dependabot PR failure was not on `main` | MAIN BRANCH SIGNAL OK; PR FAILURE NOT MAIN |
+| `AB-Engineering-Lab` | Engineering Lab CI verifies frontend build plus security-lab regression tests. Pages deployment is gated until the repository variable `GITHUB_PAGES_ENABLED=true` is configured with suitable GitHub Pages permissions. | VERIFIED CI; PAGES DEPLOYMENT CONFIGURATION REQUIRED |
 | `HA-Desktop-Widget` | Repository contains a comprehensive CI workflow, but no workflow runs are currently available from GitHub for this fork/repository | CI CONFIGURED; RUN NOT OBSERVED |
-| `AB-Engineering-Lab` | Engineering Lab CI verifies frontend build plus security-lab regression tests. Pages build is independently verifiable; Pages deployment is intentionally gated until the repository variable `GITHUB_PAGES_ENABLED=true` is configured with suitable GitHub Pages permissions. | VERIFIED CI; PAGES DEPLOYMENT CONFIGURATION REQUIRED |
-| `kana-dojo` | Established active open-source project with its own CI/documentation model; no portfolio standardisation changes made | LEFT INTACT |
+
+## Consolidated legacy material
+
+The following standalone repositories have been deleted after consolidation:
+
+- `todo-app`
+- `react-task-dashboard`
+- `task-manager`
+- `calculator`
+- `javascript-counter`
+- `advanced-javascript-counter`
+- `digital-clock`
+- `hello-html`
+- `race-condition`
+- `healthcare-workforce-sql`
+- `intro`
+- `skills-introduction-to-git`
+- `skills-getting-started-with-github-copilot`
+- `local-deep-research`
+
+Their retained material, where useful, is represented in the active canonical repositories or in historical folders inside `AB-Engineering-Lab`.
 
 ## Security laboratory
 

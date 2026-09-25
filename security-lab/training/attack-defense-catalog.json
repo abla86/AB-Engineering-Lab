@@ -1,0 +1,786 @@
+{
+  "attacks": [
+    {
+      "id": "sim-injection",
+      "technique": "injection",
+      "target": "synthetic-api",
+      "severity": "high",
+      "base_pressure": 62,
+      "signals": [
+        "malformed-input",
+        "query-shape-anomaly"
+      ],
+      "learning": {
+        "models": "Models untrusted data crossing an interpreter boundary.",
+        "defense": "Prefer parameterized APIs, allowlists and context-aware encoding."
+      }
+    },
+    {
+      "id": "sim-access-control",
+      "technique": "broken-access-control",
+      "target": "synthetic-records",
+      "severity": "high",
+      "base_pressure": 58,
+      "signals": [
+        "cross-tenant-object",
+        "authorization-mismatch"
+      ],
+      "learning": {
+        "models": "Models a request reaching an object or action outside the caller's authorization.",
+        "defense": "Enforce authorization on every protected request, deny by default and test object/function/field boundaries."
+      }
+    },
+    {
+      "id": "sim-auth-abuse",
+      "technique": "authentication-failure",
+      "target": "synthetic-identity-service",
+      "severity": "high",
+      "base_pressure": 55,
+      "signals": [
+        "auth-burst",
+        "distributed"
+      ],
+      "learning": {
+        "models": "Models repeated or distributed authentication abuse.",
+        "defense": "Use phishing-resistant MFA where appropriate, rate controls, risk signals and strong authentication telemetry."
+      }
+    },
+    {
+      "id": "sim-xss",
+      "technique": "client-injection",
+      "target": "synthetic-browser",
+      "severity": "medium",
+      "base_pressure": 45,
+      "signals": [
+        "markup-anomaly",
+        "output-context-mismatch"
+      ],
+      "learning": {
+        "models": "Models untrusted content reaching a browser execution context.",
+        "defense": "Use context-aware output encoding, safe framework defaults and a restrictive CSP."
+      }
+    },
+    {
+      "id": "sim-supply-chain",
+      "technique": "software-supply-chain",
+      "target": "synthetic-build",
+      "severity": "high",
+      "base_pressure": 64,
+      "signals": [
+        "dependency-drift",
+        "artifact-integrity"
+      ],
+      "learning": {
+        "models": "Models unexpected dependency or build artifact changes.",
+        "defense": "Pin and verify dependencies, review changes, generate provenance and gate artifacts before release."
+      }
+    },
+    {
+      "id": "sim-crypto",
+      "technique": "cryptographic-failure",
+      "target": "synthetic-data-store",
+      "severity": "high",
+      "base_pressure": 60,
+      "signals": [
+        "weak-crypto",
+        "cleartext-secret"
+      ],
+      "learning": {
+        "models": "Models weak or missing protection around sensitive data.",
+        "defense": "Use modern authenticated encryption, protected key management and eliminate cleartext secrets."
+      }
+    },
+    {
+      "id": "sim-misconfig",
+      "technique": "security-misconfiguration",
+      "target": "synthetic-service",
+      "severity": "medium",
+      "base_pressure": 48,
+      "signals": [
+        "unsafe-default",
+        "excessive-exposure"
+      ],
+      "learning": {
+        "models": "Models unsafe defaults and excessive exposure.",
+        "defense": "Harden defaults, remove unused services, minimize permissions and continuously verify configuration."
+      }
+    },
+    {
+      "id": "sim-integrity",
+      "technique": "data-integrity",
+      "target": "synthetic-artifact-store",
+      "severity": "high",
+      "base_pressure": 61,
+      "signals": [
+        "checksum-mismatch",
+        "unexpected-change"
+      ],
+      "learning": {
+        "models": "Models unauthorized modification of data or artifacts.",
+        "defense": "Use integrity verification, signed/provenance-aware artifacts and immutable audit evidence."
+      }
+    },
+    {
+      "id": "sim-logging-evasion",
+      "technique": "logging-alerting-failure",
+      "target": "synthetic-siem",
+      "severity": "medium",
+      "base_pressure": 50,
+      "signals": [
+        "telemetry-gap",
+        "sequence-break"
+      ],
+      "learning": {
+        "models": "Models gaps or breaks in security telemetry.",
+        "defense": "Log security events consistently, protect logs from tampering and alert on material failures."
+      }
+    },
+    {
+      "id": "sim-exception",
+      "technique": "exceptional-condition",
+      "target": "synthetic-api",
+      "severity": "medium",
+      "base_pressure": 47,
+      "signals": [
+        "timeout-storm",
+        "resource-exhaustion"
+      ],
+      "learning": {
+        "models": "Models failures that become security-impacting resource or control problems.",
+        "defense": "Fail safely, bound resources, handle timeouts and test degraded dependencies."
+      }
+    },
+    {
+      "id": "sim-cloud-boundary",
+      "technique": "cloud-workload-boundary",
+      "target": "synthetic-cluster",
+      "severity": "high",
+      "base_pressure": 65,
+      "signals": [
+        "identity-boundary",
+        "network-policy-gap"
+      ],
+      "learning": {
+        "models": "Models cloud workload identity and network boundary failures.",
+        "defense": "Use workload identity, RBAC, network policy and secret management."
+      }
+    },
+    {
+      "id": "sim-endpoint",
+      "technique": "endpoint-execution",
+      "target": "synthetic-endpoint",
+      "severity": "high",
+      "base_pressure": 57,
+      "signals": [
+        "process-anomaly",
+        "file-change"
+      ],
+      "learning": {
+        "models": "Models suspicious endpoint process and file activity.",
+        "defense": "Use application/process controls, telemetry, isolation and evidence preservation."
+      }
+    },
+    {
+      "id": "sim-recon",
+      "technique": "reconnaissance",
+      "target": "synthetic-asset-inventory",
+      "severity": "medium",
+      "base_pressure": 38,
+      "signals": [
+        "asset-query",
+        "service-enumeration"
+      ],
+      "framework": {
+        "attack_tactic": "reconnaissance"
+      },
+      "learning": {
+        "models": "Models discovery of assets and services before an intrusion.",
+        "defense": "Maintain an authoritative asset inventory and minimize unnecessary exposure."
+      }
+    },
+    {
+      "id": "sim-initial-access",
+      "technique": "initial-access",
+      "target": "synthetic-edge-service",
+      "severity": "high",
+      "base_pressure": 58,
+      "signals": [
+        "boundary-probe",
+        "credential-abuse"
+      ],
+      "framework": {
+        "attack_tactic": "initial-access"
+      },
+      "learning": {
+        "models": "Models an adversary crossing an initial trust boundary.",
+        "defense": "Reduce exposed surface, use strong authentication and validate every boundary."
+      }
+    },
+    {
+      "id": "sim-execution",
+      "technique": "execution",
+      "target": "synthetic-endpoint",
+      "severity": "high",
+      "base_pressure": 60,
+      "signals": [
+        "process-anomaly",
+        "script-like-behavior"
+      ],
+      "framework": {
+        "attack_tactic": "execution"
+      },
+      "learning": {
+        "models": "Models malicious or unexpected code/process execution.",
+        "defense": "Use application allowlisting, safe APIs, process controls and endpoint telemetry."
+      }
+    },
+    {
+      "id": "sim-persistence",
+      "technique": "persistence",
+      "target": "synthetic-identity-store",
+      "severity": "high",
+      "base_pressure": 59,
+      "signals": [
+        "startup-change",
+        "account-change"
+      ],
+      "framework": {
+        "attack_tactic": "persistence"
+      },
+      "learning": {
+        "models": "Models unauthorized changes intended to survive normal lifecycle events.",
+        "defense": "Protect startup/configuration surfaces, require authorization and verify integrity."
+      }
+    },
+    {
+      "id": "sim-privilege",
+      "technique": "privilege-escalation",
+      "target": "synthetic-control-plane",
+      "severity": "high",
+      "base_pressure": 63,
+      "signals": [
+        "privilege-change",
+        "authorization-mismatch"
+      ],
+      "framework": {
+        "attack_tactic": "privilege-escalation"
+      },
+      "learning": {
+        "models": "Models an unauthorized transition to higher privilege.",
+        "defense": "Apply least privilege, deny by default and monitor privilege changes."
+      }
+    },
+    {
+      "id": "sim-stealth",
+      "technique": "stealth",
+      "target": "synthetic-telemetry",
+      "severity": "medium",
+      "base_pressure": 52,
+      "signals": [
+        "sequence-break",
+        "behavior-deviation"
+      ],
+      "framework": {
+        "attack_tactic": "stealth"
+      },
+      "learning": {
+        "models": "Models behavior designed to resemble normal activity or create telemetry gaps.",
+        "defense": "Correlate multiple signals and monitor telemetry continuity."
+      }
+    },
+    {
+      "id": "sim-defense-impairment",
+      "technique": "defense-impairment",
+      "target": "synthetic-sensor",
+      "severity": "high",
+      "base_pressure": 66,
+      "signals": [
+        "sensor-gap",
+        "control-change"
+      ],
+      "framework": {
+        "attack_tactic": "defense-impairment"
+      },
+      "learning": {
+        "models": "Models tampering with defensive controls or sensors.",
+        "defense": "Protect security tooling, restrict administrative changes and alert on control changes."
+      }
+    },
+    {
+      "id": "sim-credential-access",
+      "technique": "credential-access",
+      "target": "synthetic-identity-service",
+      "severity": "high",
+      "base_pressure": 64,
+      "signals": [
+        "credential-query",
+        "auth-burst"
+      ],
+      "framework": {
+        "attack_tactic": "credential-access"
+      },
+      "learning": {
+        "models": "Models attempts to obtain or abuse authentication material.",
+        "defense": "Use MFA, credential hardening, secret isolation, rotation and anomaly detection."
+      }
+    },
+    {
+      "id": "sim-discovery",
+      "technique": "discovery",
+      "target": "synthetic-network",
+      "severity": "medium",
+      "base_pressure": 44,
+      "signals": [
+        "service-enumeration",
+        "asset-query"
+      ],
+      "framework": {
+        "attack_tactic": "discovery"
+      },
+      "learning": {
+        "models": "Models internal environment discovery after access.",
+        "defense": "Minimize information exposure, segment networks and monitor unusual enumeration."
+      }
+    },
+    {
+      "id": "sim-lateral",
+      "technique": "lateral-movement",
+      "target": "synthetic-segment",
+      "severity": "high",
+      "base_pressure": 62,
+      "signals": [
+        "cross-segment",
+        "remote-service-anomaly"
+      ],
+      "framework": {
+        "attack_tactic": "lateral-movement"
+      },
+      "learning": {
+        "models": "Models movement across trust boundaries.",
+        "defense": "Use segmentation, strong service authentication, least privilege and east-west monitoring."
+      }
+    },
+    {
+      "id": "sim-collection",
+      "technique": "collection",
+      "target": "synthetic-data-store",
+      "severity": "medium",
+      "base_pressure": 49,
+      "signals": [
+        "bulk-read",
+        "sensitive-access"
+      ],
+      "framework": {
+        "attack_tactic": "collection"
+      },
+      "learning": {
+        "models": "Models bulk or sensitive data access before exfiltration.",
+        "defense": "Enforce data access controls, minimize collection and alert on anomalous volume."
+      }
+    },
+    {
+      "id": "sim-c2",
+      "technique": "command-and-control",
+      "target": "synthetic-egress",
+      "severity": "high",
+      "base_pressure": 61,
+      "signals": [
+        "periodic-egress",
+        "channel-deviation"
+      ],
+      "framework": {
+        "attack_tactic": "command-and-control"
+      },
+      "learning": {
+        "models": "Models unusual outbound control-channel behavior.",
+        "defense": "Restrict egress, use allowlists where practical and monitor traffic behavior."
+      }
+    },
+    {
+      "id": "sim-exfil",
+      "technique": "exfiltration",
+      "target": "synthetic-egress",
+      "severity": "high",
+      "base_pressure": 67,
+      "signals": [
+        "bulk-egress",
+        "unusual-destination"
+      ],
+      "framework": {
+        "attack_tactic": "exfiltration"
+      },
+      "learning": {
+        "models": "Models unauthorized transfer of sensitive data.",
+        "defense": "Restrict egress, monitor volume/destination and protect sensitive data."
+      }
+    },
+    {
+      "id": "sim-impact",
+      "technique": "impact",
+      "target": "synthetic-service",
+      "severity": "high",
+      "base_pressure": 70,
+      "signals": [
+        "availability-degradation",
+        "data-change"
+      ],
+      "framework": {
+        "attack_tactic": "impact"
+      },
+      "learning": {
+        "models": "Models availability or integrity damage.",
+        "defense": "Use rate limits, isolation, backups, integrity controls and tested recovery."
+      }
+    }
+  ],
+  "defenses": [
+    {
+      "id": "def-input",
+      "name": "Canonical Input Guard",
+      "rule_id": "SIG-INPUT-001",
+      "techniques": [
+        "injection",
+        "client-injection",
+        "exceptional-condition"
+      ],
+      "signals": [
+        "malformed-input",
+        "markup-anomaly",
+        "timeout-storm"
+      ],
+      "base_confidence": 82,
+      "response_strength": 22,
+      "action": "reject-and-log",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-auth",
+      "name": "Adaptive Identity Shield",
+      "rule_id": "SIG-AUTH-001",
+      "techniques": [
+        "authentication-failure",
+        "broken-access-control"
+      ],
+      "signals": [
+        "auth-burst",
+        "authorization-mismatch",
+        "cross-tenant-object"
+      ],
+      "base_confidence": 88,
+      "response_strength": 28,
+      "action": "step-up-and-contain",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-integrity",
+      "name": "Artifact Integrity Mesh",
+      "rule_id": "SIG-INTEGRITY-001",
+      "techniques": [
+        "software-supply-chain",
+        "data-integrity"
+      ],
+      "signals": [
+        "dependency-drift",
+        "artifact-integrity",
+        "checksum-mismatch",
+        "unexpected-change"
+      ],
+      "base_confidence": 90,
+      "response_strength": 30,
+      "action": "quarantine-and-verify",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-crypto",
+      "name": "Cryptographic Boundary Guard",
+      "rule_id": "SIG-CRYPTO-001",
+      "techniques": [
+        "cryptographic-failure"
+      ],
+      "signals": [
+        "weak-crypto",
+        "cleartext-secret"
+      ],
+      "base_confidence": 86,
+      "response_strength": 26,
+      "action": "deny-and-rotate",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-config",
+      "name": "Configuration Sentinel",
+      "rule_id": "SIG-CONFIG-001",
+      "techniques": [
+        "security-misconfiguration",
+        "cloud-workload-boundary"
+      ],
+      "signals": [
+        "unsafe-default",
+        "excessive-exposure",
+        "identity-boundary",
+        "network-policy-gap"
+      ],
+      "base_confidence": 84,
+      "response_strength": 27,
+      "action": "isolate-and-remediate",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-telemetry",
+      "name": "Telemetry Continuity Guard",
+      "rule_id": "SIG-TELEMETRY-001",
+      "techniques": [
+        "logging-alerting-failure",
+        "endpoint-execution"
+      ],
+      "signals": [
+        "telemetry-gap",
+        "sequence-break",
+        "process-anomaly",
+        "file-change"
+      ],
+      "base_confidence": 80,
+      "response_strength": 25,
+      "action": "preserve-evidence-and-alert",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-behavior",
+      "name": "Behavior Correlation Engine",
+      "rule_id": "SIG-BEHAVIOR-001",
+      "techniques": [
+        "injection",
+        "broken-access-control",
+        "authentication-failure",
+        "logging-alerting-failure",
+        "endpoint-execution"
+      ],
+      "signals": [
+        "query-shape-anomaly",
+        "cross-tenant-object",
+        "distributed",
+        "markup-anomaly",
+        "sequence-break",
+        "process-anomaly"
+      ],
+      "base_confidence": 78,
+      "response_strength": 24,
+      "action": "correlate-and-contain",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-recovery",
+      "name": "Recovery Verification Gate",
+      "rule_id": "SIG-RECOVERY-001",
+      "techniques": [
+        "software-supply-chain",
+        "data-integrity",
+        "cryptographic-failure",
+        "exceptional-condition"
+      ],
+      "signals": [
+        "artifact-integrity",
+        "checksum-mismatch",
+        "cleartext-secret",
+        "resource-exhaustion"
+      ],
+      "base_confidence": 76,
+      "response_strength": 29,
+      "action": "restore-known-good-and-verify",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-boundary",
+      "name": "Boundary Segmentation Guard",
+      "rule_id": "SIG-BOUNDARY-001",
+      "techniques": [
+        "reconnaissance",
+        "initial-access",
+        "discovery",
+        "lateral-movement"
+      ],
+      "signals": [
+        "asset-query",
+        "service-enumeration",
+        "boundary-probe",
+        "cross-segment",
+        "remote-service-anomaly"
+      ],
+      "base_confidence": 82,
+      "response_strength": 26,
+      "action": "segment-and-restrict",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-execution",
+      "name": "Execution Control Guard",
+      "rule_id": "SIG-EXEC-001",
+      "techniques": [
+        "execution",
+        "persistence",
+        "endpoint-execution"
+      ],
+      "signals": [
+        "process-anomaly",
+        "script-like-behavior",
+        "startup-change",
+        "file-change"
+      ],
+      "base_confidence": 87,
+      "response_strength": 29,
+      "action": "deny-and-isolate",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-identity",
+      "name": "Identity Integrity Guard",
+      "rule_id": "SIG-IDENTITY-001",
+      "techniques": [
+        "persistence",
+        "privilege-escalation",
+        "credential-access"
+      ],
+      "signals": [
+        "account-change",
+        "privilege-change",
+        "credential-query",
+        "auth-burst"
+      ],
+      "base_confidence": 89,
+      "response_strength": 31,
+      "action": "step-up-and-revoke",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-network",
+      "name": "Network Behavior Guard",
+      "rule_id": "SIG-NETWORK-001",
+      "techniques": [
+        "discovery",
+        "lateral-movement",
+        "command-and-control",
+        "exfiltration"
+      ],
+      "signals": [
+        "service-enumeration",
+        "periodic-egress",
+        "channel-deviation",
+        "bulk-egress",
+        "unusual-destination"
+      ],
+      "base_confidence": 85,
+      "response_strength": 30,
+      "action": "filter-and-contain",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-data",
+      "name": "Data Access Guard",
+      "rule_id": "SIG-DATA-001",
+      "techniques": [
+        "collection",
+        "exfiltration",
+        "impact"
+      ],
+      "signals": [
+        "bulk-read",
+        "sensitive-access",
+        "bulk-egress",
+        "data-change"
+      ],
+      "base_confidence": 86,
+      "response_strength": 31,
+      "action": "restrict-and-verify",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    },
+    {
+      "id": "def-availability",
+      "name": "Availability Guard",
+      "rule_id": "SIG-AVAIL-001",
+      "techniques": [
+        "impact",
+        "exceptional-condition"
+      ],
+      "signals": [
+        "availability-degradation",
+        "resource-exhaustion",
+        "timeout-storm"
+      ],
+      "base_confidence": 83,
+      "response_strength": 28,
+      "action": "rate-limit-and-recover",
+      "framework": {
+        "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
+    }
+  ],
+  "framework": {
+    "source_baseline": [
+      "OWASP Top 10:2025",
+      "OWASP ASVS 5.0.0",
+      "NIST SP 800-218 SSDF",
+      "MITRE ATT&CK Enterprise",
+      "MITRE D3FEND",
+      "CISA Secure by Design"
+    ],
+    "design_note": "ATT&CK models adversary goals and techniques; D3FEND provides a standardized vocabulary for defensive countermeasures. The arena uses those concepts as metadata while executing only synthetic simulations."
+  }
+}
