@@ -10,6 +10,13 @@ on:
       - "projects/changestory/**"
       - ".github/workflows/changestory-ci.yml"
 
+permissions:
+  contents: read
+
+concurrency:
+  group: changestory-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
