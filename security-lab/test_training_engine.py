@@ -135,3 +135,25 @@ def test_scenarios_api_exposes_contained_web_security_cases() -> None:
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_completion_cannot_bypass_failed_automated_verification() -> None:
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    original = training_engine.VERIFIERS
+    try:
+        training_engine.VERIFIERS = {"00-foundations": [training_engine.sys.executable, "-c", "raise SystemExit(1)"]}
+        thread.start()
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=5)
+        body = json.dumps({"module_id": "00-foundations", "evidence": "This evidence is deliberately paired with a failed verifier."}).encode()
+        connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json"})
+        response = connection.getresponse()
+        payload = json.loads(response.read())
+        assert response.status == 409
+        assert payload["error"] == "automated verification failed"
+        connection.close()
+    finally:
+        training_engine.VERIFIERS = original
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
