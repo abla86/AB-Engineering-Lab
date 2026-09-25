@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
 CURRICULUM = ROOT / "training" / "curriculum.json"
+SCENARIOS = ROOT / "training" / "scenarios.json"
 STATE = ROOT / "training" / ".progress.json"
 HOST = "127.0.0.1"
 PORT = 8090
@@ -110,6 +111,9 @@ class TrainingHandler(BaseHTTPRequestHandler):
             return
         if path == "/api/progress":
             self._json(200, load_state())
+            return
+        if path == "/api/scenarios":
+            self._json(200, json.loads(SCENARIOS.read_text(encoding="utf-8")))
             return
         self._json(404, {"error": "not found"})
 
