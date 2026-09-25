@@ -1,0 +1,285 @@
+{
+  "attacks": [
+    {
+      "id": "sim-injection",
+      "technique": "injection",
+      "target": "synthetic-api",
+      "severity": "high",
+      "base_pressure": 62,
+      "signals": [
+        "malformed-input",
+        "query-shape-anomaly"
+      ]
+    },
+    {
+      "id": "sim-access-control",
+      "technique": "broken-access-control",
+      "target": "synthetic-records",
+      "severity": "high",
+      "base_pressure": 58,
+      "signals": [
+        "cross-tenant-object",
+        "authorization-mismatch"
+      ]
+    },
+    {
+      "id": "sim-auth-abuse",
+      "technique": "authentication-failure",
+      "target": "synthetic-identity-service",
+      "severity": "high",
+      "base_pressure": 55,
+      "signals": [
+        "auth-burst",
+        "distributed"
+      ]
+    },
+    {
+      "id": "sim-xss",
+      "technique": "client-injection",
+      "target": "synthetic-browser",
+      "severity": "medium",
+      "base_pressure": 45,
+      "signals": [
+        "markup-anomaly",
+        "output-context-mismatch"
+      ]
+    },
+    {
+      "id": "sim-supply-chain",
+      "technique": "software-supply-chain",
+      "target": "synthetic-build",
+      "severity": "high",
+      "base_pressure": 64,
+      "signals": [
+        "dependency-drift",
+        "artifact-integrity"
+      ]
+    },
+    {
+      "id": "sim-crypto",
+      "technique": "cryptographic-failure",
+      "target": "synthetic-data-store",
+      "severity": "high",
+      "base_pressure": 60,
+      "signals": [
+        "weak-crypto",
+        "cleartext-secret"
+      ]
+    },
+    {
+      "id": "sim-misconfig",
+      "technique": "security-misconfiguration",
+      "target": "synthetic-service",
+      "severity": "medium",
+      "base_pressure": 48,
+      "signals": [
+        "unsafe-default",
+        "excessive-exposure"
+      ]
+    },
+    {
+      "id": "sim-integrity",
+      "technique": "data-integrity",
+      "target": "synthetic-artifact-store",
+      "severity": "high",
+      "base_pressure": 61,
+      "signals": [
+        "checksum-mismatch",
+        "unexpected-change"
+      ]
+    },
+    {
+      "id": "sim-logging-evasion",
+      "technique": "logging-alerting-failure",
+      "target": "synthetic-siem",
+      "severity": "medium",
+      "base_pressure": 50,
+      "signals": [
+        "telemetry-gap",
+        "sequence-break"
+      ]
+    },
+    {
+      "id": "sim-exception",
+      "technique": "exceptional-condition",
+      "target": "synthetic-api",
+      "severity": "medium",
+      "base_pressure": 47,
+      "signals": [
+        "timeout-storm",
+        "resource-exhaustion"
+      ]
+    },
+    {
+      "id": "sim-cloud-boundary",
+      "technique": "cloud-workload-boundary",
+      "target": "synthetic-cluster",
+      "severity": "high",
+      "base_pressure": 65,
+      "signals": [
+        "identity-boundary",
+        "network-policy-gap"
+      ]
+    },
+    {
+      "id": "sim-endpoint",
+      "technique": "endpoint-execution",
+      "target": "synthetic-endpoint",
+      "severity": "high",
+      "base_pressure": 57,
+      "signals": [
+        "process-anomaly",
+        "file-change"
+      ]
+    }
+  ],
+  "defenses": [
+    {
+      "id": "def-input",
+      "name": "Canonical Input Guard",
+      "rule_id": "SIG-INPUT-001",
+      "techniques": [
+        "injection",
+        "client-injection",
+        "exceptional-condition"
+      ],
+      "signals": [
+        "malformed-input",
+        "markup-anomaly",
+        "timeout-storm"
+      ],
+      "base_confidence": 82,
+      "response_strength": 22,
+      "action": "reject-and-log"
+    },
+    {
+      "id": "def-auth",
+      "name": "Adaptive Identity Shield",
+      "rule_id": "SIG-AUTH-001",
+      "techniques": [
+        "authentication-failure",
+        "broken-access-control"
+      ],
+      "signals": [
+        "auth-burst",
+        "authorization-mismatch",
+        "cross-tenant-object"
+      ],
+      "base_confidence": 88,
+      "response_strength": 28,
+      "action": "step-up-and-contain"
+    },
+    {
+      "id": "def-integrity",
+      "name": "Artifact Integrity Mesh",
+      "rule_id": "SIG-INTEGRITY-001",
+      "techniques": [
+        "software-supply-chain",
+        "data-integrity"
+      ],
+      "signals": [
+        "dependency-drift",
+        "artifact-integrity",
+        "checksum-mismatch",
+        "unexpected-change"
+      ],
+      "base_confidence": 90,
+      "response_strength": 30,
+      "action": "quarantine-and-verify"
+    },
+    {
+      "id": "def-crypto",
+      "name": "Cryptographic Boundary Guard",
+      "rule_id": "SIG-CRYPTO-001",
+      "techniques": [
+        "cryptographic-failure"
+      ],
+      "signals": [
+        "weak-crypto",
+        "cleartext-secret"
+      ],
+      "base_confidence": 86,
+      "response_strength": 26,
+      "action": "deny-and-rotate"
+    },
+    {
+      "id": "def-config",
+      "name": "Configuration Sentinel",
+      "rule_id": "SIG-CONFIG-001",
+      "techniques": [
+        "security-misconfiguration",
+        "cloud-workload-boundary"
+      ],
+      "signals": [
+        "unsafe-default",
+        "excessive-exposure",
+        "identity-boundary",
+        "network-policy-gap"
+      ],
+      "base_confidence": 84,
+      "response_strength": 27,
+      "action": "isolate-and-remediate"
+    },
+    {
+      "id": "def-telemetry",
+      "name": "Telemetry Continuity Guard",
+      "rule_id": "SIG-TELEMETRY-001",
+      "techniques": [
+        "logging-alerting-failure",
+        "endpoint-execution"
+      ],
+      "signals": [
+        "telemetry-gap",
+        "sequence-break",
+        "process-anomaly",
+        "file-change"
+      ],
+      "base_confidence": 80,
+      "response_strength": 25,
+      "action": "preserve-evidence-and-alert"
+    },
+    {
+      "id": "def-behavior",
+      "name": "Behavior Correlation Engine",
+      "rule_id": "SIG-BEHAVIOR-001",
+      "techniques": [
+        "injection",
+        "broken-access-control",
+        "authentication-failure",
+        "logging-alerting-failure",
+        "endpoint-execution"
+      ],
+      "signals": [
+        "query-shape-anomaly",
+        "cross-tenant-object",
+        "distributed",
+        "markup-anomaly",
+        "sequence-break",
+        "process-anomaly"
+      ],
+      "base_confidence": 78,
+      "response_strength": 24,
+      "action": "correlate-and-contain"
+    },
+    {
+      "id": "def-recovery",
+      "name": "Recovery Verification Gate",
+      "rule_id": "SIG-RECOVERY-001",
+      "techniques": [
+        "software-supply-chain",
+        "data-integrity",
+        "cryptographic-failure",
+        "exceptional-condition"
+      ],
+      "signals": [
+        "artifact-integrity",
+        "checksum-mismatch",
+        "cleartext-secret",
+        "resource-exhaustion"
+      ],
+      "base_confidence": 76,
+      "response_strength": 29,
+      "action": "restore-known-good-and-verify"
+    }
+  ]
+}
