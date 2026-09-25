@@ -92,17 +92,22 @@ class TrainingHandler(BaseHTTPRequestHandler):
         try:
             payload = json.loads(self.rfile.read(length) or b"{}")
             module_id = str(payload["module_id"])
+            evidence = str(payload["evidence"]).strip()
         except (ValueError, KeyError, TypeError, json.JSONDecodeError):
-            self._json(400, {"error": "module_id is required"})
+            self._json(400, {"error": "module_id and evidence are required"})
+            return
+        if len(evidence) < 10 or len(evidence) > 1000:
+            self._json(400, {"error": "evidence must contain 10-1000 characters"})
+            return
             return
         valid_ids = {module.id for module in load_modules()}
         if module_id not in valid_ids:
             self._json(400, {"error": "unknown module"})
             return
         state = load_state()
-        completed = set(state.get("completed", []))
-        completed.add(module_id)
-        state["completed"] = sorted(completed)
+        records = state.setdefault("records", {})
+        records[module_id] = {"evidence": evidence}
+        state["completed"] = sorted(records)
         save_state(state)
         self._json(200, state)
 
