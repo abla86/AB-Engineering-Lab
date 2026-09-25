@@ -52,3 +52,29 @@ def test_input_validation_rejects_script_markup():
 
     with pytest.raises(ValueError):
         fixed_input_validation("<script>alert(1)</script>")
+
+
+def test_local_lab_security_headers_and_request_limit():
+    import threading
+    from http.client import HTTPConnection
+    from app import HTTPServer, LabHandler
+
+    server = HTTPServer(("127.0.0.1", 0), LabHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+        connection.request("GET", "/")
+        response = connection.getresponse()
+        assert response.status == 200
+        assert response.getheader("Content-Security-Policy") == "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+        assert response.getheader("Cache-Control") == "no-store"
+        assert response.getheader("Permissions-Policy") is not None
+        connection.request("GET", "/" + ("a" * 4097))
+        response = connection.getresponse()
+        assert response.status == 414
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
