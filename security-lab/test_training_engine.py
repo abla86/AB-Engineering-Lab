@@ -81,3 +81,21 @@ def test_progress_completion_requires_valid_evidence() -> None:
             server.shutdown()
             server.server_close()
             thread.join(timeout=2)
+
+def test_verify_endpoint_rejects_unknown_command_without_execution() -> None:
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+        body = json.dumps({"module_id": "01-reconnaissance"}).encode()
+        connection.request("POST", "/api/verify", body=body, headers={"Content-Type": "application/json"})
+        response = connection.getresponse()
+        payload = json.loads(response.read())
+        assert response.status == 200
+        assert payload["status"] == "manual"
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
