@@ -1,0 +1,12 @@
+{
+  "scenarios": [
+    {"id":"network-01","module_id":"03-network-security","title":"Synthetic segmentation review","evidence":"Identify the cleartext workstation-to-database path and propose a boundary control.","verification":"network_findings() must identify net-002."},
+    {"id":"identity-01","module_id":"04-identity-access","title":"Least-privilege review","evidence":"Show that Alice can read reports but cannot approve them.","verification":"authorize() must enforce the synthetic role permissions."},
+    {"id":"endpoint-01","module_id":"05-endpoint-security","title":"Endpoint telemetry classification","evidence":"Classify the synthetic PowerShell process event without executing it.","verification":"endpoint_findings() must identify ep-001."},
+    {"id":"blue-01","module_id":"06-blue-team","title":"Synthetic incident investigation","evidence":"Correlate repeated authentication failures with the synthetic privilege change.","verification":"detect_blue_team() must produce AUTH-BRUTE-001 and PRIV-ESC-001."},
+    {"id":"redblue-01","module_id":"07-red-blue","title":"Contained remediation","evidence":"Demonstrate the vulnerable local behavior, then verify the hardened regression tests.","verification":"security-lab regression tests must pass."},
+    {"id":"devsecops-01","module_id":"08-devsecops","title":"Security gate review","evidence":"Inspect repository CI security gates and record the controls they enforce.","verification":"CI workflow and security lab tests must remain valid."},
+    {"id":"cloud-01","module_id":"09-cloud-kubernetes","title":"Workload boundary review","evidence":"Review Kubernetes RBAC, workload identity and network-policy controls in the showcase repository.","verification":"Use repository CI evidence; no external cluster is required."},
+    {"id":"capstone-01","module_id":"10-capstone","title":"Attack-to-remediation chain","evidence":"Connect vulnerability, detection, containment, remediation and verification evidence.","verification":"capstone_chain() must return true for every stage."}
+  ]
+}
