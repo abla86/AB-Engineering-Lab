@@ -54,3 +54,12 @@ def test_devsecops_has_security_gates():
 
 def test_cloud_lab_models_required_workload_controls():
     assert set(cloud_controls()) == {"rbac", "workload-identity", "network-policy", "secret-management"}
+
+
+def test_capstone_chain_fails_when_detection_is_missing():
+    original = BLUE_EVENTS[:]
+    try:
+        BLUE_EVENTS[:] = [event for event in BLUE_EVENTS if event["type"] != "privilege_change"]
+        assert capstone_chain()["detection"] is False
+    finally:
+        BLUE_EVENTS[:] = original
