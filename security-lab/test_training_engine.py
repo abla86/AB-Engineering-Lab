@@ -69,7 +69,7 @@ def test_progress_completion_requires_valid_evidence() -> None:
             response = connection.getresponse()
             assert response.status == 400
             body = json.dumps({"module_id": "00-foundations", "evidence": "Completed the foundation lab and documented the verification result."}).encode()
-            connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json"})
+            connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json", "X-AB-Lab-Request": "1"})
             response = connection.getresponse()
             assert response.status == 200
             state = json.loads(response.read())
@@ -89,7 +89,7 @@ def test_verify_endpoint_rejects_unknown_command_without_execution() -> None:
     try:
         connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
         body = json.dumps({"module_id": "not-a-module"}).encode()
-        connection.request("POST", "/api/verify", body=body, headers={"Content-Type": "application/json"})
+        connection.request("POST", "/api/verify", body=body, headers={"Content-Type": "application/json", "X-AB-Lab-Request": "1"})
         response = connection.getresponse()
         payload = json.loads(response.read())
         assert response.status == 200
@@ -107,7 +107,7 @@ def test_verify_endpoint_runs_allowlisted_web_security_tests() -> None:
     try:
         connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=130)
         body = json.dumps({"module_id": "02-web-security"}).encode()
-        connection.request("POST", "/api/verify", body=body, headers={"Content-Type": "application/json"})
+        connection.request("POST", "/api/verify", body=body, headers={"Content-Type": "application/json", "X-AB-Lab-Request": "1"})
         response = connection.getresponse()
         payload = json.loads(response.read())
         assert response.status == 200
@@ -146,7 +146,7 @@ def test_completion_cannot_bypass_failed_automated_verification() -> None:
         thread.start()
         connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=5)
         body = json.dumps({"module_id": "00-foundations", "evidence": "This evidence is deliberately paired with a failed verifier."}).encode()
-        connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json"})
+        connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json", "X-AB-Lab-Request": "1"})
         response = connection.getresponse()
         payload = json.loads(response.read())
         assert response.status == 409
@@ -217,7 +217,7 @@ def test_progress_reset_endpoint_requires_json_and_clears_state():
             training_engine.save_state({"completed": ["00-foundations"], "records": {"00-foundations": {"evidence": "verified"}}})
             thread.start()
             connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
-            connection.request("POST", "/api/progress/reset", body="{}", headers={"Content-Type": "application/json"})
+            connection.request("POST", "/api/progress/reset", body="{}", headers={"Content-Type": "application/json", "X-AB-Lab-Request": "1"})
             response = connection.getresponse()
             payload = json.loads(response.read())
             assert response.status == 200
