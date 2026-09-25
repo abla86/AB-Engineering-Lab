@@ -117,3 +117,21 @@ def test_verify_endpoint_runs_allowlisted_web_security_tests() -> None:
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+def test_scenarios_api_exposes_contained_web_security_cases() -> None:
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+        connection.request("GET", "/api/scenarios")
+        response = connection.getresponse()
+        payload = json.loads(response.read())
+        assert response.status == 200
+        assert len(payload["scenarios"]) == 3
+        assert all(item["module_id"] == "02-web-security" for item in payload["scenarios"])
+        connection.close()
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=2)
