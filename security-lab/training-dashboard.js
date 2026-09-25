@@ -31,7 +31,7 @@ async function load(){
 }
 document.getElementById("reset").onclick=async function(){
  if(!window.confirm("Reset all local training progress?"))return;
- await fetch("/api/progress/reset",{method:"POST"}); load();
+ await fetch("/api/progress/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:"{}"}); load();
 };
 async function verify(id){
  const response=await fetch('/api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({module_id:id})});
