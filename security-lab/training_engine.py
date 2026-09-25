@@ -5,6 +5,7 @@ from dataclasses import asdict, dataclass
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent
 CURRICULUM = ROOT / "training" / "curriculum.json"
@@ -56,23 +57,32 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self) -> None:
-        if self.path == "/api/health":
+        path = urlparse(self.path).path
+        if path == "/":
+            dashboard = (ROOT / "training-dashboard.html").read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            self.wfile.write(dashboard)
+            return
+        if path == "/api/health":
             self._json(200, {"status": "ok", "service": "cyber-training-engine"})
             return
-        if self.path == "/api/modules":
+        if path == "/api/modules":
             modules = [asdict(module) for module in load_modules()]
             completed = set(load_state().get("completed", []))
             for module in modules:
                 module["completed"] = module["id"] in completed
             self._json(200, {"modules": modules})
             return
-        if self.path == "/api/progress":
+        if path == "/api/progress":
             self._json(200, load_state())
             return
         self._json(404, {"error": "not found"})
 
     def do_POST(self) -> None:
-        if self.path != "/api/progress/complete":
+        if path != "/api/progress/complete":
             self._json(404, {"error": "not found"})
             return
         length = int(self.headers.get("Content-Length", "0"))
