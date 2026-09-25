@@ -9,7 +9,11 @@
       "signals": [
         "malformed-input",
         "query-shape-anomaly"
-      ]
+      ],
+      "learning": {
+        "models": "Models untrusted data crossing an interpreter boundary.",
+        "defense": "Prefer parameterized APIs, allowlists and context-aware encoding."
+      }
     },
     {
       "id": "sim-access-control",
@@ -20,7 +24,11 @@
       "signals": [
         "cross-tenant-object",
         "authorization-mismatch"
-      ]
+      ],
+      "learning": {
+        "models": "Models a request reaching an object or action outside the caller's authorization.",
+        "defense": "Enforce authorization on every protected request, deny by default and test object/function/field boundaries."
+      }
     },
     {
       "id": "sim-auth-abuse",
@@ -31,7 +39,11 @@
       "signals": [
         "auth-burst",
         "distributed"
-      ]
+      ],
+      "learning": {
+        "models": "Models repeated or distributed authentication abuse.",
+        "defense": "Use phishing-resistant MFA where appropriate, rate controls, risk signals and strong authentication telemetry."
+      }
     },
     {
       "id": "sim-xss",
@@ -42,7 +54,11 @@
       "signals": [
         "markup-anomaly",
         "output-context-mismatch"
-      ]
+      ],
+      "learning": {
+        "models": "Models untrusted content reaching a browser execution context.",
+        "defense": "Use context-aware output encoding, safe framework defaults and a restrictive CSP."
+      }
     },
     {
       "id": "sim-supply-chain",
@@ -53,7 +69,11 @@
       "signals": [
         "dependency-drift",
         "artifact-integrity"
-      ]
+      ],
+      "learning": {
+        "models": "Models unexpected dependency or build artifact changes.",
+        "defense": "Pin and verify dependencies, review changes, generate provenance and gate artifacts before release."
+      }
     },
     {
       "id": "sim-crypto",
@@ -64,7 +84,11 @@
       "signals": [
         "weak-crypto",
         "cleartext-secret"
-      ]
+      ],
+      "learning": {
+        "models": "Models weak or missing protection around sensitive data.",
+        "defense": "Use modern authenticated encryption, protected key management and eliminate cleartext secrets."
+      }
     },
     {
       "id": "sim-misconfig",
@@ -75,7 +99,11 @@
       "signals": [
         "unsafe-default",
         "excessive-exposure"
-      ]
+      ],
+      "learning": {
+        "models": "Models unsafe defaults and excessive exposure.",
+        "defense": "Harden defaults, remove unused services, minimize permissions and continuously verify configuration."
+      }
     },
     {
       "id": "sim-integrity",
@@ -86,7 +114,11 @@
       "signals": [
         "checksum-mismatch",
         "unexpected-change"
-      ]
+      ],
+      "learning": {
+        "models": "Models unauthorized modification of data or artifacts.",
+        "defense": "Use integrity verification, signed/provenance-aware artifacts and immutable audit evidence."
+      }
     },
     {
       "id": "sim-logging-evasion",
@@ -97,7 +129,11 @@
       "signals": [
         "telemetry-gap",
         "sequence-break"
-      ]
+      ],
+      "learning": {
+        "models": "Models gaps or breaks in security telemetry.",
+        "defense": "Log security events consistently, protect logs from tampering and alert on material failures."
+      }
     },
     {
       "id": "sim-exception",
@@ -108,7 +144,11 @@
       "signals": [
         "timeout-storm",
         "resource-exhaustion"
-      ]
+      ],
+      "learning": {
+        "models": "Models failures that become security-impacting resource or control problems.",
+        "defense": "Fail safely, bound resources, handle timeouts and test degraded dependencies."
+      }
     },
     {
       "id": "sim-cloud-boundary",
@@ -119,7 +159,11 @@
       "signals": [
         "identity-boundary",
         "network-policy-gap"
-      ]
+      ],
+      "learning": {
+        "models": "Models cloud workload identity and network boundary failures.",
+        "defense": "Use workload identity, RBAC, network policy and secret management."
+      }
     },
     {
       "id": "sim-endpoint",
@@ -130,7 +174,11 @@
       "signals": [
         "process-anomaly",
         "file-change"
-      ]
+      ],
+      "learning": {
+        "models": "Models suspicious endpoint process and file activity.",
+        "defense": "Use application/process controls, telemetry, isolation and evidence preservation."
+      }
     },
     {
       "id": "sim-recon",
@@ -144,6 +192,10 @@
       ],
       "framework": {
         "attack_tactic": "reconnaissance"
+      },
+      "learning": {
+        "models": "Models discovery of assets and services before an intrusion.",
+        "defense": "Maintain an authoritative asset inventory and minimize unnecessary exposure."
       }
     },
     {
@@ -158,6 +210,10 @@
       ],
       "framework": {
         "attack_tactic": "initial-access"
+      },
+      "learning": {
+        "models": "Models an adversary crossing an initial trust boundary.",
+        "defense": "Reduce exposed surface, use strong authentication and validate every boundary."
       }
     },
     {
@@ -172,6 +228,10 @@
       ],
       "framework": {
         "attack_tactic": "execution"
+      },
+      "learning": {
+        "models": "Models malicious or unexpected code/process execution.",
+        "defense": "Use application allowlisting, safe APIs, process controls and endpoint telemetry."
       }
     },
     {
@@ -186,6 +246,10 @@
       ],
       "framework": {
         "attack_tactic": "persistence"
+      },
+      "learning": {
+        "models": "Models unauthorized changes intended to survive normal lifecycle events.",
+        "defense": "Protect startup/configuration surfaces, require authorization and verify integrity."
       }
     },
     {
@@ -200,6 +264,10 @@
       ],
       "framework": {
         "attack_tactic": "privilege-escalation"
+      },
+      "learning": {
+        "models": "Models an unauthorized transition to higher privilege.",
+        "defense": "Apply least privilege, deny by default and monitor privilege changes."
       }
     },
     {
@@ -214,6 +282,10 @@
       ],
       "framework": {
         "attack_tactic": "stealth"
+      },
+      "learning": {
+        "models": "Models behavior designed to resemble normal activity or create telemetry gaps.",
+        "defense": "Correlate multiple signals and monitor telemetry continuity."
       }
     },
     {
@@ -228,6 +300,10 @@
       ],
       "framework": {
         "attack_tactic": "defense-impairment"
+      },
+      "learning": {
+        "models": "Models tampering with defensive controls or sensors.",
+        "defense": "Protect security tooling, restrict administrative changes and alert on control changes."
       }
     },
     {
@@ -242,6 +318,10 @@
       ],
       "framework": {
         "attack_tactic": "credential-access"
+      },
+      "learning": {
+        "models": "Models attempts to obtain or abuse authentication material.",
+        "defense": "Use MFA, credential hardening, secret isolation, rotation and anomaly detection."
       }
     },
     {
@@ -256,6 +336,10 @@
       ],
       "framework": {
         "attack_tactic": "discovery"
+      },
+      "learning": {
+        "models": "Models internal environment discovery after access.",
+        "defense": "Minimize information exposure, segment networks and monitor unusual enumeration."
       }
     },
     {
@@ -270,6 +354,10 @@
       ],
       "framework": {
         "attack_tactic": "lateral-movement"
+      },
+      "learning": {
+        "models": "Models movement across trust boundaries.",
+        "defense": "Use segmentation, strong service authentication, least privilege and east-west monitoring."
       }
     },
     {
@@ -284,6 +372,10 @@
       ],
       "framework": {
         "attack_tactic": "collection"
+      },
+      "learning": {
+        "models": "Models bulk or sensitive data access before exfiltration.",
+        "defense": "Enforce data access controls, minimize collection and alert on anomalous volume."
       }
     },
     {
@@ -298,6 +390,10 @@
       ],
       "framework": {
         "attack_tactic": "command-and-control"
+      },
+      "learning": {
+        "models": "Models unusual outbound control-channel behavior.",
+        "defense": "Restrict egress, use allowlists where practical and monitor traffic behavior."
       }
     },
     {
@@ -312,6 +408,10 @@
       ],
       "framework": {
         "attack_tactic": "exfiltration"
+      },
+      "learning": {
+        "models": "Models unauthorized transfer of sensitive data.",
+        "defense": "Restrict egress, monitor volume/destination and protect sensitive data."
       }
     },
     {
@@ -326,6 +426,10 @@
       ],
       "framework": {
         "attack_tactic": "impact"
+      },
+      "learning": {
+        "models": "Models availability or integrity damage.",
+        "defense": "Use rate limits, isolation, backups, integrity controls and tested recovery."
       }
     }
   ],
@@ -346,7 +450,11 @@
       ],
       "base_confidence": 82,
       "response_strength": 22,
-      "action": "reject-and-log"
+      "action": "reject-and-log",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-auth",
@@ -363,7 +471,11 @@
       ],
       "base_confidence": 88,
       "response_strength": 28,
-      "action": "step-up-and-contain"
+      "action": "step-up-and-contain",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-integrity",
@@ -381,7 +493,11 @@
       ],
       "base_confidence": 90,
       "response_strength": 30,
-      "action": "quarantine-and-verify"
+      "action": "quarantine-and-verify",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-crypto",
@@ -396,7 +512,11 @@
       ],
       "base_confidence": 86,
       "response_strength": 26,
-      "action": "deny-and-rotate"
+      "action": "deny-and-rotate",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-config",
@@ -414,7 +534,11 @@
       ],
       "base_confidence": 84,
       "response_strength": 27,
-      "action": "isolate-and-remediate"
+      "action": "isolate-and-remediate",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-telemetry",
@@ -432,7 +556,11 @@
       ],
       "base_confidence": 80,
       "response_strength": 25,
-      "action": "preserve-evidence-and-alert"
+      "action": "preserve-evidence-and-alert",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-behavior",
@@ -455,7 +583,11 @@
       ],
       "base_confidence": 78,
       "response_strength": 24,
-      "action": "correlate-and-contain"
+      "action": "correlate-and-contain",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-recovery",
@@ -475,7 +607,11 @@
       ],
       "base_confidence": 76,
       "response_strength": 29,
-      "action": "restore-known-good-and-verify"
+      "action": "restore-known-good-and-verify",
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
+      }
     },
     {
       "id": "def-boundary",
@@ -499,6 +635,10 @@
       "action": "segment-and-restrict",
       "framework": {
         "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
       }
     },
     {
@@ -521,6 +661,10 @@
       "action": "deny-and-isolate",
       "framework": {
         "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
       }
     },
     {
@@ -543,6 +687,10 @@
       "action": "step-up-and-revoke",
       "framework": {
         "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
       }
     },
     {
@@ -567,6 +715,10 @@
       "action": "filter-and-contain",
       "framework": {
         "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
       }
     },
     {
@@ -589,6 +741,10 @@
       "action": "restrict-and-verify",
       "framework": {
         "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
       }
     },
     {
@@ -609,6 +765,10 @@
       "action": "rate-limit-and-recover",
       "framework": {
         "d3fend_style": "prevent-detect-contain-recover"
+      },
+      "learning": {
+        "mechanism": "Detects synthetic signals or techniques, then applies a bounded response action.",
+        "limitation": "A control only covers the signals and techniques mapped to it; combine layers and replay scenarios."
       }
     }
   ],
