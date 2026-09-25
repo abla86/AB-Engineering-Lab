@@ -23,6 +23,10 @@ This document maps the technologies and competencies found in the target Softwar
 | Encryption | HealthTech security boundary | Implement only for a defined confidentiality requirement |
 | Data Science | `healthcare-data-analyzer` | Separate analytical pipeline |
 | Vector / retrieval | `local-deep-research` | Research retrieval context |
+| Google ADK | `agenttrace` | Applied agent orchestration example; keep optional and isolated from the core |
+| MCP | `agenttrace` | Real interoperability boundary between ADK and the AgentTrace policy layer |
+| Enterprise AI security | `agenttrace` + CodeSentinel | Tool capability, provenance and audit controls; do not claim universal security |
+| Agent evaluation / feedback | `agenttrace` | Deterministic policy decisions, audit evidence and bounded evaluation workflows |
 | Neural networks | AI projects | Do not claim until reproducible model/evaluation evidence exists |
 | Full-stack development | Azure showcase + HealthTech + portfolio | UI → API → data → delivery |
 | Web services / backend / database | HealthTech + EventForge | Actual service boundaries |
