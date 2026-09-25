@@ -13,7 +13,7 @@ button{padding:8px 12px;border-radius:7px;border:1px solid #30363d;background:#2
 <h1>Cyber Security Training Lab</h1>
 <p>Learn → investigate → defend → remediate → verify</p>
 <div class="bar"><div id="fill" class="fill"></div></div>
-<p id="progress"></p>
+<p id="progress"></p><p id="verificationCoverage"></p>
 <section><h2>Training scenarios</h2><div id="scenarios" class="grid"></div></section><main id="modules" class="grid"></main>
 <script>
 async function load(){
@@ -24,6 +24,8 @@ async function load(){
  document.getElementById('progress').textContent=done+' / '+data.modules.length+' modules completed';
  document.getElementById('fill').style.width=(done/data.modules.length*100)+'%';
  root.replaceChildren();
+ const coverage=await fetch('/api/verifiers').then(r=>r.json());
+ document.getElementById('verificationCoverage').textContent=coverage.modules.filter(m=>m.automated).length+' / '+coverage.modules.length+' modules have automated verification';
  const scenarioData=await fetch('/api/scenarios').then(r=>r.json());
  scenarios.replaceChildren();
  scenarioData.scenarios.forEach(function(s){const card=document.createElement('article');card.className='card';const title=document.createElement('h3');title.textContent=s.id+' — '+s.title;const module=document.createElement('small');module.textContent=s.module_id;const evidence=document.createElement('p');evidence.textContent=s.evidence||s.objective||'';const verification=document.createElement('p');verification.textContent='Verification: '+s.verification;card.append(module,title,evidence,verification);scenarios.append(card);});
