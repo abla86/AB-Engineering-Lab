@@ -53,3 +53,31 @@ def test_api_health_and_modules() -> None:
         server.shutdown()
         server.server_close()
         thread.join(timeout=2)
+
+
+def test_progress_completion_requires_valid_evidence() -> None:
+    server = training_engine.ThreadingHTTPServer(("127.0.0.1", 0), training_engine.TrainingHandler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    original = training_engine.STATE
+    with TemporaryDirectory() as directory:
+        try:
+            training_engine.STATE = Path(directory) / "progress.json"
+            thread.start()
+            connection = HTTPConnection("127.0.0.1", server.server_address[1], timeout=2)
+            body = json.dumps({"module_id": "00-foundations", "evidence": "too short"}).encode()
+            connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            assert response.status == 400
+            body = json.dumps({"module_id": "00-foundations", "evidence": "Completed the foundation lab and documented the verification result."}).encode()
+            connection.request("POST", "/api/progress/complete", body=body, headers={"Content-Type": "application/json"})
+            response = connection.getresponse()
+            assert response.status == 200
+            state = json.loads(response.read())
+            assert state["completed"] == ["00-foundations"]
+            assert state["records"]["00-foundations"]["evidence"].startswith("Completed")
+            connection.close()
+        finally:
+            training_engine.STATE = original
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
