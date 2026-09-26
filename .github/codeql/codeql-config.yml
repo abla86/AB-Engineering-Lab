@@ -1,0 +1,9 @@
+name: "AB Engineering Lab CodeQL config"
+
+paths-ignore:
+  - "archive/**"
+  - "security-lab/**"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/coverage/**"
