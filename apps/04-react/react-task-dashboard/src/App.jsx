@@ -1,7 +1,22 @@
 import { useEffect, useMemo, useState } from "react"; import TaskForm from "./components/TaskForm.jsx"; import TaskColumn from "./components/TaskColumn.jsx";
 const KEY="react-task-dashboard"; const columns=[["todo","To Do"],["progress","In Progress"],["done","Done"]];
 const starter=[{id:"1",title:"Plan dashboard",status:"todo"},{id:"2",title:"Build React components",status:"progress"},{id:"3",title:"Create project README",status:"done"}];
-function load(){try{const x=localStorage.getItem(KEY);return x?JSON.parse(x):starter}catch{return starter}}
+function load(){
+  try{
+    const x=localStorage.getItem(KEY);
+    if(!x) return starter;
+    const parsed=JSON.parse(x);
+    if(!Array.isArray(parsed)) return starter;
+    const valid=parsed.filter(task =>
+      task &&
+      typeof task === "object" &&
+      typeof task.id === "string" &&
+      typeof task.title === "string" &&
+      ["todo","progress","done"].includes(task.status)
+    );
+    return valid;
+  }catch{return starter}
+}
 export default function App(){const[tasks,setTasks]=useState(load);const[filter,setFilter]=useState("all");
 useEffect(()=>localStorage.setItem(KEY,JSON.stringify(tasks)),[tasks]);
 const visible=useMemo(()=>filter==="all"?tasks:tasks.filter(t=>t.status===filter),[tasks,filter]);
