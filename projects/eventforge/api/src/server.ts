@@ -6,7 +6,7 @@ import type { WorkEvent } from "./types.js";
 import { prometheus, recordError, recordEvent, recordRequest } from "./metrics.js";
 
 const app = express();
-const host = process.env.HOST ?? "0.0.0.0";
+const host = process.env.HOST ?? "127.0.0.1";
 app.disable("x-powered-by");
 app.use(express.json({ limit: "16kb", strict: true }));
 app.use((_, res, next) => {
