@@ -38,7 +38,15 @@ jobs:
       security-events: write
       # pull-requests: write     # Required if DO_PR_COMMENT is set to true
 
+    env:
+      FORTIFY_CONFIGURED: ${{ secrets.FOD_USER != '' && secrets.FOD_PAT != '' && secrets.FOD_TENANT != '' }}
     steps:
+      - name: Check Fortify configuration
+        run: |
+          if [[ "$FORTIFY_CONFIGURED" != "true" ]]; then
+            echo "::warning::Fortify secrets are not configured; the external Fortify scan is skipped."
+          fi
+
       # Check out source code
       - name: Check Out Source Code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -54,6 +62,7 @@ jobs:
       # documentation at https://github.com/fortify/github-action#readme for more information on the various
       # configuration options and available sub-actions.
       - name: Run Fortify Scan
+        if: ${{ env.FORTIFY_CONFIGURED == 'true' }}
         # Specify Fortify GitHub Action version to run. As per GitHub starter workflow requirements, this example
         # uses the commit id corresponding to version 1.6.2. It is recommended to check whether any later releases
         # are available at https://github.com/fortify/github-action/releases. Depending on the amount of stability
