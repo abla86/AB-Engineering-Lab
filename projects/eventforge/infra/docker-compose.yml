@@ -23,6 +23,7 @@ services:
     build: ../api
     environment:
       PORT: "4100"
+      HOST: "0.0.0.0"
       KAFKA_BROKER: "kafka:9092"
       KAFKA_TOPIC: "work-events"
       DATABASE_URL: "postgresql://eventforge:${EVENTFORGE_POSTGRES_PASSWORD}@postgres:5432/eventforge"
