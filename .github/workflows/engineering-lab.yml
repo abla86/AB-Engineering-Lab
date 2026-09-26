@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [main]
 
+
+permissions:
+  contents: read
+
 jobs:
   frontend:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: frontend
@@ -23,7 +27,7 @@ jobs:
       - run: npm run build
 
   security-lab:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: security-lab
