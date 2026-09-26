@@ -16,8 +16,8 @@ const completedCount = document.getElementById("completed-count");
 const clearCompletedButton = document.getElementById("clear-completed");
 const themeToggle = document.getElementById("theme-toggle");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let currentFilter = "all";
+let tasks = loadTasks();
+function loadTasks() {\n  try {\n    const stored = localStorage.getItem("tasks");\n    if (!stored) return [];\n    const parsed = JSON.parse(stored);\n    return Array.isArray(parsed) ? parsed.filter(task => task && typeof task === "object" && typeof task.id === "string" && typeof task.title === "string" && typeof task.priority === "string" && typeof task.completed === "boolean") : [];\n  } catch {\n    return [];\n  }\n}\n\nlet currentFilter = "all";
 let searchTerm = "";
 
 function saveTasks() {
