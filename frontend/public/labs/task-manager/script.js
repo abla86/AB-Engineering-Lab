@@ -16,7 +16,28 @@ const completedCount = document.getElementById("completed-count");
 const clearCompletedButton = document.getElementById("clear-completed");
 const themeToggle = document.getElementById("theme-toggle");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = loadTasks();
+function loadTasks() {
+  try {
+    const stored = localStorage.getItem("tasks");
+    if (!stored) return [];
+
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter((task) => (
+      task &&
+      typeof task === "object" &&
+      typeof task.id === "string" &&
+      typeof task.title === "string" &&
+      typeof task.completed === "boolean" &&
+      ["low", "medium", "high"].includes(task.priority) &&
+      (!task.dueDate || /^\d{4}-\d{2}-\d{2}$/.test(task.dueDate))
+    ));
+  } catch {
+    return [];
+  }
+}
 let currentFilter = "all";
 let searchTerm = "";
 
