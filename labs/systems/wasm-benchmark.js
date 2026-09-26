@@ -24,7 +24,8 @@ class WasmBenchmarkEngine {
     } finally { this.compiling = false; }
   }
   render(message = "Ready.") {
-    this.mount.innerHTML = `<div class="engine-shell"><div class="engine-top"><strong>NATIVE WASM VS JS JIT BENCHMARK</strong><span id="wasm-state">READY</span></div><div class="actions"><button id="wasm-run" type="button">RUN 5M SUM</button><button id="wasm-reset" type="button">RESET</button></div><pre id="wasm-log" class="log">${message}</pre></div>`;
+    this.mount.innerHTML = `<div class="engine-shell"><div class="engine-top"><strong>NATIVE WASM VS JS JIT BENCHMARK</strong><span id="wasm-state">READY</span></div><div class="actions"><button id="wasm-run" type="button">RUN 5M SUM</button><button id="wasm-reset" type="button">RESET</button></div><pre id="wasm-log" class="log"></pre></div>`;
+    this.mount.querySelector("#wasm-log").textContent = String(message);
     this.mount.querySelector("#wasm-run").onclick = () => this.run();
     this.mount.querySelector("#wasm-reset").onclick = () => this.init();
   }
