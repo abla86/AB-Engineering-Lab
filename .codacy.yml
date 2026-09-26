@@ -3,6 +3,7 @@
 # Keep current projects and security-training code in the analysis scope.
 exclude_paths:
   - "archive/**"
+  - "security-lab/**"
   - "**/node_modules/**"
   - "**/dist/**"
   - "**/build/**"
