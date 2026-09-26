@@ -1,19 +1,27 @@
 name: EventForge CI
+
 on:
   push:
     paths:
       - "projects/eventforge/**"
       - ".github/workflows/eventforge.yml"
   pull_request:
-    paths: ["projects/eventforge/**"]
+    paths:
+      - "projects/eventforge/**"
+
+permissions:
+  contents: read
+
 jobs:
   api:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/api
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 22
@@ -22,78 +30,92 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm test
+
   python:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/consumers/python
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - run: python -m py_compile consumer.py
+
   dotnet:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/consumers/dotnet
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v6.0.0
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: "8.0.x"
       - run: dotnet restore
       - run: dotnet build --no-restore
+
   wolverine:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/consumers/wolverine
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v6.0.0
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: "10.0.x"
       - run: dotnet restore
       - run: dotnet build --configuration Release --no-restore
+
   java:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/consumers/java
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
         with:
           distribution: temurin
           java-version: "21"
       - run: mvn -B compile
+
   kotlin:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/consumers/kotlin
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6
         with:
           distribution: temurin
           java-version: "21"
       - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb
       - run: gradle build
+
   go:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: projects/eventforge/consumers/go
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           go-version: "1.25.x"
