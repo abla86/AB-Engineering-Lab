@@ -20,8 +20,8 @@ import tempfile
 import threading
 
 ROOT = Path(__file__).resolve().parent
-CATALOG = ROOT / "training" / "attack-defense-catalog.json"
-ARENA_STATE = ROOT / "training" / ".arena.json"
+CATALOG = ROOT / "attack-defense-catalog.json"
+ARENA_STATE = ROOT / ".arena.json"
 ARENA_LOCK = threading.Lock()
 
 ALLOWED_MUTATIONS = {

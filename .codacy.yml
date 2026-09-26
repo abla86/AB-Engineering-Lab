@@ -1,0 +1,11 @@
+---
+# Archived snapshots are retained for reference and are not active application code.
+# Keep current projects and security-training code in the analysis scope.
+exclude_paths:
+  - "archive/**"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/coverage/**"
+  - "**/.venv/**"
+  - "**/__pycache__/**"
