@@ -28,8 +28,6 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: projects/changestory/package-lock.json
-      - run: npm ci
+      - run: npm install --no-audit --no-fund
       - run: npm test
       - run: npm run build
