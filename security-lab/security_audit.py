@@ -3,18 +3,37 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 import re
+from typing import List
 
 
 ROOT = Path(__file__).resolve().parent
 
 
-def python_files() -> list[Path]:
+def python_files() -> List[Path]:
     return sorted(ROOT.rglob("*.py"))
 
 
-def audit_python_security() -> list[str]:
-    findings: list[str] = []
+def _audit_call(path: Path, node: ast.Call) -> List[str]:
+    findings: List[str] = []
     banned_calls = {"eval", "exec"}
+    if isinstance(node.func, ast.Name) and node.func.id in banned_calls:
+        findings.append(f"{path}: banned dynamic execution {node.func.id}()")
+    if isinstance(node.func, ast.Attribute):
+        qualified = f"{getattr(node.func.value, 'id', '')}.{node.func.attr}"
+        if qualified in {"os.system", "os.popen", "pickle.loads", "pickle.load"}:
+            findings.append(f"{path}: unsafe call {qualified}()")
+        for keyword in node.keywords:
+            if (
+                keyword.arg == "shell"
+                and isinstance(keyword.value, ast.Constant)
+                and keyword.value.value is True
+            ):
+                findings.append(f"{path}: subprocess shell=True")
+    return findings
+
+
+def audit_python_security() -> List[str]:
+    findings: List[str] = []
     for path in python_files():
         if path.name == "security_audit.py":
             continue
@@ -22,22 +41,14 @@ def audit_python_security() -> list[str]:
         tree = ast.parse(source, filename=str(path))
         for node in ast.walk(tree):
             if isinstance(node, ast.Call):
-                if isinstance(node.func, ast.Name) and node.func.id in banned_calls:
-                    findings.append(f"{path}: banned dynamic execution {node.func.id}()")
-                if isinstance(node.func, ast.Attribute):
-                    qualified = f"{getattr(node.func.value, 'id', '')}.{node.func.attr}"
-                    if qualified in {"os.system", "os.popen", "pickle.loads", "pickle.load"}:
-                        findings.append(f"{path}: unsafe call {qualified}()")
-                    for keyword in node.keywords:
-                        if keyword.arg == "shell" and isinstance(keyword.value, ast.Constant) and keyword.value.value is True:
-                            findings.append(f"{path}: subprocess shell=True")
+                findings.extend(_audit_call(path, node))
         if "0.0.0.0" in source:
             findings.append(f"{path}: wildcard network binding is forbidden in the local training lab")
     return findings
 
 
-def audit_web_security() -> list[str]:
-    findings: list[str] = []
+def audit_web_security() -> List[str]:
+    findings: List[str] = []
     app = (ROOT / "app.py").read_text(encoding="utf-8")
     engine = (ROOT / "training_engine.py").read_text(encoding="utf-8")
     dashboard = (ROOT / "training-dashboard.html").read_text(encoding="utf-8")

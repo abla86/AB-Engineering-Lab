@@ -9,7 +9,7 @@ from pathlib import Path
 import os
 import tempfile
 import threading
-from typing import Any
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 from training.arena import battle, generate_matrix, load_catalog, load_state as load_arena_state, save_battle, scoreboard
@@ -29,7 +29,13 @@ VERIFIERS = {
     "03-network-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_network_lab_finds_cleartext_database_path"],
     "04-identity-access": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_identity_enforces_least_privilege"],
     "05-endpoint-security": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_endpoint_lab_classifies_synthetic_indicator"],
-    "06-blue-team": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_blue_team_detects_repeated_auth_failures_and_privilege_change"],
+    "06-blue-team": [
+        sys.executable,
+        "-m",
+        "pytest",
+        "-q",
+        "security-lab/test_training_labs.py::test_blue_team_detects_repeated_auth_failures_and_privilege_change",
+    ],
     "07-red-blue": [sys.executable, "-m", "pytest", "-q", "security-lab/test_security_lab.py", "security-lab/test_training_labs.py"],
     "08-devsecops": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_devsecops_has_security_gates"],
     "09-cloud-kubernetes": [sys.executable, "-m", "pytest", "-q", "security-lab/test_training_labs.py::test_cloud_lab_models_required_workload_controls"],
@@ -41,12 +47,12 @@ class Module:
     id: str
     title: str
     level: str
-    objectives: tuple[str, ...]
+    objectives: Tuple[str, ...]
     lab: str
-    verification: tuple[str, ...]
+    verification: Tuple[str, ...]
 
 
-def load_modules() -> list[Module]:
+def load_modules() -> List[Module]:
     raw = json.loads(CURRICULUM.read_text(encoding="utf-8"))
     return [Module(
         id=item["id"],
@@ -58,13 +64,13 @@ def load_modules() -> list[Module]:
     ) for item in raw["modules"]]
 
 
-def load_state() -> dict[str, Any]:
+def load_state() -> Dict[str, Any]:
     if not STATE.exists():
         return {"completed": []}
     return json.loads(STATE.read_text(encoding="utf-8"))
 
 
-def save_state(state: dict[str, Any]) -> None:
+def save_state(state: Dict[str, Any]) -> None:
     data = json.dumps(state, indent=2) + "\n"
     STATE.parent.mkdir(parents=True, exist_ok=True)
     with STATE_LOCK:
@@ -91,11 +97,16 @@ class TrainingHandler(BaseHTTPRequestHandler):
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "no-referrer")
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
-        self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'self'; style-src 'self'; "
+            "connect-src 'self'; object-src 'none'; base-uri 'none'; "
+            "frame-ancestors 'none'",
+        )
         self.end_headers()
         self.wfile.write(body)
 
-    def _read_json(self, maximum: int) -> dict[str, Any] | None:
+    def _read_json(self, maximum: int) -> Optional[Dict[str, Any]]:
         try:
             length = int(self.headers.get("Content-Length", "0"))
         except ValueError:
@@ -157,12 +168,19 @@ class TrainingHandler(BaseHTTPRequestHandler):
         result = self._run_verifier(module_id)
         self._json(200, result)
 
-    def _run_verifier(self, module_id: str) -> dict[str, Any]:
+    def _run_verifier(self, module_id: str) -> Dict[str, Any]:
         command = VERIFIERS.get(module_id)
         if command is None:
             return {"module_id": module_id, "status": "manual", "message": "No automated verifier is defined for this module."}
         try:
-            result = subprocess.run(command, cwd=ROOT.parent, capture_output=True, text=True, timeout=120)
+            result = subprocess.run(
+                command,
+                cwd=ROOT.parent,
+                capture_output=True,
+                text=True,
+                timeout=120,
+                check=False,
+            )
         except subprocess.TimeoutExpired:
             return {"module_id": module_id, "status": "failed", "message": "Verification timed out.", "command": command}
         return {
@@ -192,7 +210,12 @@ class TrainingHandler(BaseHTTPRequestHandler):
             self.send_header("X-Frame-Options", "DENY")
             self.send_header("Referrer-Policy", "no-referrer")
             self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
-            self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+            self.send_header(
+                "Content-Security-Policy",
+                "default-src 'self'; script-src 'self'; style-src 'self'; "
+                "connect-src 'self'; object-src 'none'; base-uri 'none'; "
+                "frame-ancestors 'none'",
+            )
             self.end_headers()
             self.wfile.write(body)
             return
@@ -205,7 +228,12 @@ class TrainingHandler(BaseHTTPRequestHandler):
             self.send_header("X-Frame-Options", "DENY")
             self.send_header("Referrer-Policy", "no-referrer")
             self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
-            self.send_header("Content-Security-Policy", "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'")
+            self.send_header(
+                "Content-Security-Policy",
+                "default-src 'self'; script-src 'self'; style-src 'self'; "
+                "connect-src 'self'; object-src 'none'; base-uri 'none'; "
+                "frame-ancestors 'none'",
+            )
             self.end_headers()
             self.wfile.write(dashboard)
             return

@@ -1,5 +1,6 @@
 ﻿from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import List
 
 app = FastAPI(
     title="FastAPI Learning",
@@ -17,7 +18,7 @@ class Task(TaskCreate):
     id: int
 
 
-tasks: list[Task] = []
+tasks: List[Task] = []
 next_id = 1
 
 
