@@ -1,5 +1,7 @@
 name: Security Guard
 on:
+  push:
+    branches: [main, master]
   pull_request:
     types: [opened, synchronize, reopened]
   schedule:
