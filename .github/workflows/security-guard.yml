@@ -20,14 +20,23 @@ jobs:
       - name: Verify all npm projects
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           found=0
-          while IFS= read -r p; do
+          while IFS= read -r -d '' p; do
             found=1
             d="$(dirname "$p")"
-            npm install --ignore-scripts --no-audit --prefix "$d"
+            echo "::group::Verify npm project: $d"
+            if [[ -f "$d/package-lock.json" || -f "$d/npm-shrinkwrap.json" ]]; then
+              npm ci --no-audit --no-fund --prefix "$d"
+            else
+              echo "::warning::No npm lockfile in $d; using npm install, so dependency resolution is not fully reproducible."
+              npm install --no-audit --no-fund --prefix "$d"
+            fi
             npm audit --audit-level=high --prefix "$d"
             npm test --if-present --prefix "$d"
             npm run build --if-present --prefix "$d"
-          done < <(find . -name package.json -not -path '*/node_modules/*' -not -path './.git/*' -not -path './archive/*' -print)
-          [ "$found" -eq 0 ] || true
+            echo "::endgroup::"
+          done < <(find . -type f -name package.json -not -path '*/node_modules/*' -not -path './.git/*' -not -path './archive/*' -print0)
+          if [[ "$found" -eq 0 ]]; then
+            echo "No active npm projects found; skipping npm checks."
+          fi
