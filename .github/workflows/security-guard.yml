@@ -28,15 +28,17 @@ jobs:
             found=1
             d="$(dirname "$p")"
             echo "::group::Verify npm project: $d"
-            if [[ -f "$d/package-lock.json" || -f "$d/npm-shrinkwrap.json" ]]; then
-              npm ci --no-audit --no-fund --prefix "$d"
+            pushd "$d" >/dev/null
+            if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+              npm ci --no-audit --no-fund
             else
               echo "::warning::No npm lockfile in $d; using npm install, so dependency resolution is not fully reproducible."
-              npm install --no-audit --no-fund --prefix "$d"
+              npm install --no-audit --no-fund
             fi
-            npm audit --audit-level=high --prefix "$d"
-            npm test --if-present --prefix "$d"
-            npm run build --if-present --prefix "$d"
+            npm audit --audit-level=high
+            npm test --if-present
+            npm run build --if-present
+            popd >/dev/null
             echo "::endgroup::"
           done < <(find . -type f -name package.json -not -path '*/node_modules/*' -not -path './.git/*' -not -path './archive/*' -print0)
           if [[ "$found" -eq 0 ]]; then
