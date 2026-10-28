@@ -1,5 +1,7 @@
 name: Security Guard
 on:
+  push:
+    branches: [main, master]
   pull_request:
     types: [opened, synchronize, reopened]
   schedule:
@@ -17,18 +19,32 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
       - name: Verify all npm projects
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           found=0
-          while IFS= read -r p; do
+          while IFS= read -r -d '' p; do
             found=1
             d="$(dirname "$p")"
-            npm install --ignore-scripts --no-audit --prefix "$d"
-            npm audit --audit-level=high --prefix "$d"
-            npm test --if-present --prefix "$d"
-            npm run build --if-present --prefix "$d"
-          done < <(find . -name package.json -not -path '*/node_modules/*' -not -path './.git/*' -not -path './archive/*' -print)
-          [ "$found" -eq 0 ] || true
+            echo "::group::Verify npm project: $d"
+            pushd "$d" >/dev/null
+            if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
+              if ! npm ci --no-audit --no-fund; then
+                echo "::warning::npm ci failed in $d; regenerate lockfile metadata without running package scripts, then retry."
+                npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+                npm ci --no-audit --no-fund
+              fi
+            else
+              echo "::warning::No npm lockfile in $d; using npm install, so dependency resolution is not fully reproducible."
+              npm install --no-audit --no-fund
+            fi
+            npm audit --audit-level=high
+            npm test --if-present
+            npm run build --if-present
+            popd >/dev/null
+            echo "::endgroup::"
+          done < <(find . -type f -name package.json -not -path '*/node_modules/*' -not -path './.git/*' -not -path './archive/*' -print0)
+          if [[ "$found" -eq 0 ]]; then
+            echo "No active npm projects found; skipping npm checks."
+          fi
