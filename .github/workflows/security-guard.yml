@@ -34,8 +34,8 @@ jobs:
               # the lockfile only inside the ephemeral runner.
               npm ci --no-audit --no-fund
             else
-              echo "::warning::No npm lockfile in $d; using npm install, so dependency resolution is not fully reproducible."
-              npm install --no-audit --no-fund
+              echo "::error::No npm lockfile in $d. Commit package-lock.json or npm-shrinkwrap.json so CI uses reproducible dependency resolution."
+              exit 1
             fi
             npm audit --audit-level=high
             npm test --if-present
