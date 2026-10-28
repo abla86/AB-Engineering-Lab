@@ -30,11 +30,9 @@ jobs:
             echo "::group::Verify npm project: $d"
             pushd "$d" >/dev/null
             if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then
-              if ! npm ci --no-audit --no-fund; then
-                echo "::warning::npm ci failed in $d; regenerate lockfile metadata without running package scripts, then retry."
-                npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-                npm ci --no-audit --no-fund
-              fi
+              # Lockfile drift is a repository defect; fail instead of silently repairing
+              # the lockfile only inside the ephemeral runner.
+              npm ci --no-audit --no-fund
             else
               echo "::warning::No npm lockfile in $d; using npm install, so dependency resolution is not fully reproducible."
               npm install --no-audit --no-fund
