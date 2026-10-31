@@ -15,7 +15,7 @@ MarkupSafe==3.0.4
 psycopg==3.3.6
 psycopg-binary==3.3.6
 psycopg==3.3.6
-psycopg-binary==3.3.4
+psycopg-binary==3.3.6
 pydantic==2.14.1
 pydantic==2.13.5
 pydantic_core==2.50.1
