@@ -20,10 +20,10 @@ pydantic==2.14.1
 pydantic==2.13.5
 pydantic_core==2.50.1
 SQLAlchemy==2.0.54
-starlette==1.6.0
+starlette==1.10.0
 pydantic_core==2.49.0
 SQLAlchemy==2.1.5
-starlette==1.9.0
+starlette==1.10.0
 typing-inspection==0.4.4
 typing_extensions==4.16.0
 tzdata==2026.5
